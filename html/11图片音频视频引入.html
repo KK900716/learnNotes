@@ -9,7 +9,27 @@
 <body>
     1.图片引入
         <img src="./resources/tm.png" alt="图片无法正常显示时的值">
-        <img src="./resources/t.png" alt="图片无法正常显示时的值">
-    2.
+        <img src="./resources/t.png" alt="图片无法正常显示时的值"><br>
+        width属性和height属性<br>
+            a.没设置按图片默认尺寸<br>
+            b.设置一个宽高等比缩放<br>
+            c.默认单位为像素，也可以使用百分比<br>
+    2.音频引入(IE8之前不支持)<br>
+        <audio src="./resources/Steven Burke - Hero's Theme.mp3" controls loop muted preload>您的浏览器不支持音频播放</audio><br>
+        controls:显示控件<br>
+        autoplay="autoplay":自动播放（已在新版本被Chrome禁用）<br>
+        loop:循环播放<br>
+        muted:静音<br>
+        preload:页面加载时就开始加载音频路径并预备播放（如果使用了autoplay属性preload不会生效）<br>
+    3.视频引入<br>
+        1.基本和音频一致<br>
+        <video src="./resources/Steven Burke - Hero's Theme.mp3" poster="./resources/tm.png"></video><br>
+        2.poster:用于视频加载时，或用户点击播放前显示的图片<br>
+    4.定义媒介资源<br>
+        <video><br>
+            <source src="" type="video/mp4">
+            <source src="" type="video/ogg">
+        </video>
+        source标签用于定义媒介资源<br>
 </body>
 </html>
