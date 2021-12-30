@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    表格<br>
+    一、表格<br>
         1.table标签用来定义表格<br>
         2.tr表示行，td表示格，th表示表头<br>
         3.td文本左对齐，th居中<br>
@@ -33,6 +33,32 @@
                 <td>第一格</td>
                 <td><img src="./resources/tm.png" alt=""></td>
                 <td>第三格</td>
+            </tr>
+        </table>
+    二、表格的合并<br>
+        1.找到要合并的单元格，保留要合并的单元格，用属性colspan制定横跨的数量（合并列）<br>
+        2.找到要合并的单元格，保留要合并的单元格，用属性rowspan制定横跨的数量（合并行）<br>
+        3.合并行和列依次进行1、2操作<br>
+        <table border="2" cellspacing="0">
+            <tr>
+                <th>表头一</th>
+                <th>表头二</th>
+                <th>表头三</th>
+            </tr>
+            <tr>
+                <td>第一格</td>
+                <td>第二格</td>
+                <td rowspan="2">第三格</td>
+            </tr>
+            <tr>
+                <td colspan="2">第一格</td>
+            </tr>
+            <tr>
+                <td>第一格</td>
+                <td colspan="2" rowspan="2">第二格</td>
+            </tr>
+            <tr>
+                <td>第一格</td>
             </tr>
         </table>
 </body>
