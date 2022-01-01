@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1.第一选择器 */
+        div:first-child{
+            color: aquamarine;
+        }
+        /* 1.最后子元素 */
+        div:last-child{
+            color: brown;
+        }
+        /* 2.nth-child选择器 */
+        div:nth-child(2n+1){
+            color: antiquewhite;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.第一子元素选择器、最后子元素选择器<br>
+        a.注意：选中的是该元素的父元素的第一个子元素（子元素要求必须是该元素），即同时满足第一子元素、和该元素两个条件才能被选中<br>
+        b.最后子元素和第一子元素的使用方法相同<br>
+        c.通常在列表中使用较多<br>
+        div:first-child{
+            color: aquamarine;
+        }
+        <br>
+        div:last-child{
+            color: brown;
+        }
+        <br>
+    2.nth-child()选择器<br>
+        a.选择的是该元素的父元素的第i个子元素<br>
+        b.参数为第几个元素<br>
+            （1）可以写常数<br>
+            （2）可以写表达式<br>
+                例如：（n从0开始直到遍历完整个内容数量）
+                2n+1表示奇数<br>
+                2n表示偶数<br>
+                -n+6表示前6个<br>
+                n+4表示第4个以后的所有<br>
+            （3）该选择器优先级高于高级选择器，因此可以使用交集选择器和并集选择器来补充选择内容<br>
+</body>
+</html>

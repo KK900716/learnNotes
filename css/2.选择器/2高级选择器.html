@@ -9,6 +9,13 @@
         .ynj .a2{
             color: red;
         }
+        /* 2.并集选择器 */
+        div,p{
+            background-color: aqua;
+        }
+        div.abc{
+            background-color: yellow;
+        }
     </style>
     <title>Document</title>
 </head>
@@ -38,6 +45,22 @@
             </ul>
         </div>
     2.并集选择器<br>
-        
+        a.选择多个<br>
+        b.选择时用,隔开<br>
+        c.后代之间的关系可以是任何基本选择器<br>
+        div,p{
+            background-color: aqua;
+        }
+        <br>
+    3.交集选择器<br>
+        a.选择交集<br>
+        b.选择器间没有空格<br>
+        c.后代之间的关系可以是任何基本选择器<br>
+        d.交集选择器中一般没有id选择器<br>
+        e.如果选择标签和类的交集，标签要放在类之前<br>
+        div.abc{
+            background-color: yellow;
+        }
+        <br>
 </body>
 </html>

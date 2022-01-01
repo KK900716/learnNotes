@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 2.静态伪类 */
+        a:link{
+            color: aquamarine;
+        }
+        a:visited{
+            color: red;
+        }
+        /* 3.动态伪类 */
+        .x:hover{
+            color: blue;
+        }
+        .x:active{
+            color: brown;
+        }
+        .y:focus{
+            color: darkmagenta;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.什么是伪类<br>
+        元素不同装袋表现不同样式<br>
+    2.静态伪类<br>
+        a.link:超链接点击之前的样式<br>
+        b.visited:超链接点击之后的样式<br>
+        c.仅能用于超链接<br>
+        <a href="#">abc</a><br>
+    3.动态伪类<br>
+        a.hover:鼠标放到元素上的状态<br>
+        b.active:鼠标点击元素的状态<br>
+        c.focus:输入框获得焦点的状态<br>
+        <div class="x">撸起袖子加油干</div>
+        <input class="y" type="text" value="please input">
+</body>
+</html>
