@@ -22,5 +22,38 @@
         e.多个页面可以使用同一个css样式表<br>
     4.css的缺点<br>
         a.浏览器对css支持程度不同<br>
+    5.css书写格式<br>
+        a.属性值是对属性的描述<br>
+        b.属性名必须是一个合法标识符<br>
+        c.文字颜色<br>
+            color<br>
+        d.文字大小<br>
+            font-size<br>
+        e.文字加粗<br>
+            font-weight<br>
+        f.背景颜色<br>
+            backgroundcolor<br>
+        g.宽高<br>
+            width、height<br>
+    6.css不区分大小写，但推荐使用小写<br>
+    7.多条属性分割之间需要用;隔开<br>
+    8.css引入方式有<br>
+        a.行内样式<br>
+            （1）将css代码写在元素开始标签的style属性中<br>
+            （2）可以设置多个样式，使用;分割<br>
+        b.内部样式<br>
+            内部样式用到选择器，写在style标签之内，一般放在head标签内<br>
+        c.外部样式<br>
+            （1）引入外部的.css文件，外部样式同内部样式相同要用到选择器<br>
+            （2）同一个页面可以引入多个css文件，同一个页面可以引入多个css文件<br>
+            <link rel="stylesheet" href="./css/a.css">
+        d.导入样式<br>
+            （1）将一个css文件导入另一个css文件<br>
+            （2）使用导入样式的加载会滞后html，所以这种样式不常用<br>
+            @import url("b.css");<br>
+    <div class="sxg" style="color: red; font-size: 60px;">书写格式</div>
+    9.css的注释<br>
+        /**/
+        快捷键crtl+？
 </body>
 </html>
