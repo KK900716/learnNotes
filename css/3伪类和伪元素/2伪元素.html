@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        div{
+            /* 自动换行 */
+            word-wrap: break-word;
+        }
+        /* 1.伪元素 */
+        div::first-letter{
+            color: bisque;
+        }
+        div::first-line{
+            color: aqua;
+        }
+        /* 2.content */
+        .x::before{
+            content: "插入内容";
+            color:red;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.伪元素<br>
+        a.文档结构中没有出现的元素<br>
+        b.伪元素使用::表示<br>
+        c.会随尺寸调整<br>
+        <div>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</div>
+    2.content属性<br>
+        a.before、after<br>
+        b.可以当做新元素设置属性<br>
+        c.content内容无法选中<br>
+        <div class="x">在我之前加元素</div>
+</body>
+</html>
