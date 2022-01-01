@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    1.表单<br>
+        a.form用于创建一个表单，会将里面的内容一起发送到服务器，结构类似于表格<br>
+        b.表单中的其他元素要包含在form中<br>
+        c.form元素<br>
+            （1）必须，action：指定表单发送的地址（服务器地址）<br>
+            （2）method：表单数据发送至服务器的方法，常用有两种，get/post，默认用get方式<br>
+            （3）name：用来为当前表单定义一个独一无二的名称，控制表单与后台程序之间的关系<br>
+            （4）novalidate：设置数据提交时不进行验证（通常不用）<br>、
+            （5）target：设置目标窗口打开方式（通常用不到）<br>
+        d.表单控件<br>
+            （1）get方法提交<br>
+                数据会附在网之后提交给服务器，不安全<br>
+            （2）post方法提交<br>
+                数据附在网址之后，安全<br>
+                post数据不受显示<br>
+            （3）input控件<br>
+                input可以放在表单外<br>
+    2.input控件属性
+        a.type属性<br>
+            （1）指定输入内容的类型<br>
+            （2）默认为text，单行文本框，推即使为空也必要添加此属性<br>
+                type="passwird"<br>
+                type="text"<br>
+                type="submit"<br>
+                详见3.
+        b.name属性<br>
+            （1）name属性表示向服务器发送时参数的名称<br>
+            （2）必要属性<br>
+        c.value属性（非必须）<br>
+            （1）输入框中的默认值<br>
+            （2）value值会发送的服务器<br>
+        d.placeholder属性<br>
+            （1）表示文本框获得焦点时清空默认值<br>
+            （2）placeholder值不会发送到服务器<br>
+            （3）推荐替代value使用<br>
+        e.maxlength属性<br>
+            控制输入最大长度限制<br>
+        f.disabled属性<br>
+            禁止编辑<br>
+        g.autofocus属性<br>
+            自动获取焦点到输入框<br>
+        h.autocomplete属性<br>
+            on/off是否开启浏览器自动记忆功能<br>
+        <form action="" method="get">
+            <input type="text" name="myname" id="mname" placeholder="请输入" maxlength="3" autofocus autocomplete="off">
+            <input type="text" placeholder="请输入" disabled>
+            <input type="submit" value="发送">
+        </form>
+    3.详解type属性<br>
+        a.type="text"<br>
+            （1）单行文本框<br>
+            （2）可以输入任何类型<br>
+        b.type="password"<br>
+            （1）密码文本框<br>
+            （2）输入的字符会以*或·表示，输入内容会隐藏<br>
+            （3）password本质和text的发送方式没有区别<br>
+        c.type="submit"<br>
+            提交按钮，将表单数据发送到服务器<br>
+        d.type="reset"<br>
+            重置按钮，将表单数据重置<br>
+        e.type="button"<br>
+            （1）普通按钮，定义一个可以点击的按钮，但是没有任何的样式和作用<br>
+            （2）常用于点击按钮时启动js<br>
+        f.type="hidden"<br>
+            隐藏域，随表单发送而发送，但不会显示到页面中，一般是网页设计者设置好的数据，提交时value中的值会一并发送到服务器<br>
+        g.type="number"<br>
+            （1）专门用来输入数字的输入框<br>
+            （2）min、max属性可以用来限制最大和最小值<br>
+            （3）step属性可以用来规定步长<br>
+        h.type="range"<br>
+            活动条<br>
+        i.type="time"、type="datetime-local"<br>
+            时间输入框<br>
+        j.type="color"<br>
+            颜色选择器<br>
+        k.type="file"<br>
+            （1）文件域<br>
+            （2）accept属性可以规定上传文件的类型<br>
+            （3）multiple属性可以规定一次允许选择多个文件<br>
+        l.type="radio"<br>
+            （1）单选框<br>
+            （2）单选框的name值应该仅有一个<br>
+            （3）checked属性用来选择默认值，再次点击可以取消选取<br>
+        m.type="checkbox"<br>
+            （1）复选框<br>
+            （2）复选框的name值应该用数组形式发送，例如name="myname[]"<br>
+        n.type="email"<br>
+            （1）电子邮箱输入框<br>
+            （2）会对输入的内容进行格式检验<br>
+        o.type="url"<br>
+            （1）网址输入框<br>
+            （2）输入的内容需要包含协议头http://或https://<br>
+    4.表单验证属性<br>
+        a.pattern=""<br>
+            （1）正则表达式来限制内容<br>
+        b.required属性<br>
+            规定必须在提交前填写输入字段<br>
+    5.多行文本输入框<br>
+        a.多行文本输入框和单行文本输入框的属性类似<br>
+        b.rows属性表示行，cols属性表示列，不建议使用这两个属性，应该使用css设置文本框<br>
+        c.多行文本输入框可以在表单之外使用<br>
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+    6.下拉列表<br>
+        a.类似于列表<br>
+        b.size属性可以规定下拉列表中显示的大小<br>
+        <select name="" id="" size="2">
+            <option value="">a</option>
+            <option value="">b</option>
+            <option value="">c</option>
+        </select>
+        c.下拉列表分组<br>
+            （1）multiple属性可以用来多选<br>
+            （2）需要数组[]接收内容<br>
+            （3）下拉列表分组标签可以用optgroup，用来对option进行分组<br>
+        <select name="" id="">
+            <optgroup label="a">
+                <option value="">a</option>
+                <option value="">b</option>
+            </optgroup>
+            <optgroup label="c">
+                <option value="">c</option>
+                <option value="">d</option>
+            </optgroup>
+        </select>
+    7.button按钮<br>
+        a.拥有input的的按钮完全一样的属性和用法<br>
+        b.type可以设置submit/reset/button完全一样<br>
+        c.由于button是双标签，使得button拥有设计更复杂内容的前提<br>
+        d.表单中不建议使用button，button一般用于启动js，部分浏览器可能不支持，所以表单中应使用input<br>
+        <button>abc</button>
+</body>
+</html>
