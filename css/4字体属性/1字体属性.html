@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1.字号设置 */
+        div.ax1{
+            font-size: 20px;
+        }
+        div.ax2{
+            font-size: 1em;
+        }
+        div.ax3{
+            font-size: 1.5rem;
+        }
+        div.ax4{
+            font-size: 200%;
+        }
+        /* 2.字体设置 */
+        div.ax5{
+            font-family: "楷体,宋体";
+        }
+        /* 3.字体颜色 */
+        div.ax6{
+            color: red;
+        }
+        div.ax7{
+            color: #0000FF;
+        }
+        div.ax8{
+            color: rgb(122,89,223);
+        }
+        div.ax9{
+            color: rgba(122,89,223,0.8);
+        }
+        /* 4.字体粗细 */
+        div.ax10{
+            font-weight: 700;
+        }
+        /* 5.字体风格 */
+        div.ax11{
+            font-style: italic;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.字号设置<br>
+        a.font-size:合法尺寸单位<br>
+        b.合法尺寸单位<br>
+            （1）可以使用所有css尺寸单位<br>
+            （2）px<br>
+            （3）em<br>
+            （4）rem<br>
+            （5）%<br>
+        c.浏览器默认字号一般为16px<br>
+        <div class="ax1">我是一号</div>
+        <div class="ax2">我是二号</div>
+        <div class="ax3">我是三号</div>
+        <div class="ax4">我是四号</div>
+    2.字体设置<br>
+        a.font-family<br>
+        b.不同系统不同浏览器的默认字体不同，一般为微软雅黑<br>
+        c.可以设置多种字体用,隔开，如果所有字体都不支持则按默认字体输出<br>
+        <div class="ax5">我是五号</div>
+    3.字体颜色（文本属性）<br>
+        a.color<br>
+        b.合法的颜色值<br>
+            （1）颜色名<br>
+                部分浏览器可能无法识别，不推荐使用<br>
+            （2）16进制颜色值<br>
+            （3）RGB颜色值<br>
+            （4）RGBA颜色值<br>
+        <div class="ax6">我是六号</div>
+        <div class="ax7">我是七号</div>
+        <div class="ax8">我是八号</div>
+        <div class="ax9">我是九号</div>
+    4.字体粗细<br>
+        a.font-weight<br>
+        b.粗度值<br>
+            （1）数字 100-900<br>
+            （2）bold粗体，相当于数字700<br>
+            （3）bolder特粗，比继承字体粗<br>
+            （4）lighter特细，比继承的字体细<br>
+            （5）normal正常字体，相当于数字400<br>
+        <div class="ax10">我是十号</div>
+    5.字体风格<br>
+        a.font-style<br>
+        b.合法取值<br>
+            （1）italic斜体<br>
+            （2）oblique斜体，在正常和italic之间<br>
+            （3）normal正常字体<br>
+                可以用来重置字体样式<br>
+        <div class="ax10">我是十号</div>
+</html>
