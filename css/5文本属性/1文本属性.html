@@ -4,9 +4,91 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1.字间距 */
+        .x1{
+            letter-spacing: 10px;
+        }
+        /* 2.行高 */
+        .x2{
+            line-height: 200%;
+        }
+        /* 3.首行缩进 */
+        .x3{
+            text-indent: 2em;
+        }
+        /* 4.水平排列方式 */
+        .x4{
+            width: 200px;
+            height: 60px;
+            background-color: aqua;
+            text-align: center;
+        }
+        /* 5.垂直对齐方式 */
+        .x5{
+
+        }
+        .x5 .a{
+            font-size: 40px;
+            background-color: aqua;
+            vertical-align: super;
+        }
+        .x5 .b{
+            font-size: 20px;
+            background-color: brown;
+            vertical-align: top;
+        }
+    </style>
     <title>Document</title>
 </head>
 <body>
     1.字间距<br>
+        a.letter-spacing<br>
+        b.字间距可以是正或负<br>
+        c.字间距可以设置为normal<br>
+        <div class="x1">字间距</div>
+    2.行高<br>
+        a.line-heigth<br>
+        b.控制行与行之间的间距，但不是行高<br>
+        c.行高默认值为合理行高，normal<br>
+            （1）数字:设置成数字时是当前字体尺寸的倍数设置成行高<br>
+            （2）百分比:当前字体尺寸的百分比<br>
+        d.行高经常用来使单行文本垂直居中<br>
+        <div class="x2">行高</div>、
+    3.首行缩进<br>
+        a.text-indent<br>
+        b.只对首行有效，默认值为0<br>
+        c.推荐使用em为单位<br>
+        d.允许使用负值，允许使用百分比（基于父元素宽度进行缩进，不建议使用）<br>
+        <div class="x3">首行缩进</div>
+    4.水平排列方式<br>
+        a.text-align<br>
+        b.值默认为left<br>
+            （1）left<br>
+            （2）right<br>
+            （3）center<br>
+            （4）justify两端对齐<br>
+                对单行文本无效，需要转为行内块元素，不推荐使用<br>
+        <div class="x4">水平排列方式</div>
+    5.垂直对齐方式<br>
+        a.vertical-align<br>
+        b.默认值为baseline<br>
+            （1）sub对齐下标<br>
+            （2）super对齐上标<br>
+            （3）top顶部对齐<br>
+            （4）bottom底部对齐<br>
+            （5）middle垂直居中对齐<br>
+            （6）text-top<br>
+            （7）text-bottom<br>
+        c.表格中使用较多<br>
+        <div class="x5">
+            <span class="a">super</span>
+            <span class="b">top</span>
+        </div>
+        <div class="x6"></div>
+        <div class="x7"></div>
+        <div class="x8"></div>
+        <div class="x9"></div>
+        <div class="x10"></div>
 </body>
 </html>
