@@ -38,6 +38,16 @@
             background-color: brown;
             vertical-align: top;
         }
+        /* 6.文本修饰 */
+        .x6{
+            text-decoration: underline;
+        }
+        /* 7.文本阴影 */
+        .x7{
+            /* 第一个和第二个值为必须值 */
+            font-size: 24px;
+            text-shadow: 2px 3px 2px rgb(241, 4, 4);
+        }
     </style>
     <title>Document</title>
 </head>
@@ -85,8 +95,23 @@
             <span class="a">super</span>
             <span class="b">top</span>
         </div>
-        <div class="x6"></div>
-        <div class="x7"></div>
+    6.文本修饰<br>
+        a.text-decoration<br>
+        b.值<br>
+            （1）underline下换线<br>
+            （2）overline上划线<br>
+            （3）line-through删除线<br>
+            （4）blink闪烁的文字效果，当前所有浏览器都不支持（不建议使用）<br>
+        c.默认值none，可以用来去除a标签的下划线<br>
+        <div class="x6">下划线</div>
+    7.文本阴影<br>
+        a.text-shadow<br>
+        b.值分别为<br>
+            （1）水平阴影，正值在右，必须<br>
+            （2）垂直阴影，正值在上，必须<br>
+            （3）阴影模糊距离，可选<br>
+            （4）阴影颜色，默认何文字颜色相同，可选<br>
+        <div class="x7">文本阴影</div>
         <div class="x8"></div>
         <div class="x9"></div>
         <div class="x10"></div>

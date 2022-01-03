@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .x1{
+            background-color: red;
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.块级元素<br>
+        a.可以设置宽高<br>
+        b.不能和其他元素呆在一行<br>
+        c.当没有设置宽高时，宽度和父级元素宽度一样，高度由元素内容的高度决定<br>
+        d.当设置有宽高时，元素的宽高就是设置的值<br>
+        <div class="x1">块级元素</div>
+    2.行级元素<br>
+        a.不可以设置宽高<br>
+        b.可以和其他元素呆在一行<br>
+        c.行级元素的宽高由元素内容决定<br>
+        d.行级元素设置宽高无效<br>
+        <span class="x1">行级元素</span>
+    3.行内块级元素<br>
+        a.可以设置宽高<br>
+        b.可以和其他元素呆在一行<br>
+        c.没有设置宽高时宽高由内容决定<br>
+        d.有宽高时宽高由设置的宽高决定<br>
+        <img src="../resources/tm.png" alt="" class="x1">
+</body>
+</html>
