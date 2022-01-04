@@ -14,8 +14,29 @@
             line-height: 60px;
             border-top: 10px red solid;
         }
+        /* 3.边框样式 */
+        .x3{
+            width: 300px;
+            height: 400px;
+            background: rgb(21, 231, 203);
+            border: 3px rgb(20, 6, 216) dashed;
+        }
+        .x5{
+            width: 300px;
+            height: 400px;
+            background: rgb(0, 255, 64);
+            border: 3px rgb(202, 10, 52) solid;
+            border-top-left-radius: 20px 30px;
+        }
+        .x6{
+            width: 300px;
+            height: 400px;
+            background: rgb(0, 255, 64);
+            border: 3px rgb(202, 10, 52) solid;
+            border-radius: 50%;
+            box-shadow: 2px 2px 5px;
+        }
     </style>
-    
     <title>Document</title>
 </head>
 <body>
@@ -25,5 +46,44 @@
         c.边框样式<br>
         d.边框方向<br>
         <div class="x1">边框要素</div>
+    2.边框设置<br>
+        a.border-边框方向: 边框宽度 边框颜色 边框样式;<br>
+        b.边框宽度推荐时尚像素<br>
+        c.属性值互换位置没有影响<br>
+    3.边框样式<br>
+        a.solid实线<br>
+        b.dasher虚线<br>
+        c.double双实现<br>
+        d.dotted点状线<br>
+        <div class="x3">边框样式</div>
+    4.边框方向<br>
+        a.网页中的所有元素事实上都是矩形<br>
+        b.方向<br>
+            （1）top上<br>
+            （2）bottom下<br>
+            （3）left左<br>
+            （4）left右<br>
+        c.不写方向则默认四个方向全部设置<br>
+    5.圆角边框<br>
+        a.border-top-left-radius<br>
+        b.圆角方向<br>
+            方向1:上下，方向2:左右<br>
+        c.圆角半径<br>
+            水平半径、垂直半径<br>
+        d.设置一个值表示水平半径和垂直半径相同<br>
+        e.百分比设置半径长度时，为元素宽、高的百分比<br>
+        f.当使用百分比设置半径时，半径的值是50%时可以做椭圆<br>
+            <div class="x5"></div>
+            <div class="x6"></div>
+        g.border-radius可以从左上角顺时针同时为四个角设置圆角边框<br>
+        h.当值不全时，会自动补全其他角的值<br>
+    6.边框阴影<br>
+        a.box-shadow<br>
+        b.属性值<br>
+            （1）水平阴影位置<br>
+            （2）垂直阴影位置<br>
+            （3）模糊距离<br>
+            （4）阴影尺寸<br>
+            （5）阴影颜色<br>
 </body>
 </html>
