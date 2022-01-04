@@ -6,8 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./a.js"></script>
     <script>
-        //弹出一条指定 消息
+        window.onload=function(){
+            alert("页面加载完成");
+        }
+        //弹出一条指定消息
         alert("撸起袖子加油干");
+        //输入工具
+        prompt("please input!","default content");
+        //向文档输入
+        document.write("向文档输入");
+        //向控制台输出信息
+        console.log("向控制台输出信息");
     </script>
     <title>Document</title>
 </head>
@@ -33,9 +42,29 @@
         d.JScript和js的差别微乎其微<br>
     4.script引入和注释<br>
         a.script标签内部引入<br>
-        b.
+        b.同css一样也可以行内引入，行内引入需要结合事件才可以引入<br>
         c.注释<br>
             （1）单行注释//<br>
             （2）多行数值/**/<br>
-</body>
+    5.输入输出工具<br>
+        a.prompt()输入弹窗<br>
+        b.alert()输出弹窗<br>
+            会阻塞程序执行<br>
+        c.document.write()输出到页面<br>
+        d.console.log向控制台输出信息<br>
+            不会阻塞程序执行<br>
+    6.引入区域和执行顺序<br>
+        a.js代码可以引入在html的任何区域<br>
+        b.js代码执行时必须等到之前的代码执行后才能执行，与引入方式无关<br>
+    7.js的阻塞性<br>
+        a.js对DOM树的阻塞<br>
+            （1）DOM（Document Object Model）文档对象模型<br>
+            （2）当DOM树没有加载完成时，js可能会出错<br>
+        b.解决的办法<br>
+            （1）将js代码放在文档底部<br>
+            （2）添加window.onload=function(){}事件<br>
+    8.js发生错误时的阻塞<br>
+        a.js发生错误时下面的代码不会执行<br>
+        b.可以根据浏览器控制台中的错误提示进行差错<br>
+        c.可以用弹窗等输出方式差错<br>
 </html>
