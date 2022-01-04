@@ -4,9 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        a{
+            background-color: yellowgreen;
+            /* 转换块级元素 */
+            display: block;
+            width: 60px;
+            height: 60px;
+        }
+        .x2{
+            background-color: antiquewhite;
+            /* 转换行级元素 */
+            display: inline;
+            width: 60px;
+            height: 60px;
+        }
+    </style>
     <title>Document</title>
 </head>
 <body>
-    
+    元素类型转换<br>
+        a.display<br>
+        b.任何元素都可以进行元素类型的转换<br>
+        c.bolck转换为块级元素<br>
+        <a href="./1元素宽高.html" class=""><div class="x1">行级元素转块级元素</div></a>
+        d.inline转换行级元素<br>
+        <div class="x2">块级元素转行级元素</div><br>
+        e.inline-block行内块级元素<br>
+        f.元素之间的类型可以相互转换<br>
+        g.元素类型转换不会影响元素自身的功能<br>
 </body>
 </html>
