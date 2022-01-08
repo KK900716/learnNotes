@@ -5,11 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-
+        var bl;
+        bl="变量";
+        alert(bl);
+        // 检测变量类型
+        console.log(typeof bl);
+        var bl0;
+        // 变量被声明但没有赋值undefined
+        console.log(typeof(bl0));
+        bl0=null;/*空对象*/
+        console.log(typeof(bl0));/*值为object*/
     </script>
     <title>Document</title>
 </head>
 <body>
     1.变量声明<br>
+        a.先声明后赋值<br>
+        b.边声明边赋值<br>
+        c.多个变量同时声明<br>
+        d.多个变量同时使命并赋值<br>
+            3、4用,隔开<br>
+    2.js书写规范<br>
+        a.js严格区分大小写<br>
+        b.js所有代码全部使用半角<br>
+        c.变量声明首字母必须为英文、_、$，可以使用中文但不推荐使用<br>
+        d.不能使用系统保留字和关键字命名<br>
+        e.变量声明采用驼峰命名法<br>
+        f.如果字符串内部使用双引号，外部可以使用单引号，如果内部使用单引号，外部可以使用双引号<br>
+            如果一定要使用可以使用转义字符\<br>
+    3.分号和资源共享<br>
+        a.分号用来区分一行语句<br>
+        b.多个js标签可以看作一个<br>
+    4.变量类型<br>
+        a.typeof()检测变量类型<br>
+        b.undefined和null不同一个是为赋值变量一个是空对象<br>
+        c.number数值类型，包含整数和小数<br>
+        d.js的浮点运算能力很差，不要用js做浮点运算<br>
+        e.string字符串<br>
+        f.boolean值true or false 1 or 0<br>
+        g.object对象，数组属于特殊的对象<br>
+        h.js是弱类型语言，指的是弱数据类型语言<br>
+            可以不强制转换值的类型就可以对其赋其他类型值，后赋值会覆盖先赋值<br>
 </body>
 </html>
