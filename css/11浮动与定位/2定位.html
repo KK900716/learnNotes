@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .box{
+            width: 300px;
+            height: 300px;
+            border: 2px red solid;
+        }
+        .pos1,.pos2,.pos3{
+            width: 100px;
+            height: 100px;
+        }
+        .pos1{
+            background-color: yellowgreen;
+        }
+        .pos2{
+            background-color: wheat;
+            /* 相对定位 */
+            /* position: relative;
+            left: 30px; */
+            /* 绝对定位 */
+            position: absolute;
+            z-index: 1;
+            position: fixed;
+        }
+        .pos3{
+            background-color: aqua;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.定位<br>
+        a.规定元素的位置<br>
+        b.主要用于没有规律的元素布局<br>
+        c.定位的分类<br>
+            （1）相对定位<br>
+            （2）绝对定位<br>
+            （3）固定定位<br>
+        d.定位元素同浮动元素一样，会脱离文档流<br>
+    2.定位的使用方法<br>
+        a.规定是哪一种定位方式<br>
+        b.指定四个方向上的偏移量（水平和垂直上各只有一个会生效）<br>
+    3.相对定位<br>
+        a.相对定位原来的位置还是会保留<br>
+        b.left和top优先<br>
+        c.相对定位是相对于原位置进行偏移<br>
+        <div class="box">
+            <div class="pos1"></div>
+            <div class="pos2"></div>
+            <div class="pos3"></div>
+        </div>
+    4.绝对定位<br>
+        a.绝对定位会完全脱离文档流<br>
+        b.绝对定位相对于有定位属性的最近父元素<br>
+        c.绝对定位如果没有最近的父元素有定位属性会相对于body定位<br>
+    5.定位偏移量<br>
+        a.偏移量可以使用合法单位<br>
+        b.设置百分比时是相对于最近的有定位属性的父元素的百分比<br>
+        c.偏移量可以使用负值<br>
+    6.层级<br>
+        a.每一个定位元素会独占一层<br>
+        b.z-index属性<br>
+            （1）数字越大，层级越高<br>
+            （2）默认值为0<br>
+            （3）层级设置一样会按代码顺序，后来居上<br>
+    7.固定定位<br>
+        a.fixed<br>
+        b.完全脱离文档流<br>
+        c.相对于浏览器窗口进行定位<br>
+</body>
+</html>

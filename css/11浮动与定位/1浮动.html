@@ -16,6 +16,11 @@
             height: 200px;
             float: left;
         }
+        ul::after{
+            content: "";
+            display:table;
+            clear: both;
+        }
         .x1{
             background-color: yellow;
         }
@@ -25,9 +30,13 @@
         .x3{
             background-color: coral;
         }
+        /* .x4{
+            clear: both;
+        } */
         .x0
         {
-            height: 200px;
+            /* height: 200px; */
+            border: 2px red solid;
         }
         .x5{
             width: 450px;
@@ -55,6 +64,7 @@
                 <li class="x1">浮动</li>
                 <li class="x2">浮动</li>
                 <li class="x3">浮动</li>
+                <div class="x4"></div>
             </ul>
         </div>
     3.文字环绕效果<br>
@@ -63,6 +73,21 @@
             <img src="../resources/tm.png" alt="">
             <p>重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。</p>
         </div>
-
+    4.清除浮动<br>
+        a.clear:left;清除元素左侧浮动<br>
+        b.规定元素一侧不能有浮动<br>
+        c.清除浮动时，要考虑页面加载顺序，代码会按顺序执行，不会影响到本元素，会影响后继元素<br>
+    5.父元素高度塌陷<br>
+        a.由于父元素的子元素设置了浮动，会导致父元素高度塌陷<br>
+        b.解决办法<br>
+            （1）设置父元素高度<br>
+            （2）给最后一个元素清除浮动元素<br>
+            （3）可以使用伪元素来设置第二个<br>
+                ul::after{
+                    content: "";
+                    display:table;
+                    clear: both;
+                }
+            （4）父元素设置有高度时不用清除，父元素没有官渡时不用清除<br>
 </body>
 </html>
