@@ -7,6 +7,12 @@
     <script>
         var arr=["小张","小李"];
         var arr2=new Array("小张","小李");
+        for(i in arr){
+            console.log(arr[i]);
+        }
+        for(i of arr){
+            console.log(i);
+        }
     </script>
     <title>Document</title>
 </head>
@@ -20,5 +26,14 @@
     2.数组长度arr.length<br>
     3.索引表示方式arr[0]<br>
     4.数组是一个特殊的对象<br>
+    5.js中的数组可以动态增加<br>
+    6.遍历数组<br>
+        a.for循环遍历<br>
+        b.for-in遍历<br>
+        c.for-of遍历<br>
+        d.后续两种可能不支持ie浏览器<br>
+        e.效率上还是for循环更高，故推荐for循环遍历<br>
+    7.二维数组<br>
+        a.数组中的值仍然是数组<br>
 </body>
 </html>

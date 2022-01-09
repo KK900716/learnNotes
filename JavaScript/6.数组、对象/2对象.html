@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var a={
+            name:"小明",
+            sex:"男",
+            age:12,
+            height:1.8
+        };
+        var b=new Object();
+        b.name="小红";
+        b.age=18;
+        alert(a.name+a.sex+a["age"]+a.height);
+        alert(b.name+b.age);
+        delete a.name;
+        // 构造函数
+        function ren(name){
+            this.name=name;
+            this.sex="男";
+            this.age="20";
+            this.print = function(){
+                console.log("name:"+this.name+"sex:"+this.sex+"age:"+this.age);
+                alert("我就不信！")
+            }
+        }
+        var xiaoming=new ren("小明");
+        console.log(xiaoming);
+        xiaoming.print();
+    </script>
+</head>
+<body>
+    1.对象<br>
+        a.js万物皆对象<br>
+        b.js对象包含很多属性，属性是于对象相关的值，js对象是无序属性的集合<br>
+    2.创建对象<br>
+        a.json模式创建<br>
+            var a={
+                name:"小明",
+                sex:"男",
+                age:12,
+                height:1.8
+            };
+            <br>
+        b.实例化创建<br>
+            var b=new Object();
+            b.name="小红";
+            b.age=18;
+            <br>
+        c.其他方式创建<br>
+    3.对象属性的访问<br>
+        a.a.sex<br>
+        b.a["age"]<br>
+    4.对象属性的增加<br>
+        a.直接增加即可b.name="小红";<br>
+    5.对象属性的修改及删除<br>
+        a.修改可以直接修改<br>
+        b.删除使用delete关键字<br>
+            delete a.name;
+    6.对象的易变性<br>
+        a.变量是不易变的<br>
+        b.对象是易变的<br>
+        c.对象的赋值仅仅是引用的赋值<br>
+    7.遍历对象<br>
+        可以用for-in遍历<br>
+    8.构造函数<br>
+        a.构造函数用来初始化对象<br>
+        b.构造函数首字母大写<br>
+</body>
+</html>

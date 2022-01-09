@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.onload=function(){
+            var a=document.getElementById("x1");
+            console.log(a);
+            console.log(a.innerHTML);
+            a.innerText="abc";
+            console.log(a.innerText);
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.获取元素<br>
+        a.document.getElementById<br>
+        b.js仅对一个id生效<br>
+        c.若js没有找到这个id则返回null<br>
+    2.获取和设置元素的内容<br>
+        a.a.innerText获取内容<br>
+        b.a.innerHTML获取html代码<br>
+        c.使用b会包含html代码<br>
+        d.如果赋值时要包含html代码则要用b赋值，a会把标签当作内容赋值<br>
+        <div id="x1"><span>d</span></div>
+        <div id="x2"></div>
+        <div id="x3"></div>
+        <div id="x4"></div>
+        <div id="x5"></div>
+</body>
+</html>
