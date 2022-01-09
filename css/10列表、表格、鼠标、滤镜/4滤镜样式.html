@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        img{
+            filter: blur(10px);
+            filter: saturate(30%);
+            filter: grayscale(40%);
+            filter: contrast(75%);
+            filter: opacity(50%);
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.模糊<br>
+        a.filter:blur()高斯模糊<br>
+            默认为0，不能设置成百分比<br>
+    2.饱和度<br>
+        a.filter:saturate()饱和度<br>
+            默认为100%，为0时图片变成黑白，也可以设置超过百分百<br>
+    3.灰度<br>
+        a.filter: grayscale()灰度<br>
+            默认%0，值为100%时图像变成黑白<br>
+    4.对比度<br>
+        a.filter: contrast()对比度<br>
+            默认值100%，为0时图像变成全黑，可超过百分百<br>
+        <img src="../resources/tm.png" alt="">
+    5.透明度<br>
+        a.filter: opacity(50%)透明度<br>
+            默认百分之100%，完全不透明，0%时完全透明<br>
+    6.滤镜使用注意事项<br>
+        a.为了应对老版浏览器可以加前缀<br>
+        b.所有ie浏览器都不支持滤镜<br>
+</body>
+</html>

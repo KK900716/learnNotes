@@ -5,7 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-
+        .x1{
+            width: 200px;
+            height: 200px;
+            background-color: aquamarine;
+            margin: 50px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .x2{
+            overflow: hidden;
+        }
     </style>
     <title>Document</title>
 </head>
@@ -15,6 +25,42 @@
         b.主要用于元素在网页中的布局<br>
         c.元素内容-内边距-边框-外边距<br>
         d.content-padding-border-margin<br>
-    2.
+    2.margin外边距<br>
+        a.方向top、bottom、left、right<br>
+        b.外边距可以简写，顺序仍为顺时针，可以使用合理的尺寸单位<br>
+        c.可以设负值，领地会收缩<br>
+        d.使用百分比时参考父级尺寸<br>
+    3.margin注意事项<br>
+        a.元素上下排列时，上下外边距会合并（上下外边距会取最大）<br>
+        b.元素左右排列时，左右外边距会叠加<br>
+        c.行级元素没有上下外边距，但有左右外边距<br>
+        d.行内块级元素有空隙原因是沿基线对齐，可改为顶部对齐取消间隙<br>
+        e.块级元素和行内块级元素上下左右四个方向的外边距都可以设置<br>
+        <div class="x1"></div>
+        <div class="x1"></div>
+    4.padding内边距<br>
+        a.内边距设置和外边距类似<br>
+        b.所有元素皆可以设置内边距<br>
+        c.内边距没有负值<br>
+    5.内边距注意事项<br>
+        a.设置的width和heigth默认是content-box的距离<br>
+        b.为了解决设置边距导致的页面变形可以设置box-sizing<br>
+            （1）border-box以border为基准绘制<br>
+                左边框+右边框+左内边距+右内边距+内容<br>
+            （2）content-box以content为基准绘制<br>
+                内容<br>
+            （3）该属性并非所有浏览器支持<br>
+                -moz-box-sizing
+                -webkit-box-sizing
+                box-sizing
+                可加入上述前缀使浏览器先识别上述两个属性<br>
+    6.溢出隐藏<br>
+        a.overflow规定内容若溢出元素宽时的值<br>
+            （1）visible显示<br>
+            （2）hidden隐藏<br>
+            （3）scroll显示滚动条<br>
+            （4）auto自动，自动显示滚动条<br>
+        b.overflow可以设置x和y值<br>
+        <div class="x2"></div>
 </body>
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        ul{
+            background-color: gray;
+            width: 600px;
+            margin:0 auto;
+        }
+        li{
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+        .x1{
+            background-color: yellow;
+        }
+        .x2{
+            background-color: aquamarine;
+        }
+        .x3{
+            background-color: coral;
+        }
+        .x0
+        {
+            height: 200px;
+        }
+        .x5{
+            width: 450px;
+        }
+        img{
+            float: left;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.浮动<br>
+        为了让块级元素不独占一行，可以使用浮动，让块级元素呆在一行<br>
+    2.浮动元素的特点<br>
+        a.不设置浮动时是标准的文档流<br>
+        b.浮动元素脱离文档流，后面的元素会自动补位，会把不浮动的元素盖住<br>
+        c.浮动元素会被父元素宽度约束<br>
+        d.当浮动元素上一行是正常这个浮动只能呆在当前行<br>
+            （1）left左浮动
+                元素会从上一行最右出来向左跑，直到遇到浮动属性元素停止<br>
+            （2）right右浮动
+                元素会从上一行最左出来向右跑，直到遇到浮动属性元素停止<br>
+        <div class="x0">
+            <ul>
+                <li class="x1">浮动</li>
+                <li class="x2">浮动</li>
+                <li class="x3">浮动</li>
+            </ul>
+        </div>
+    3.文字环绕效果<br>
+        浮动元素虽然脱离文档流，但并没有完全脱离，浮动元素会对下面正常元素产生影响<br>
+        <div class="x5">
+            <img src="../resources/tm.png" alt="">
+            <p>重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。重置浏览器标签的样式表,因为浏览器的品种很多，每个浏览器的默认样式也是不同的，比如button标签，在IE浏览器、Firefox浏览器以及Safari浏览器中的样式都是不同的，所以，通过重置button标签的CSS属性，然后再将它统一定义，就可以产生相同的显示效果。</p>
+        </div>
+
+</body>
+</html>
