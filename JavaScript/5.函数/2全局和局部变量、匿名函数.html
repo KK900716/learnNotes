@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // 1
+        function f(){
+            a=1.1;
+            console.log(a);
+        }
+        f();
+        console.log(a);
+        // 2.匿名函数
+        window.onload=function(){
+
+        }
+        // 3.回调函数
+        function f1(){alert("abc")}
+        function f2(f){f()}
+        f2(f1);
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.全局变量和局部变量<br>
+        a.全局变量和局部变量同c语言<br>
+        b.赋值运算等同于声明在全局<br>
+    2.匿名函数<br>
+        a.字面量方式定义函数<br>
+        b.创建时运行<br>
+        c.事件发生时调用<br>
+    3.回调函数<br>
+        a.将函数作为参数传递到另一个函数中<br>
+</body>
+</html>
