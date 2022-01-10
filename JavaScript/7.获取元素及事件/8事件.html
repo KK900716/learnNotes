@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .c1,.y{
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var x=document.getElementById("i1");
+            x.onclick=function(){
+                x.style.cssText=x.style.cssText+"margin: 0 auto;";
+            }
+        }
+    </script>
+    <script>
+        window.onload=function(){
+            var y=document.getElementsByClassName("y");
+            function f0(){
+                alert();
+            }
+            y[0].addEventListener("click",f0);
+            y[0].removeEventListener("click",f0);
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.事件<br>
+        load        页面或图像被完成加载        <br>
+        click       鼠标点击某个对象            <br>
+        mousedown   鼠标按键被按下              <br>
+        mouseup     鼠标按键被松开              <br>
+        mouseout    鼠标从某个元素移开          <br>
+        mouseover   鼠标被移到某元素之上        <br>
+        abort       图像加载被中断              <br>
+        blur        元素失去焦点                <br>
+        change      用户改变域的内容            <br>
+        dblclick    鼠标双击某个对象            <br>
+        error       当加载文档或图像时发生某个错误<br>
+        focus       元素获得焦点                <br>
+        keydown     键盘的键被按下              <br>
+        keypress    键盘的键被按下或按住        <br>
+        keyup       键盘的键被松开              <br>
+        mousemove   鼠标被移动                  <br>
+        reset       窗口或框架被重置            <br>
+        resize      窗口或框架被调整尺寸        <br>
+        select      文本被选定                  <br>
+        scroll      元素滚动条在滚动时触发      <br>
+        submit      提交按钮被点击              <br>
+        unload      用户退出页面                <br>
+
+        touchstart      触摸开始（手指放在触摸屏上）        <br>
+        touchmove       移动（手指在触摸屏上移动）          <br>
+        touchend        触摸结束（手指从触摸屏上移开）      <br>
+        touchenter      移动的手指进入一个dom元素           <br>
+        touchleave      移动的手指离开一个dom元素           <br>
+        touchcancel     是在拖动中断时候触发                <br>
+        tap             手指碰一下屏幕会触发                <br>
+        longTap         手指长按屏幕会触发                  <br>
+        singleTap       手指碰一下屏幕会触发                <br>
+        doubleTap       手指双击屏幕会触发                  <br>
+        swipe           手指在屏幕上滑动时会触发            <br>
+        swipeLeft       手指在屏幕上向左滑动时会触发        <br>
+        swipeRight      手指在屏幕上向右滑动时会触发        <br>
+        swipeUp         手指在屏幕上向上滑动时会触发        <br>
+        swipeDown       手指在屏幕上向下滑动时会触发        <br>
+    2.事件绑定<br>
+        a.传统事件绑定方法<br>
+            （1）行内绑定<br>
+                通常不用行内绑定<br>
+                <script>
+                    function f(){};
+                </script>
+                <div class="x" onclick="f()"></div>
+            （2）动态绑定<br>
+                x.onXXXXXX=function(){}<br>
+                <div id="i1" class="c1">事件初识</div>
+            （3）传统绑定兼容低版本浏览器<br>
+        b.事件监听<br>
+            （1）y[0].addEventListener("click",f0,布尔值)<br>
+            （2）布尔值是指定时间是否在捕获或冒泡阶段执行<br>
+            （3）移出时间监听y[0].removeEventListener("click",f0,布尔值)<br>
+            <div class="y"></div>
+
+</body>
+</html>
