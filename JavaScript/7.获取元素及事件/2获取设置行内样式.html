@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.onload=function(){
+            // 1.设置元素的行内样式
+            var x=document.getElementById("i1");
+            var css=x.style.cssText;
+            alert(css);
+            x.style.cssText=x.style.cssText+"border:2px red solid";
+            // 2.获取元素某个css属性的值
+            console.log(x.style.background);
+
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.设置元素的行内样式<br>
+        x.style.cssText<br>
+        <div class="c1" id="i1" style="width: 200px;height: 200px;background: aqua;"></div>
+    2.获取元素某个css属性的值<br>
+        a.x.style.background<br>
+        b.如果属性中有-则按驼峰命名法，例如font-size为fontSize<br>
+</body>
+</html>

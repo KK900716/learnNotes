@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         window.onload=function(){
+            // 2.获取和设置元素的内容
             var a=document.getElementById("x1");
             console.log(a);
             console.log(a.innerHTML);
             a.innerText="abc";
             console.log(a.innerText);
+            // 3.获取和设置元素的属性
+            var x=document.getElementById("x2");
+            console.log(x.name);
+            console.log(x.calssName);
+            // 4.通用方法
+            console.log(x.getAttribute("name"));
+            x.setAttribute("name","name2")
         }
     </script>
     <title>Document</title>
@@ -26,9 +34,17 @@
         c.使用b会包含html代码<br>
         d.如果赋值时要包含html代码则要用b赋值，a会把标签当作内容赋值<br>
         <div id="x1"><span>d</span></div>
-        <div id="x2"></div>
-        <div id="x3"></div>
-        <div id="x4"></div>
-        <div id="x5"></div>
+    3.获取和设置元素的属性<br>
+        a.直接访问对象的属性即可<br>
+        b.获取元素类名用x.className<br>
+        <form action="" method="get">
+            <input class="a1" type="text" name="name" value="" id="x2">
+            <input type="submit" value="发送">
+        </form>
+    4.通用方法<br>
+        a.x.getAttribute()<br>
+        b.在参数中输入属性值即可<br>
+        c.如果修改则使用x.setAttribute()<br>
+        d.参数中第一个为属性名，第二个为属性值<br>
 </body>
 </html>

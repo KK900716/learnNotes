@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.onload=function(){
+            var c=document.getElementsByClassName("c");
+            c[0].style.color="red";
+            var p=document.getElementsByTagName("p");
+            p[0].style.color="red";
+            var n=document.getElementsByName("abc");
+            n[0].style.width="200px";
+            n[0].style.height="200px";
+            n[0].style.background="red";
+
+            var zh=document.getElementById("i3").getElementsByTagName("p");
+            zh[0].style.color="burlywood";
+            
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.使用类名获取元素<br>
+        a.document.getElementsByClassName("c")<br>
+        b.获取到一组元素<br>
+    2.使用标签获取元素<br>
+        a.document.getElementsByTagName("p")<br>
+        b.获取到一组元素<br>
+        <div id="i1" class="c">内容1</div>
+        <div id="i2" class="c">内容2</div>
+        <p>内容3</p>
+    3.使用name属性获取元素<br>
+        document.getElementsByName("abc")<br>
+        <div name="abc"></div>
+    4.组合方式获取元素<br>
+        a.document.getElementById("i3").getElementsByTagName("p")<br>
+        b.document.getElementById("i3").getElementsByClassName("p")<br>
+        c.错误方法:
+            （1）document.getElementById().getElementsByName()<br>
+            （2）document.getElementById().getElementById()<br>
+            （3）document.getElementsByClassName().getElementById()<br>
+            （4）document.getElementsByClassName().getElementsByTagName()<br>
+            （5）document.getElementsByTagName().getElementsByClassName()<br>
+        <div id="i3">
+            <p>asdfasdf</p>
+            <div></div>
+        </div>
+</body>
+</html>

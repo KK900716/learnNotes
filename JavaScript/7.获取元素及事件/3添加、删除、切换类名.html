@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .c1{
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        .c2{
+            background: violet;
+        }
+        .c3{
+            border: 2px black solid;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var i1=document.getElementById("i1");
+            i1.classList.add("c1","c2","c3");
+            i1.classList.remove("c3");
+            i1.classList.toggle("c3");
+            i1.classList.toggle("c3",true);
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.添加和<br>
+        i1.classList.add()<br>
+    2.删除类名<br>
+        i1.classList.remove("c3")<br>
+    3.切换类名<br>
+        a.i1.classList.toggle("c3")<br>
+        b.有相同类名时删除，没有相同类名时添加<br>
+        c.如果其后跟一个布尔值，强制添加或删除类名<br>
+        <div id="i1"></div>
+</body>
+</html>
