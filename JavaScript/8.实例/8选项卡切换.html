@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .box{
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            border: 1px solid black;
+        }
+        #tab{
+            width: 600px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        #tab li{
+            width: 200px;height: 50px;font-size: 30px;float: left;cursor: pointer;
+        }
+        #cont{
+            width: 600px;
+            height: 350px;
+            line-height: 350px;
+            text-align: center;
+            position: relative;
+        }
+        #cont li{
+            width: 600px;height: 340px;font-size: 30px;position: absolute;top: 10px;left: 0;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var t_list=document.getElementById("tab").getElementsByTagName("li");
+            var c_list=document.getElementById("cont").getElementsByTagName("li");
+            for(var i=0;i<t_list.length;i++){
+                t_list[i].xb=i;
+                t_list[i].onclick=function(){
+                    for(var j=0;j<t_list.length;j++){
+                        c_list[j].style.zIndex=0;
+                    }
+                    c_list[this.xb].style.zIndex=2;
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box">
+        <ul id="tab">
+            <li style="background-color: rgb(255, 154, 154);">选项卡1</li>
+            <li style="background-color: rgb(154, 160, 255);">选项卡2</li>
+            <li style="background-color: rgb(186, 255, 159);">选项卡3</li>
+        </ul>
+        <ul id="cont">
+            <li style="background-color: rgb(255, 154, 154);z-index: 1;">内容1</li>
+            <li style="background-color: rgb(154, 160, 255);">内容2</li>
+            <li style="background-color: rgb(186, 255, 159);">内容3</li>
+        </ul>
+    </div>
+</body>
+</html>
