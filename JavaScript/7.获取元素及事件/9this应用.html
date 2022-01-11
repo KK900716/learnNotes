@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .x1{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            float: left;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            word-wrap: break-word;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var x=document.getElementsByClassName("x1");
+            function f(x){
+                x.innerText=Math.random();
+            }
+            function f0(){
+                this.innerText=Math.random();
+                alert();
+            }
+            for(var i=0;i<4;i++){
+                x[i].onclick=function(){
+                    f(this);
+                }
+            }
+            for(var i=0;i<4;i++){
+                x[i].addEventListener("dblclick",f0)
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.在事件中this指向当前操作的元素<br>
+    2.可以利用函数传参来简化事件<br>
+    <div class="x1"></div>
+    <div class="x1"></div>
+    <div class="x1"></div>
+    <div class="x1"></div>
+</body>
+</html>

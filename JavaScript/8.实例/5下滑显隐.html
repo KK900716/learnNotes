@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #i{width: 100px;height: 500px;background-color: aquamarine;display: none;position: fixed;top: 200px;}
+        .z{height: 3000px;}
+    </style>
+    <script>
+        window.onload=function(){
+            var i=document.getElementById("i");
+            document.body.onscroll=function(){
+                // 文档元素离滚动条上方的距离
+                var s_top=document.documentElement.scrollTop;
+                if(s_top>200){
+                    i.style.display="block";
+                }else{
+                    i.style.display="none";
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="i"></div>
+    <div class="z"></div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .box{
+            width: 800px;height: 600px;margin:0 auto;
+        }
+        .x{
+            width: 100px;height: 100px;float: left;margin: 10px;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var x=document.getElementsByClassName("x");
+            var t=0;
+            for(var i=0;i<x.length;i++){
+                x[i].onclick=function(){
+                    if(t%2==0){
+                        this.style.background="red";
+                    }else{
+                        this.style.background="blue";
+                    }
+                    t++;
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box">
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+        <div class="x" style="background:green"></div>
+    </div>
+</body>
+</html>

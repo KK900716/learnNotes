@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #i{width: 300px;height: 200px;margin: 0 auto;font-size: 30px;background-color: aquamarine;}
+        .d{
+            margin: 0 auto;width: 300px;
+        }
+        #b0{
+            display: block;margin-left: 70px;float: left;
+        }
+        #b1{
+            display: block;margin-right: 70px;float: right;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var i=document.getElementById("i");
+            var b0=document.getElementById("b0");
+            var b1=document.getElementById("b1");
+            b1.onclick=function(){
+                i.style.display="none";
+            }
+            b0.onclick=function(){
+                i.style.display="block";
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="i"></div>
+    <div class="d">
+        <button id="b0" class="bt">显示</button>
+        <button id="b1" class="bt">隐藏</button>
+    </div>
+</body>
+</html>

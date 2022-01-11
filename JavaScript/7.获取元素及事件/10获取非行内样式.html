@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .a{
+            width: 200px;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var x=document.getElementById("a");
+            // alert(x.currentStyle.width);
+            if(document.all){
+                alert("ie")
+            }else{
+                alert("非ie")
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.getComputedStyle(i,null)<br>
+        a.低版本无法兼容此函数<br>
+    2.判断浏览器是否为ie浏览器<br>
+        a.x.currentStyle.width<br>
+        if(document.all){
+            alert("ie")
+        }else{
+            alert("非ie")
+        }
+    <div class="a" id="a"></div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        #i,#i2{width: 300px;height: 200px;border: 1px black solid;margin: 0 auto;overflow-y: auto;display: block;font-size: 30px;}
+        #btn,#btn2{width: 100px;height: 30px;margin: 0 auto;display: block;}
+    </style>
+    <script>
+        window.onload=function(){
+            var btn=document.getElementById("btn");
+            var btn2=document.getElementById("btn2");
+            var i=document.getElementById("i");
+            var i2=document.getElementById("i2");
+            btn.onclick=function(){
+                i.innerHTML="";
+                i.value=""
+            }
+            btn2.onclick=function(){
+                if(i.value!=""){
+                    i2.innerHTML=i2.innerHTML+i.value;
+                    i2.value=i2.innerHTML;
+                    i.innerHTML="";
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <textarea name="" id="i">我是一个textarea</textarea>
+    <button id="btn">点击删除</button>
+    <textarea name="" id="i2"></textarea>
+    <button id="btn2">点击复制</button>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #i{width: 300px;height: 200px;margin: 0 auto;font-size: 30px;background-color: aquamarine;}
+        .d{
+            margin: 0 auto;width: 300px;
+        }
+        #b0{
+            display: block;margin-left: 70px;float: left;
+        }
+        #b1{
+            display: block;margin-right: 70px;float: right;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var i=document.getElementById("i");
+            var b0=document.getElementById("b0");
+            var b1=document.getElementById("b1");
+            b0.onclick=function(){
+                var x=parseInt(getComputedStyle(i,null).width);
+                var y=parseInt(getComputedStyle(i,null).height);
+                i.style.width=(x*1.1)+"px";
+                i.style.height=(y*1.1)+"px";
+            }
+            b1.onclick=function(){
+                var x=parseInt(getComputedStyle(i,null).width);
+                var y=parseInt(getComputedStyle(i,null).height);
+                if(x>20&&y>20){
+                    i.style.width=(x/1.1)+"px";
+                    i.style.height=(y/1.1)+"px";
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="i"></div>
+    <div class="d">
+        <button id="b0" class="bt">增大</button>
+        <button id="b1" class="bt">缩小</button>
+    </div>
+</body>
+</html>
