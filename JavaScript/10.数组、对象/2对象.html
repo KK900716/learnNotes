@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var x1=new Object();
+        var x2=new Object();
+        Object.assign();
+        var ob=Object.assign(obj1,obj2);
+
+        var x=Object.keys(ob);
+        var v=Object.values(ob);
+
+        var bo="attribute" in ob;
+
+        var bo=null;
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.对象合并<br>
+        a.var ob=Object.assign(obj1,obj2)将obj2合并到obj1中<br>
+        b.目标对象会被修改，ob仅是一个引用<br>
+        c.参数可以有多个，但目标对象仅是第一个参数<br>
+        d.如果目标对象和源对象有相同的属性，会保留源对象中的属性<br>
+        e.如果有多个源对象，则会保留后写的参数的源对象<br>
+    2.返回属性名及属性值<br>
+        a.var x=Object.keys(ob);返回结果为属性名的数组<br>
+        b.var v=Object.values(ob);返回结果为属性值的数组<br>
+        c.用于返回对象可枚举的属性名或方法名<br>
+    3.判断属性是否存在<br>
+        a.var bo="attribute" in ob;ob中有没有attribute<br>
+        b.返回值为布尔值<br>
+    4.销毁对象<br>
+        直接让引用指向null即可<br>
+</body>
+</html>

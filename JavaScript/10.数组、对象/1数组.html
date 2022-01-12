@@ -24,6 +24,34 @@
         var x=sarr.slice(1,2);
 
         var i=sarr.indexOf();
+        var i=sarr.lastIndexOf();
+
+        var x=sarr.concat(arr);
+
+        arr.reverse();
+
+        function f(a,b){
+            return a>b?1:-1;
+            //0表示相等br
+        }
+        arr.sort(f);
+
+        function f(x){
+            return x>6;
+        }
+        var x=arr.filter(f);
+
+        var arr1=[1,2,3];
+        var arr2=[2,3,4];
+        var a=new Set(arr1);
+        var b=new Set(arr2);
+        // 1.并集
+        var un=new Set([...a,...b]);
+        // 2.交集
+        var is=new Set([...a],filter(x=>b.has(x)));
+        // 3.差集
+        var df=new Set([...a],filter(x=>!b.has(x)))
+        
     </script>
     <title>Document</title>
 </head>
@@ -69,5 +97,35 @@
         a.var i=sarr.indexOf();<br>
         b.返回的是数组首次出现的位置的下标<br>
         c.返回值为-1说明查找失败<br>
-        
+        d.var i=sarr.lastIndexOf();从后往前查找<br>
+    7.合并数组<br>
+        a.var x=sarr.concat(arr);将arr合并入sarr并返回x，不会改变sarr<br>
+        b.可以有多个参数合并<br>
+    8.数组反转<br>
+        a.arr.reverse();<br>
+        b.会改变原来的数组，返回值只是增加一个引用没有意义<br>
+    9.数组排序<br>
+        a.数组升序排列<br>
+            （1）arr.sort();<br>
+            （2）字符串按ascⅡ表进行排列<br>
+        b.降序排列可以直接反转升序排列<br>
+        c.数组元素自定义排序<br>
+            （1）向sort函数中传入的参数是一个比较函数<br>
+            （2）function f(a,b){
+                return a>b?1:-1;
+                //0表示相等br
+            }
+            arr.sort(f);<br>
+    10.数组元素过滤<br>
+        a.function f(x){
+                return x>6;
+            }
+            var x=arr.filter(f);<br>
+        b.不会改变原数组<br>
+        c.仍然是传入一个函数<br>
+    11.数组去重<br>
+        使用set去重<br>
+    12.数组布尔运算<br>
+        同样可以利用set进行布尔运算<br>
+
 </html>
