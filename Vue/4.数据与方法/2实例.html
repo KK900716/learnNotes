@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../resources/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{a}}{{b}}
+    </div>
+    
+    <script>
+        var data={a:1};
+        var vm=new Vue({
+            el:"#app",
+            data:data
+        });
+        data.a="abc";
+        vm.a="改变";
+        console.log(data.a);
+        console.log(vm.a);
+
+        data.b="你输出不输出";
+        console.log(data.b);
+
+        // 阻止响应
+        Object.freeze(data);
+
+        vm.$data=data;
+        vm.$el===document.getElementById("app") //=>true
+
+        // $watch是一个实例方法
+        vm.$watch('a',function(newValue,lodValue){
+            // 这个回调在‘vm.a’改变后调用
+        });
+    </script>
+</body>
+</html>

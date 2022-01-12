@@ -1,0 +1,14 @@
+1.每一个Vue应用都是通过Vue函数创建一个新的Vue事例开始的，通常我们会使用一个变量来接收这个Vue对象
+2.Vue没有完全遵循MVVM模型，但Vue的设计也受到了启发
+3.通常用VM代表一个Vue的实例，VM（View Modle）视图模型的缩写
+4.修改data中的值会达到响应式目的
+5.        // 阻止响应
+        Object.freeze(data);
+6.除了数据属性，Vue实例还暴露了一些有用的实例与方法，他们都有前缀 $ ，以便与用户定义的属性区分开来例如
+        vm.$data=data;
+        vm.$el===document.getElementById("app") //=>true
+
+        // $watch是一个实例方法
+        vm.$watch('a',function(newValue,lodValue){
+            // 这个回调在‘vm.a’改变后调用
+        });

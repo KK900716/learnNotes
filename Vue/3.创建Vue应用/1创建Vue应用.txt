@@ -1,0 +1,20 @@
+1.允许采用简洁的模版语法来声明式的将数据渲染进DOM的一套系统
+2.应用
+    a.视图
+    b.脚本
+3.
+    <div id="app">
+        {{ message }}
+    </div>
+    
+    <script>
+        var app=new Vue({
+            el:'#app',
+            data:{
+                message:'Hello Vue!'
+            }
+        });
+    </script>
+4.创建一个app应用为Vue对象，对象传入一个对象
+    a.el为对象id
+    b.data用来保存数据，并对变量进行初始化赋值
