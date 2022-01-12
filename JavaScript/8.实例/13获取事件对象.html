@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        #left{
+            width: 500px;
+            height: 400px;
+            background-color: red;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var left=document.getElementById("left");
+            left.onmousemove = function(event){
+                var ev=window.event || event;
+                var mouseLeft=ev.offsetX || ev.layerX;
+                var mouseRight=ev.offsetY || ev.layerY;
+                document.title=mouseLeft+"|"+mouseRight;
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        1.事件对象Event<br>
+            a.var en=window.event;
+                ie支持<br>
+            b.var ev=event;
+                其他浏览器支持<br>
+        2.鼠标位置<br>
+            var ev=window.event || event;<br>
+            var mouseLeft=ev.offsetX || ev.layerX;<br>
+            var mouseRight=ev.offsetY || ev.layerY;<br>
+            为了适配各版本浏览器<br>
+    </div>
+    <div id="left">
+
+    </div>
+</body>
+</html>

@@ -11,8 +11,21 @@
     2.setTimeout(要执行的动作，时间:毫秒);只能执行一次<br>
     3.setInterval(要执行的动作，时间:毫秒);多少时间就执行，重复执行多次<br>
     4.清理两种定时器<br>
-        a.clearInterval(要清理定时器的名称)<br>
-        
+        clearInterval(要清理定时器的名称)<br>
+    5.定时器的三种写法<br>
+        a.匿名函数
+            var t=setTimeout(function(){
+
+            },1000);
+            <br>
+        b.直接写函数名<br>
+            f(){};
+            var t=setTimeout(f,1000);
+            不能传参<br>
+        c.传参式写法<br>
+            f(a){};
+            var t=setTimeout("f(a)",1000);
+            把函数当作字符串<br>
     <script>
         var t=setTimeout(function(){
 

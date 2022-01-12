@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var MyData=new Date();
+        var MyData=new Date(2019,9,1,9,10,40,50);
+        var MyData=new Date("2019/10/1 9:10:40");
+        var MyData=new Date(1641973026178);
+
+        var year=MyData.getFullYear();
+        console.log(year);
+        var month=MyData.getMonth()+1;
+        console.log(month);
+        var da=MyData.getDate();
+        console.log(da);
+        var day=MyData.getDay();
+        console.log(day);
+
+        var hour=MyData.getHours();
+        console.log(hour);
+        var min=MyData.getMinutes();
+        console.log(min);
+        var msec=MyData.getSeconds();
+        console.log(msec);
+        var ms=MyData.getMilliseconds();
+        console.log(ms);
+
+        var d=MyData.toLocaleDateString();
+        console.log(d);
+        var t=MyData.toLocaleTimeString();
+        console.log(t);
+        var dt=MyData.toLocaleString();
+        console.log(dt);
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.创建时间对象<br>
+        a.var MyData=new Date();创建当前时间对象<br>
+        b.var MyData=new Date(2019,10,1,9,10,40,50);创建指定时间<br>
+            （1）年-月-日-时-分-秒-毫秒<br>
+            （2）月份从0开始0~11表示月份<br>
+        c.var MyData=new Date("2019/10/1 9:10:40");使用字符串创建时间对象<br>
+        d.使用时间戳创建对象，从格林威治时间1970.1.1 0:0:0创建事件对象<br>
+            （1）var MyData=new Date(1641973026178);<br>
+            （2）13位单位为毫秒<br>
+    2.获取日期<br>
+        a.var year=MyData.getFullYear();获取年<br>
+        b.var month=MyData.getMonth()+1;获取月<br>
+        c.var da=MyData.getDate();获取日<br>
+        d.var day=MyData.getDay();获取周<br>
+            0~6，0代表周日<br>
+    3.获取时间<br>
+        a.var hour=MyData.getHours();获取小时<br>
+            0~23<br>
+        b.var min=MyData.getMinutes();获取分钟<br>
+            0~59<br>
+        c.var msec=MyData.getSeconds();获取秒<br>
+            0~59<br>
+        d.var ms=MyData.getMilliseconds();获取毫秒<br>
+            0~999<br>
+    4.获取完整日期、时间<br>
+        a.var d=MyData.toLocaleDateString();获取完整日期<br>
+        b.var t=MyData.toLocaleTimeString();获取完整时间<br>
+        c.var dt=MyData.toLocaleString();获取完整日期、时间<br>
+</body>
+</html>

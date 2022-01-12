@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .box{
+            width: 600px;
+            height: 100px;
+            margin: 0 auto;
+            font-size: 50px;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var s=document.getElementById("s");
+            var t=9;
+            var timer=setInterval(function(){
+                s.innerText=t--;
+                if(t==-1){
+                    clearInterval(timer);
+                    location.href="#";
+                }
+            },1000);
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box">剩余时间：<span id="s">10</span>s</div>
+</body>
+</html>

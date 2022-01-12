@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .d{
+            width: 400px;
+            height: 50px;
+            margin: 50px auto 0;
+            font-size: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+        .d1{
+            height: 100px;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var x0=document.getElementById("x0");
+            var x1=document.getElementById("x1");
+            var x2=document.getElementById("x2");
+            var c=document.getElementById("c");
+            var button1=document.getElementById("button1");
+            var button2=document.getElementById("button2");
+            var timer0;
+            var timer1;
+            var timer2;
+            var bo=true;
+            button1.onclick=function(){
+                if(bo){
+                    x0.innerText="0";
+                    x1.innerText="0";
+                    x2.innerText="0";
+                    c.innerText="到10s点击";
+                    timer0=setInterval(function(){
+                        var xz0=x0.innerText;
+                        var xz0=Number(xz0);
+                        x0.innerText=xz0+1;
+                    },1000)
+                    timer1=setInterval(function(){
+                        var xz1=x1.innerText;
+                        var xz1=Number(xz1);
+                        x1.innerText=(xz1+1)%10;
+                    },100)
+                    timer2=setInterval(function(){
+                        var xz2=x2.innerText;
+                        var xz2=Number(xz2);
+                        x2.innerText=(xz2+1)%10;
+                    },10)
+                    bo=!bo;
+                }
+            }
+            button2.onclick=function(){
+                if(!bo){
+                    bo=!bo; 
+                }
+                clearInterval(timer0);
+                clearInterval(timer1);
+                clearInterval(timer2);
+                if(x0.innerText=="10" && x0.innerText=="0" && x0.innerText=="0"){
+                    c.innerText="成功";
+                }else{
+                    c.innerText="失败";
+                }
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="d"><span id="x0">0</span>.<span id="x1">0</span><span id="x2">0</span></div>
+    <div class="d d1">
+        <button id="button1">开始</button>
+        <button id="button2">点击</button>
+    </div>
+    <div id="c" class="d">到10s点击</div>
+</body>
+</html>

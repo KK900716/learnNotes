@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .x{
+            position: relative;
+        }
+        #button,#button2{
+            margin: 0 auto;
+            display: block;
+        }
+        #h{
+            width: 200px;
+            height: 200px;
+            position: relative;
+            background-color: aqua;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var button=document.getElementById("button");
+            var button2=document.getElementById("button2");
+            var left=document.getElementById("h");
+            var b=true;
+            var timer;
+            button.onclick=function(){
+                clearInterval(timer);
+                timer=setInterval(function(){
+                    var l=parseInt(left.style.left);
+                    var nl;
+                    if(b){
+                        nl=l+20;
+                    }else{
+                        nl=l-20;
+                    }
+                    left.style.left=nl+"px";
+                    if(nl==1720 || nl==0){
+                        b=!b;
+                    }
+                },20)
+            }
+            button2.onclick=function(){
+                clearInterval(timer);
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <button id="button">移动</button>
+    <button id="button2">取消</button>
+    <div class="x">
+        <div id="h" style="left:0px"></div>
+    </div>
+</body>
+</html>
