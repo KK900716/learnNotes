@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var s="abcdefgh";
+        s.length;
+
+        s.charAt(0);
+
+        s.indexOf("bc");
+
+        s.replace("abc","def");
+        // 正则表达式
+            // 全局匹配
+        s.replace(/abc/g,"def");
+            // 忽略大小写
+        s.replace(/ABC/i,"def");
+            // 斜杠中间的是正则表达式，外面的是条件
+        s.replace(/ABC/ig,"def");
+
+        s.toUpperCase();
+        s.toLowerCase();
+        s.replace(x.charAt(0),s.charAt(0).toUpperCase);
+
+        s.substring(3);
+
+        s.substr(3);
+
+        s.split();
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.查询字符串长度<br>
+        s.length;<br>
+    2.查询指定位置的字符<br>
+        a.s.charAt(0);<br>
+        b.下表超过字符串长度则返回null<br>
+    3.查询子串首次出现的位置<br>
+        a.s.indexOf("bc");<br>
+        b.返回的是子串首次出现的位置的下标<br>
+        c.返回值为-1说明查找失败<br>
+    4.字符串替换<br>
+        a.s.replace("abc","def");<br>
+        b.要替换的字符串，替换为字符串<br>
+        c.只会替换首次出现的字符串<br>
+    5.字符串大小写转换<br>
+        a.s.toUpperCase();转大写<br>
+        b.s.toLowerCase();转小写<br>
+        c.s.replace(x.charAt(0),s.charAt(0).toUpperCase);替换首字母<br>
+    6.截取指定下标的字符<br>
+        a.s.substring(3);截取指定字符串之后的字符<br>
+        b.s.substring(3,8);截取指定范围字符串，包头不包尾<br>
+        c.substring不接受负值<br>
+    7.截取指定个数的字符<br>
+        a.s.substr(3);一个参数时同6<br>
+        b.第二个参数是从指定下标开始的截取的字符个数<br>
+        c.开始下标可以为负值<br>
+        d.第二个参数不可以接受负值<br>
+    8.字符串分割<br>
+        a.s.split();同java<br>
+        b.接受为数组，第一个参数为正则，第二个参数为数组长度<br>
+    9.字符串可以当做数组使用<br>
+        a.即s[i]等价于s.charAt(0)<br>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var arr=[1,2,3,4,5];
+        var a=arr.join();
+
+        var s="abcedfg";
+        var sarr=Array.from(s);
+        console.log(sarr);
+
+        sarr.pop();
+        sarr.push("g");
+
+        sarr.shift();
+        sarr.unshift("a");
+        
+        sarr.splice(1,2);
+        var x=sarr.splice(1,0,"abc","def");
+        
+        var x=sarr.slice(1,2);
+
+        var i=sarr.indexOf();
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    1.数组转字符串<br>
+        a.var a=arr.join();<br>
+        b.默认以,分割<br>
+        c.参数可以填入字符串表示分隔的样式<br>
+    2.伪数组转数组<br>
+        a.有length属性的对象可以转换为数组<br>
+        b.var sarr=Array.from(s)ES6语法<br>
+        c.对象没有长度故无法转换为数组<br>
+        d.主要是把set数据类型转换为数组<br>
+    3.数组末位删除和添加数据-栈<br>
+        a.sarr.pop();<br>
+        b.修改原数组，弹出末尾元素<br>
+        c.sarr.push("g");返回数组长度<br>
+        d.c可添加多个元素<br>
+    4.数组开头删除和添加数据-队列<br>
+        a.同3.<br>
+        b.sarr.shift();<br>
+        c.sarr.unshift("a");<br>
+    5.数组任意位置增删改截<br>
+        a.删除<br>
+            （1）sarr.splice(1,2)<br>
+            （2）第一个参数为删除的位置，第二个参数为删除的个数<br>
+        b.插入<br>
+            （1）sarr.splice(1,0,"abc","def");<br>
+            （2）需要提供至少三个参数<br>
+        c.替换<br>
+            （1）sarr.splice(1,2,"abc","def");<br>
+            （2）原理是删除后插入<br>
+        d.截取<br>
+            （1）var x=sarr.splice(1,2);<br>
+            （2）原理是返回值就是截取的内容<br>
+        e.截取指定下标开始到指定下表结束<br>
+            （1）var x=sarr.slice(1,2);<br>
+            （2）一个参数时截取从指定下标开始的所有<br>
+            （3）两个下标时截取包头不包尾<br>
+            （4）且同splice相比不会修改原数组<br>
+            （5）可以使用负值，从尾部开始截取<br>
+    6.查找指定元素的下标<br>
+        a.var i=sarr.indexOf();<br>
+        b.返回的是数组首次出现的位置的下标<br>
+        c.返回值为-1说明查找失败<br>
+        
+</html>
