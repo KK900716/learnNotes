@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../resources/vue.js"></script>
+    <style>
+        .active{
+            background-color: red;
+        }
+        .test{
+            color: aquamarine;
+        }
+        .border{
+            border: 2px black solid;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-bind:class="{active:isActive,border:isBorder}" class="test"
+        style="width: 200px;height: 200px;text-align: center;line-height: 200px;">hi Vue</div>
+        <div v-bind:class="['active',isBorder?'border':'']"
+        style="width: 200px;height: 200px;text-align: center;line-height: 200px;"></div>
+
+        <div :style="{color:color,fontSize:size,background:isRed?'red':''}">hi Vue</div>
+    </div>
+    <script>
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                isActive:true,
+                isBorder:true,
+
+                color:"aquamarine",
+                size:"50px",
+
+                isRed:true,
+            },
+        });
+    </script>
+</body>
+</html>
