@@ -141,4 +141,11 @@
             alter table bookinfo add foreign key(book_category_id) references book_category_id(category_id);
             -- 删除外键约束
             alter table bookinfo drop foreign key fk_cid;
-
+        -- e.外键约束参照操作
+            -- CASCADE:从父表删除或更新且自动删除或更新子表中匹配的行
+            -- 实现级联删除操作
+            create table bookinfo(
+                book_id int primary key,
+                book_category_id int,
+                constraint fk_cid foreign key(book_category_id) references book_category_id(category_id) on delete cascade
+            )
