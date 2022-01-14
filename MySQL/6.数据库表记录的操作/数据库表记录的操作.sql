@@ -122,6 +122,14 @@
     /* c.多列排序 */
     /* d.指定排序方向 */
 /* 8.通过Limit语句先知查询记录的数量 */
-    
+    /* a.语法格式 */
+        LIMIT [位置偏移量,] 行数
+        use book;
+        show tables;
+        desc bookcategory2;
+        select * from bookcategory2;
+        select * from bookcategory2 limit 3;
+        select * from bookcategory2 limit 2,4;
 
-        
+    /* b.语法格式 */
+        LIMIT 2 OFFSET 2;
