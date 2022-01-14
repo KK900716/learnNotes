@@ -36,5 +36,27 @@
             -- RANGE分区：
             --     根据指定某列的范围值进行分区
             --     使用values less than操作符定义分区
+
         -- 示例
-        
+        use test1;
+        show tables;
+        drop table t1,t4;
+
+        -- 表的定义
+        create table bookinfo(
+            book_id int,
+            book_name varchar(20)
+        )
+        -- 范围分区
+        partition by range(book_id)(--定义分区类型和字段
+            -- 分区的定义
+            partition p1 values less than (20109999),
+            partition p2 values less than (20159999),
+            partition p3 values less than (MAXVALUE)
+        );
+        desc bookinfo;
+        insert into bookinfo values(20100005,'t1');
+        insert into bookinfo values(20140015,'t2');
+        insert into bookinfo values(20170001,'t3');
+            -- 查看p1分区的数据
+        select * from bookinfo partition(p1);
