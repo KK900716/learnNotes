@@ -6,11 +6,11 @@ JDBC（Java DataBase Connectivity）Java数据库连接
     示例：
 ```
         //1.注册驱动
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");//可省略
         //2.获取连接
         String url="jdbc:mysql://127.0.0.1:3306/test";
         String username="root";
-        String password="l3318668";
+        String password="********";
         Connection conn=DriverManager.getConnection(url,username,password);
         //3.定义sql语句
         String sql="update book set name = 'bc' where name_id = 123";
@@ -24,3 +24,11 @@ JDBC（Java DataBase Connectivity）Java数据库连接
         stmt.close();
         conn.close();
 ```
+2.JDBC API详解
+    a.DriverManager驱动管理类
+        （1）注册驱动
+        （2）获取数据库连接
+        DriverManager.registerDriver()注册驱动，由mysql静态代码块自己完成
+        DriverManager.getConnection(url,username,password)
+            url
+                语法jdbc:mysql://127.0.0.1:3306/test
