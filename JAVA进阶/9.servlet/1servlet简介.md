@@ -8,3 +8,20 @@
     b.处理请求
     c.将处理的结果通过响应发送到客户端
 3.Servlet 3.0版本之后不再依赖web.xml不输描述文件，可以用注解的方式
+4.创建Sevlet
+    a.创建一个类继承HttpServlet
+    b.覆写doGet和doPost方法
+    c.配置web.xml文件，tomcat通过web.xml文件找到servlet配置
+```
+    <!-- 注册一个servlet -->
+    <servlet>
+        <servlet-name>Test</servlet-name>
+        <servlet-class>com.example.web.Test</servlet-class>
+    </servlet>
+
+    <!-- url指访问路径 -->
+    <servlet-mapping>
+        <servlet-name>Test</servlet-name>
+        <url-pattern>/hi</url-pattern>
+    </servlet-mapping>
+```
