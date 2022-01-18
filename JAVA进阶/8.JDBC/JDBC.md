@@ -28,7 +28,50 @@ JDBC（Java DataBase Connectivity）Java数据库连接
     a.DriverManager驱动管理类
         （1）注册驱动
         （2）获取数据库连接
-        DriverManager.registerDriver()注册驱动，由mysql静态代码块自己完成
-        DriverManager.getConnection(url,username,password)
-            url
-                语法jdbc:mysql://127.0.0.1:3306/test
+            DriverManager.registerDriver()注册驱动，由mysql静态代码块自己完成
+            DriverManager.getConnection(url,username,password)
+                url
+                    语法jdbc:mysql://127.0.0.1:3306/test
+                        协议://ip(域名):端口号/数据库名称/?参数值对1&参数值对2...
+                    本机和默认端口可省略ip和端口
+                    配置useSSL=false参数，禁用安全连接方式，解决警告提示
+    b.Connection
+        （1）获取执行sql对象
+            createStatement()普通执行sql对象
+            preparedStatement(sql)预编译sql的执行sql对象，方式sql注入
+            prepareCall(sql)执行存储过程的对象
+        （2）管理事务
+            setAutoCommit(boolean autoCommit)开启事务，true为自动提交事务，false为手动提交事务，即开启事务
+            commit()提交事务
+            rollback()rollback回滚事务
+    c.Statement
+        （1）执行sql语句即DML、DDL、DQL
+        （2）DML、DDL
+            int executeUpdate(sql)返回值
+                DML影响行数
+                DDL执行结果，执行成功可能返回0
+        （3）DQL
+            ResultSet executeUpdate(sql)返回值
+                结果集对象
+    d.ResultSet结果集对象
+        （1）封装了DQL结果
+            指针始终指向要获取的当前行的上一行
+        （2）boolean next()=true/false表示当前有没有数据并向下移动指针
+        （3）xxx getXxx(参数)获取数据
+            xxx 数据类型
+            参数 列的名称或列的序号（从1开始）
+```
+        String url="jdbc:mysql:///test";
+        String user="root";
+        String password="********";
+        Connection conn= DriverManager.getConnection(url,user,password);
+        String sql="select * from book";
+        Statement stat=conn.createStatement();
+        ResultSet re= stat.executeQuery(sql);
+        while(re.next()){
+            System.out.println(re.getInt(1));
+            System.out.println(re.getString(2));
+        }
+        stat.close();
+        conn.close();
+```
