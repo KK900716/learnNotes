@@ -38,7 +38,42 @@ JDBC（Java DataBase Connectivity）Java数据库连接
     b.Connection
         （1）获取执行sql对象
             createStatement()普通执行sql对象
-            preparedStatement(sql)预编译sql的执行sql对象，方式sql注入
+            preparedStatement(sql)预编译sql的执行sql对象，防止sql注入
+            预编译空能开启
+            useServerPrepStmts=true
+```
+            String url="jdbc:mysql:///test?useServerPrepStmts=true";
+```
+            防止sql注入
+                1）获取PreparedStatement对象
+```
+                    String name_id="123";
+                    String sql="select * from book where name_id=?";
+                    PreparedStatement pstmt=conn.prepareStatement(sql);
+```
+                2）设置参数值
+```
+                    pstmt.setInt(1,Integer.parseInt(name_id));
+```
+                3）执行语句
+```
+                    String url="jdbc:mysql:///test";
+                    String user="root";
+                    String password="********";
+                    Connection conn= DriverManager.getConnection(url,user,password);
+                    String name_id="123";
+                    String sql="select * from book where name_id=?";
+                    PreparedStatement pstmt=conn.prepareStatement(sql);
+                    pstmt.setInt(1,Integer.parseInt(name_id));
+                    ResultSet re= pstmt.executeQuery();
+                    while(re.next()){
+                        System.out.println(re.getInt(1));
+                        System.out.println(re.getString(2));
+                    }
+                    re.close();
+                    pstmt.close();
+                    conn.close();
+```
             prepareCall(sql)执行存储过程的对象
         （2）管理事务
             setAutoCommit(boolean autoCommit)开启事务，true为自动提交事务，false为手动提交事务，即开启事务
