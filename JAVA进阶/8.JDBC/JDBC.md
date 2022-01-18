@@ -72,6 +72,7 @@ JDBC（Java DataBase Connectivity）Java数据库连接
             System.out.println(re.getInt(1));
             System.out.println(re.getString(2));
         }
+        re.close();
         stat.close();
         conn.close();
 ```
