@@ -83,4 +83,30 @@
         （3）获取请求体
         ServletInputStream getInputStream()获取字节输入刘
         BufferedReader getReader()获取字符输入流
-    c.Request请求转发
+        （4）通用方式获取请求数据
+    c.Request获取请求内容
+        （1）Map<String,String[]> getParamenterMap()获取所有参数Map集合、
+        （2）String[] getParamenterVaules(String name)根据名称获取参数值（数组）
+        （3）String getParameter(String name)根据名称获取参数值（单个值）
+    d.解决中文乱码问题
+        （1）post
+            request.setCharacterEncoding("UTF-8");
+        （2）get
+            URL编码
+                将字符串按照编码方式转为二进制
+                每个字节转为2个十六进制数并在前面加上%
+                tomcat默认的ISO-8859-1编码逆向转换为字节流（编码）后转为字符串
+```
+                byte[] bytes=value.getBytes(StandardCharsets.ISO_8859_1);
+                String s=new String(bytes);
+```
+    e.Request请求转发
+        （1）forward：一种在服务器内部的资源跳转方式
+            request.getRequestDispatcher("/demo3").forward(request,response);
+                void request.setAttribute(String name,Object o);存储数据到request域中
+                Object request.getAttribute(String name);根据key，获取值
+                void request.removeAttribute(String name);根据key，删除值
+        （2）请求转发的特点
+            浏览器地址路径不发生变化
+            只能转发到当前服务器的内部资源
+            一次请求，可以在转发的资源建使用request共享数据
