@@ -110,3 +110,77 @@
             浏览器地址路径不发生变化
             只能转发到当前服务器的内部资源
             一次请求，可以在转发的资源建使用request共享数据
+10.Response
+    a.Response体系结构
+        ServletResponse java提供的请求对象根接口
+        HttpServletReponse java提供的对Http协议封装的请求对象接口
+        ReponseFacade Tomcat定义的实现类
+    b.设置响应数据功能
+        响应行
+        （1）void setStatus(int sc)设置响应状态码
+        响应头
+        （1）void setHeader(String name,String value)设置响应头键值对
+        响应体
+        （1）PrintWriter getWriter()获取字符输出流
+        （2）ServletOutputStream getOutputSteram()获取字节输出流
+    c.重定向
+        （1）一种资源跳转的方式
+        （2）设置响应状态码302
+        （3）设置响应头location
+            setStatus(302)
+            setHeader("location","虚拟目录+位置")
+            等同于
+            response.sendRedirect("虚拟目录+位置");
+        （4）特点
+            浏览器的地址栏发生变化
+            可以重定向到任意位置的资源、
+            两次请求，不能在多个资源使用request共享数据
+        （5）路径问题
+            服务端使用不用加虚拟目录
+            客户端使用需要加虚拟目录
+    d.字符数据
+        （1）读取文件
+        （2）获取response字节输出流
+        （3）完成流的copy
+```
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+    </dependency>
+```
+        IOUtils.copy(fileInputStream,servletOutputStream);
+    e.字节数据
+        （1）纯文本
+            PrintWriter writer=response.getWriter();
+            writer.write("aaa");
+        （2）html
+            response.setHeader("content-type","text/html");
+        （3）注意流不需要关闭，服务器销毁response对象时会关闭
+        （4）同样中文在tomcat8以下存在乱码问题
+            response.setContentType("text/html;charset=utf-8")
+            可以替代（2）
+11.sqlSessionFactory工具类
+    a.这是一个数据库连接池
+    b.为了避免多次创建数据库连接池，可以提取一个公共的方法
+```
+public class SqlSessionFactoryUtils {
+    private static SqlSessionFactory sqlSessionFactory;
+    static {
+        String resource = "mybatis-config.xml";
+        InputStream inputStream = null;
+        try {
+            inputStream = Resources.getResourceAsStream(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+    }
+    public static SqlSessionFactory getSqlSessionFactory(){
+        return sqlSessionFactory;
+    }
+}
+```
+```
+        SqlSessionFactory sqlSessionFactory= SqlSessionFactoryUtils.getSqlSessionFactory();
+```
