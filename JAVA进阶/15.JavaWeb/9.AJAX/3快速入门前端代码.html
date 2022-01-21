@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // 1.创建核心对象
+        var xhttp;
+        if(window.XMLHttpRequest){//浏览器版本兼容判断
+            xhttp=new XMLHttpRequest();
+        }else{
+            xhttp=new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        // 2.发送请求
+        xhttp.open("GET"," http://localhost:8083/ServletAjax",true);//写全路径名，第三个参数默认true为异步，可不填
+        xhttp.send();
+        // 3.获取响应
+        xhttp.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                alert(this.responseText);
+            }
+        }
+    </script>
+    <script>
+        axios({
+            method:"get",
+            url:"http://localhost:8083/ServletAjax?username=zhangsan"
+        }).then(function(resp){
+            alert(resp.data);
+        })
+        axios({
+            method:"post",
+            url:"http://localhost:8083/ServletAjax",
+            data:"username=zhangsan"
+        }).then(function(resp){
+            alert(resp.data);
+        })
+    </script>
+</body>
+</html>
