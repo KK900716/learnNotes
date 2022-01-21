@@ -48,6 +48,13 @@
    3. 创建Spring核心配置文件
    4. 在Spring配置文件中配置UserDaolmpl
    5. 使用Spring的API获得Bean实例
+```
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.0.5.RELEASE</version>
+        </dependency>
+```
 5. Spring配置文件
    1. Bean标签基本配置
       1. id Bean实例在Spring容器中的唯一标识
@@ -94,3 +101,121 @@
       3. IOC解耦只是降低他们的依赖关系，但不会消除。例如业务层仍会调用持久层的方法
       4. 那这种业务层和持久层的依赖关系，在使用Spring之后，就让Spring来维护了
       5. 简单的说，就是坐等框架把持久层对象传入业务层，而不用我们自己去取
+   6. Bean的依赖注入方式
+      1. 构造方法
+```
+            <constructor-arg name="userDao" ref="userDao"></constructor-arg>
+```
+      2. set方法
+         1. property属性设置
+```
+        <property name="userDao" ref="userDao"/>
+```
+         2. p命名空间注入
+            1. p命名空间
+```
+       xmlns:p="http://www.springframework.org/schema/p"
+        <bean id="userService" class="com.shzu.service.Impl.UserServiceImpl" p:userDao-ref="userDao"></bean>
+```
+   7. Bean的依赖注入的数据类型
+      1. 普通数据类型
+      2. 引用数据类型
+      3. 集合数据类型
+```
+    <bean id="userDao" class="com.shzu.dao.impl.UserDaoImpl" scope="singleton" >
+        <property name="username" value="zhangsan"/>
+        <property name="age" value="18"/>
+        <property name="stringList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+                <value>ddd</value>
+            </list>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="1" value-ref="user1"/>
+                <entry key="2" value-ref="user2"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">ppp1</prop>
+                <prop key="p2">ppp2</prop>
+                <prop key="p3">ppp3</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="user1" class="com.shzu.pojo.User">
+        <property name="name" value="tom"/>
+        <property name="add" value="beijing"/>
+    </bean>
+    <bean id="user2" class="com.shzu.pojo.User">
+        <property name="name" value="lucky"/>
+        <property name="add" value="tianjin"/>
+    </bean>
+```
+   8. 引入其他配置文件（分模块开发）
+```
+    <import resource="applicationContext.xml"/>
+```
+   9. Spring相关的API
+      1. ApplicationContext的继承体系
+          1. Applicationcontext 接口类型，代表应用上下文，可以通过其实例获得Spinrg容器中的Bean对象
+      2. ApplicationContext的实现类
+          1. ClasspathXmlApplicationContext 它是从类的根路径下加载配置文件 推荐使用这种
+          2. FileSystemXmlApplicationContext 它是从磁盘路径上加载配置文件，配置文件可以在磁盘的任意位置
+          3. AnnotationConfigApplicationContext 当使用注解配置容器对象时，需要使用此类创建Spring容器。它用来读取注解
+   10. getBean()方法
+       1. 传递String通过id获得对象，需要强制转换
+       2. 传递字节码文件获得对象
+       3. 但通过1可以获得多个创建的bean，如果容器中声明了多个bean使用2会报错
+6. Spring配置数据源
+   1. 数据源（连接池）的作用
+      1. 为提高程序性能而出现
+      2. 实现实例化数据源，初始化部分连接资源
+      3. 使用连接资源时从数据源中获取
+      4. 使用完毕后将连接资源归还给数据源
+      5. 常见的数据源（连接池）：DBCP、C3P0、BoneCP、Druid等
+   2. 数据源的开发步骤
+      1. 导入数据源的坐标和数据库驱动坐标
+      2. 创建数据源对象
+      3. 设置数据源的基本连接数据
+      4. 归还数据源
+   3. Spring配置数据源
+      1. C3P0
+```
+         ComboPooledDataSource comboPooledDataSource=new ComboPooledDataSource();
+         comboPooledDataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+         comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+         comboPooledDataSource.setUser("root");
+         comboPooledDataSource.setPassword("********");
+         Connection connection=comboPooledDataSource.getConnection();
+         System.out.println(connection);
+         connection.close();
+```
+      2. Druid
+      3. 配置文件的抽取
+```
+         //配置文件内容
+         jdbc.driver=com.mysql.cj.jdbc.Driver
+         jdbc.url=jdbc:mysql:///test
+         jdbc.username=root
+         jdbc.password=********
+
+         ResourceBundle resourceBundle=ResourceBundle.getBundle("jdbc");
+         String driver=resourceBundle.getString("jdbc.driver");
+         String url=resourceBundle.getString("jdbc.url");
+         String username=resourceBundle.getString("jdbc.username");
+         String password=resourceBundle.getString("jdbc.password");
+         ComboPooledDataSource comboPooledDataSource=new ComboPooledDataSource();
+         comboPooledDataSource.setDriverClass(driver);
+         comboPooledDataSource.setJdbcUrl(url);
+         comboPooledDataSource.setUser(username);
+         comboPooledDataSource.setPassword(password);
+         Connection connection=comboPooledDataSource.getConnection();
+         System.out.println(connection);
+         connection.close();
+```
+      4. 既然上述操作就是创建一个类并且改变其中的属性值，不妨让Spring帮助我们创建和管理Bean，这样我们就可以将属性依赖注入配置文件完成解耦
