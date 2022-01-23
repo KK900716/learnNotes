@@ -138,3 +138,44 @@
         3. 视图解析器ViewResolver
             1. 请求视图解析器
             2. 返回视图View对象
+    2. 渲染视图返回视图页面jsp
+    3. SpringMVC注解解析
+        1. @RequsetMapping 用于建立请求URL和处理请求方法之间的对应关系 可以由类上的注解和方法上的注解共同拼接URL
+            1. 方法的返回值（字符串）即资源名，从当前路径下寻找，前面加/可以从全局路径下寻找
+            2. method属性，限定访问方式，值可填枚举类型RequestMethod.POST
+            3. params属性，用于限定请求参数条件，它支持简单的表达式，要请求参数的key和value必须和配置的一模一样
+                例如：params={"accountName"} params={"moeny!100"}
+4. SpringMVC的数据响应
+    1. 页面跳转
+        1. 直接返回字符串
+            1. 此种方式会将返回的字符串与视图解析器的前后缀拼接后跳转
+            2. 通过ModelAndView对象返回
+            3. redirect: forward:
+    2. 回写数据
+        1. 直接返回字符串
+            @ResponseBody 告知SpringMVC返回的字符串不是URL而是写入字符串
+        2. 返回对象或集合
+            1. 在SpringMVC的各个组件中，处理器映射器、处理器适配器、视图解析器成为SpringMVC的三大组件。
+            ```
+            <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.0</version>
+            </dependency>
+            <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+            </dependency>
+            <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.0</version>
+            </dependency>
+            <mvc:annotation-driven/>
+            ObjectMapper objectMapper=new ObjectMapper();
+            String s=objectMapper.writeValueAsString(map);
+            ```
+            2. 使用上述注解自动加载RequestMappingHandleerMapping和RequestMappingHandlerAdapter，可用在spring-mvc.xml未知文件中使用替代注解处理器和适配器的配置
+            3. 同时使用上述注解默认底层就会继承jackson进行对象或集合的json格式字符串的转换
+        
