@@ -48,13 +48,13 @@
    3. 创建Spring核心配置文件
    4. 在Spring配置文件中配置UserDaolmpl
    5. 使用Spring的API获得Bean实例
-```
+   ```
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>5.0.5.RELEASE</version>
         </dependency>
-```
+   ```
 5. Spring配置文件
    1. Bean标签基本配置
       1. id Bean实例在Spring容器中的唯一标识
@@ -87,14 +87,14 @@
    4. Bean实例化三种方式
       1. 无参构造方法
       2. 工厂静态方法
-```
+   ```
     <bean id="userDao" class="com.shzu.factory.StaticFactory" factory-method="getUserDao" scope="singleton"></bean>
-```
+   ```
       3. 工厂实例方法
-```
+   ```
     <bean id="dynamicFactory" class="com.shzu.factory.DynamicFactory"></bean>
     <bean id="userDao" factory-bean="dynamicFactory" factory-method="getUserDao" scope="singleton"></bean>
-```
+   ```
    5. Spring依赖注入（Dependency Injection）
       1. 他是Spring框架核心IOC的具体实现
       2. 在编写程序时，通过控制反转，把对象的创建交给Spring，但是代码中不可能出现没有依赖的情况
@@ -103,25 +103,25 @@
       5. 简单的说，就是坐等框架把持久层对象传入业务层，而不用我们自己去取
    6. Bean的依赖注入方式
       1. 构造方法
-```
+   ```
             <constructor-arg name="userDao" ref="userDao"></constructor-arg>
-```
+   ```
       2. set方法
          1. property属性设置
-```
+   ```
         <property name="userDao" ref="userDao"/>
-```
+   ```
          2. p命名空间注入
             1. p命名空间
-```
+   ```
        xmlns:p="http://www.springframework.org/schema/p"
         <bean id="userService" class="com.shzu.service.Impl.UserServiceImpl" p:userDao-ref="userDao"></bean>
-```
+   ```
    7. Bean的依赖注入的数据类型
       1. 普通数据类型
       2. 引用数据类型
       3. 集合数据类型
-```
+   ```
     <bean id="userDao" class="com.shzu.dao.impl.UserDaoImpl" scope="singleton" >
         <property name="username" value="zhangsan"/>
         <property name="age" value="18"/>
@@ -155,11 +155,11 @@
         <property name="name" value="lucky"/>
         <property name="add" value="tianjin"/>
     </bean>
-```
+   ```
    8. 引入其他配置文件（分模块开发）
-```
+   ```
     <import resource="applicationContext.xml"/>
-```
+   ```
    9. Spring相关的API
       1. ApplicationContext的继承体系
           1. Applicationcontext 接口类型，代表应用上下文，可以通过其实例获得Spinrg容器中的Bean对象
@@ -185,7 +185,7 @@
       4. 归还数据源
    3. Spring配置数据源
       1. C3P0
-```
+   ```
          ComboPooledDataSource comboPooledDataSource=new ComboPooledDataSource();
          comboPooledDataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
          comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
@@ -194,10 +194,10 @@
          Connection connection=comboPooledDataSource.getConnection();
          System.out.println(connection);
          connection.close();
-```
+   ```
       2. Druid
       3. 配置文件的抽取
-```
+   ```
          //配置文件内容
          jdbc.driver=com.mysql.cj.jdbc.Driver
          jdbc.url=jdbc:mysql:///test
@@ -217,5 +217,90 @@
          Connection connection=comboPooledDataSource.getConnection();
          System.out.println(connection);
          connection.close();
-```
+   ```
       4. 既然上述操作就是创建一个类并且改变其中的属性值，不妨让Spring帮助我们创建和管理Bean，这样我们就可以将属性依赖注入配置文件完成解耦
+   ```
+    <context:property-placeholder location="jdbc.properties"/>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+   ```
+7. Spring注解开发
+   1. Spring原始注解
+      1. Spring是轻代码而重配置的框架，配置比较繁重，影响开发效率，所以注解开发是一种趋势，注解代替xml配置文件可以简化配置，提高开发效率
+      2. Spring原始注解主要是替代Bean的配置
+         1. @Component 使用在类上用于实例化Bean
+         2. @Controller 使用在web层类上用于实例化Bean（同1功能一样，拥有语义）
+         3. @Service 使用在service层类上用于实例化Bean（同1功能一样，拥有语义）
+         4. @Repository 使用在dao层类上用于实例化Bean（同1功能一样，拥有语义）
+         5. @Autowired 使用在字段上用于根据类型依赖注入（用于依赖注入）
+         6. @Qualifier 结合@Autowired一起使用用于根据名称进行依赖注入（用于依赖注入）
+         7. @Resource 相当于@Autowired+@Qualifier，按照名称进行注入（用于依赖注入）
+         8. @Value 注入普通属性
+         9. @Scope 标注Bean的作用范围
+         10. @PostConstruct 使用在方法上标注该方法是Bean的初始化方法
+         11. @PreDestroy 使用在方法上标注该方法是Bean的销毁方法
+      3. 注意使用注解进行开发时，需要在applicationContext.xml中配置组建扫描，作用是指定哪个包及其包下的Bean需要进行扫描以便识别使用注解配置的类、字段和方法
+   ```
+    <context:component-scan base-package="com.shzu"/>
+   ```   
+      4. 原始注解无法对非自定义Bean起作用
+   2. Spring新注解
+      1. @Configuration 用于指定当前类是一个Spring配置类，当创建容器是会从该类上加载注解
+      2. @ComponentScan 用于指定Spring在初始化容器时要扫描的包，作用和在Spring的xml位置文件中的扫描包一样
+      3. @Bean 使用在方法上，标注将该方法的返回值存储到Spring容器中
+      4. @PropertySource 用于加载.properties文件中的配置
+      5. @Import 用于导入其他配置类
+8. Spring整合Junit
+   1. 解决方案
+      1. 让SpringJunti负责创建Spring容器，但是需要将配置文件的名称告诉它
+      2. 将需要进行测试Bean在测试类中注入
+   2. Spring继承Junit步骤
+      1. 导入Spring继承Junit的坐标
+   ```
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.0.5.RELEASE</version>
+   ```
+      2. 使用@Runwith注解替换原来的运行期
+      3. 使用@ContextConfiguration指定配置文件或配置类
+      4. 使用@Autowired注入需要测试的对象
+      5. 创建测试方法进行测试
+   ```
+      @RunWith(SpringJUnit4ClassRunner.class)
+      @ContextConfiguration("classpath:applicationContext2.xml")//数组
+      //@ContextConfiguration(classes = {SpringConfiguration.class})
+      public class testSpringJunit {
+         @Autowired
+         private UserService2 userService2;
+         @Test
+         public void test(){
+            userService2.save();
+         }
+      }
+   ```
+      6. 注意导包问题
+9. Spring与Web环境集成
+   1. 使得Spring的应用上下文只创建一次可以使用监听器
+   2. 在Web项目中，可以使用ServletContextListener监听Web应用的启动，我们可以在Web应用启动时，就加载Spring的配置文件，创建应用上下文对象ApplicationContext，在将其存储到最大的域servletContext域中，这样就可以在任意位置从域中获得应用上下文ApplicationContext对象了
+   ```
+   <!--全局初始化参数-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>applicationContext2.xml</param-value>
+    </context-param>
+   ```
+   3. Spring提供获取应用上下文的工具
+   ```
+   <!-- web.xml配置 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext2.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+   ```

@@ -15,5 +15,5 @@
         ServletAttributeListener 对Request对象中属性的监听（增删改属性）
 4.ServletContextListener使用
     a.定义类，实现ServletContextListener接口
-    b.在雷伤添加@WebListener注解
+    b.在类上添加@WebListener注解
         

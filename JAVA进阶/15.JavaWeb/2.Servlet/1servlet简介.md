@@ -25,7 +25,7 @@
     a.加载和实例化：默认情况下，当Servlet第一次被访问时，由容器创建Servlet对象
         @WebServlet(urlPatterns="/demo",loadOnStartup=1)
             负整数：第一次被访问时创建Servlet对象
-            0或正整数：服务器启东市创建Servlet对象，数字越小优先级越高
+            0或正整数：服务器启动时创建Servlet对象，数字越小优先级越高
     b.初始化：在Servlet实例化之后，容器将调用Servlet的init()方法初始化这个对象，完成一些如加载配置文件、创建连接等初始化的工作。该方法只调用一次
     c.请求处理：每次请求Servlet时，Servlet容器都会调用Servlet的service()方法对请求进行处理
     d.服务终止：当需要释放内存或者容器关闭时，容器会调用Servlet实例的destroy()方法完成资源的释放。在destroy()方法调用之后，容器会释放这个Servlet实例，该实例随后会被Java的垃圾收集器所回收
@@ -81,7 +81,7 @@
         }
 ```
         （3）获取请求体
-        ServletInputStream getInputStream()获取字节输入刘
+        ServletInputStream getInputStream()获取字节输入流
         BufferedReader getReader()获取字符输入流
         （4）通用方式获取请求数据
     c.Request获取请求内容
