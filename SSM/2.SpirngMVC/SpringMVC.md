@@ -46,52 +46,51 @@
     6. 客户端发起请求测试
     ```
     <dependencies>
-  <dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>3.1.0</version>
-    <scope>provided</scope>
-  </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>5.0.8.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>5.0.8.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>5.0.8.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>5.0.8.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>javax.servlet.jsp-api</artifactId>
-      <version>2.2.1</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.0.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     ```
     ```
     <context-param>
@@ -224,3 +223,92 @@
                 3. defaultValue 当没有指定请求参数时给定默认值
         9. 获得Restful风格的参数
             1. Restful是一种架构风格、设计风格，而不是标准，只是提供了一组设计原则和约束条件。主要用于客户端和服务器交互类的软件，基于这个风格设计的软件可以更简洁、更有层次、更易于实现缓存机制等
+            2. Restful风格的请求时使用“url+请求方式”表示一次请求的目的的，HTTP协议里面有四个表示操作方式的动词如下
+                1. GET 用于获取资源
+                2. POST 用于新建资源
+                3. PUT 用于更新资源
+                4. DELETE 用于删除资源
+            3. 在SpringMVC中可以使用占位符进行参数绑定，地址/user/1可以写成/user/{id}，占位符{id}对应的就是1的值。在业务方法中我们可以使用@PathVaribale注解进行占位符的匹配工作
+        10. 自定义类型转换器
+            1. 定义转换器类实现Converter接口
+            2. 在配置文件中声明转换器
+            3. 在<annotation-driven>中引用转换器
+            ```
+            @RequestMapping("/qucik/a")
+            @ResponseBody
+            public void Restful(Date date){
+                System.out.println(date);
+            }
+
+            public class DateConverter implements Converter<String,Date> {
+                public Date convert(String s) {
+                    SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+                    Date date=null;
+                    try {
+                        date=format.parse(s);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return date;
+                }
+            }
+
+            <bean id="dateConverter" class="org.springframework.context.support.ConversionServiceFactoryBean">
+                <property name="converters">
+                    <list>
+                        <bean class="com.shzu.converter.DateConverter"></bean>
+                    </list>
+                </property>
+            </bean>
+            ```
+        11. 获得Servlet相关API
+            SpringMVC支持使用原始ServletAPI对象作为控制器方法的参数进行注入
+        12. 获得请求头
+            1. 使用@RequestHeader可以获得请求头信息，相当于web阶段学习的request.getHeader(name)
+            2. 属性如下
+                1. value 请求头的名称
+                2. required 是否必须携带此请求头
+            3. 使用@CookieValue
+                1. value 指定Cookie的名称
+                2. required 是否必须携带此Cookie
+        13. 文件上传
+            1. 文件上传客户端的三要素
+                1. 表单项type="file"
+                2. 表单提交方式是post
+                3. 表单的enctype属性是多部分表单形式，及enctype="multipart/form-data"
+                4. 当form表单的enctype取值为Mutilpart/form-data时，请求正文内容就变成多部分形式，不能通过url编码的request的方法获得请求
+                5. SpirngMVC底层封装了fileupload插件提供了文件获取的方式
+            2. 单文件上传步骤
+                1. 导入fileupload和io坐标
+                ```
+                <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.3.1</version>
+                </dependency>
+                <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.3</version>
+                </dependency>
+                ```
+                2. 配置文件上传解析器
+                ```
+                <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+                    <property name="maxUploadSize" value="5242800"/>
+                    <property name="maxUploadSizePerFile" value="5242800"/>
+                    <property name="defaultEncoding" value="UTF-8"/>
+                </bean>
+                ```
+                3. 编写文件上传代码
+                ```
+                @RequestMapping("/quick/file")
+                @ResponseBody
+                public void file(String name, MultipartFile file) throws IOException {
+                    System.out.println("success!");
+                    file.transferTo(new File("D:\\360MoveData\\Users\\44380\\Desktop\\新建文件夹\\a.txt"));
+                    System.out.println(file);
+                }
+                ```
+            3. 多文件上传
+                可以接受多个文件参数交给Spring实例化，也可以采用数组接受

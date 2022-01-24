@@ -104,7 +104,7 @@
    6. Bean的依赖注入方式
       1. 构造方法
    ```
-            <constructor-arg name="userDao" ref="userDao"></constructor-arg>
+         <constructor-arg name="userDao" ref="userDao"></constructor-arg>
    ```
       2. set方法
          1. property属性设置
@@ -304,3 +304,49 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
    ```
+10. SpringJdbcTemplate
+   1.  概述
+      1. Jdbc Template是Spring框架中提供的一个对象，是对原始繁琐的JDBC API对象的简单封装。
+   2. 快速入门 
+      ```
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-jdbc</artifactId>
+         <version>5.0.8.RELEASE</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
+         <version>5.0.8.RELEASE</version>
+      </dependency>
+      ```
+      ```
+      <context:property-placeholder location="classpath:c3p0.properties"/>
+      <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+         <property name="driverClass" value="${jdbc.driver}"/>
+         <property name="jdbcUrl" value="${jdbc.url}"/>
+         <property name="user" value="${jdbc.username}"/>
+         <property name="password" value="${jdbc.password}"/>
+      </bean>
+      <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+         <property name="dataSource" ref="dataSource"/>
+      </bean>
+      ```
+      ```
+      jdbc.driver=com.mysql.cj.jdbc.Driver
+      jdbc.url=jdbc:mysql:///test
+      jdbc.username=root
+      jdbc.password=l3318668
+      ```
+      ```
+      @RunWith(SpringJUnit4ClassRunner.class)
+      @ContextConfiguration("classpath:applicationContext.xml")//数组
+      public class testJDBC {
+         @Autowired
+         JdbcTemplate jdbcTemplate;
+         @Test
+         public void test1(){
+            jdbcTemplate.update("insert into account values (?,?)","jack",8000);
+         }
+      }
+         ```
