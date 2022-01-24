@@ -172,10 +172,55 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.0</version>
             </dependency>
+
             <mvc:annotation-driven/>
+
             ObjectMapper objectMapper=new ObjectMapper();
             String s=objectMapper.writeValueAsString(map);
             ```
             2. 使用上述注解自动加载RequestMappingHandleerMapping和RequestMappingHandlerAdapter，可用在spring-mvc.xml未知文件中使用替代注解处理器和适配器的配置
             3. 同时使用上述注解默认底层就会继承jackson进行对象或集合的json格式字符串的转换
-        
+    3. SpringMVC获得请求数据
+        1. 获得请求数据
+            1. 基本类型参数
+            2. POJO类型参数
+            3. 数组类型参数
+            4. 集合类型参数
+        2. 获得基本类型参数
+            参数传递键直接获得
+        3. POJO类型参数
+            参数传递pojo自动封装
+        4. 数组类型参数
+            参数传递数组自动封装
+        5. 集合类型参数
+            1. 需要将集合封装进一个值对象中
+            2. 当使用ajax提交时，可以指定contextType为json形式，那么在方法参数位置使用@RequestBody可以直接接受集合数据而无需使用pojo封装
+        6. 开放访问资源
+            1. springMVC下寻找资源
+        ```
+            <mvc:resources mapping="/resources/**" location="/resources/"/>
+        ```
+            2. 服务器原始容器下寻找资源
+        7. post请求乱码问题
+        ```
+          <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+        </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>CharacterEncodingFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+        ```
+        8. 参数编订注解@requestParam、
+            1. 当请求的参数名称与Controller的业务方法参数名称不一致时，就需要通过@RequestParam注解显示的绑定
+            2. 参数
+                1. value 与请求参数名称
+                2. requide 此在指定的请求参数是否必须包括，默认是true，提交时如果没有参数则报错
+                3. defaultValue 当没有指定请求参数时给定默认值
+        9. 获得Restful风格的参数
+            1. Restful是一种架构风格、设计风格，而不是标准，只是提供了一组设计原则和约束条件。主要用于客户端和服务器交互类的软件，基于这个风格设计的软件可以更简洁、更有层次、更易于实现缓存机制等
