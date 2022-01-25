@@ -349,4 +349,12 @@
             jdbcTemplate.update("insert into account values (?,?)","jack",8000);
          }
       }
-         ```
+      ```
+      ```
+      List<Account> query = jdbcTemplate.query("select * from account",new BeanPropertyRowMapper<Account>(Account.class));
+      System.out.println(query);
+      Account tom = jdbcTemplate.queryForObject("select * from account where name=?", new BeanPropertyRowMapper<Account>(Account.class), "tom");
+      System.out.println(tom);
+      Long aLong = jdbcTemplate.queryForObject("select count(*) from account", long.class);
+      System.out.println(aLong);
+      ```

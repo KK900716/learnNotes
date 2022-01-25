@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ch">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +10,20 @@
 <body>
     <div id="app">
         {{varibale}}
+        <a v-bind:href="url">abc</a>
+        <form action="#" method="get">
+            <input type="text" v-model:value="name" name="name">
+        </form>
+        <div>{{name}}</div>
     </div>
-
     <script>
         Vue.config.productionTip=false;
         var vm=new Vue({
             el:"#app",
             data:{
+                name:"woshishi",
                 varibale:"hello world!",
+                url:'http://www.baidu.com',
             }
         });
     </script>

@@ -312,3 +312,26 @@
                 ```
             3. 多文件上传
                 可以接受多个文件参数交给Spring实例化，也可以采用数组接受
+5. SpringMVC拦截器（interceptor）
+    1. SpringMVC的拦截器类似于Servlet开发中的过滤器Filter，用于对处理器进行预处理和后处理
+    2. 将拦截器按一定的顺序联结成一条龙链，这条链成为拦截器链（interceptor）。在访问被拦截的方法或字段时，拦截器链中的拦截器就会按其之前定义的顺序被调用。拦截器也是AOP思想的具体实现
+    3. 快速入门
+        1. 创建拦截器类实现HandlerInterceptor接口
+            1. preHandle 在目标方法执行之前执行
+            2. postHandle 在目标方法执行之后试图返回之前执行
+            3. afterCompletion 在整个流程执行完毕之后执行
+        2. 配置拦截器
+        3. 测试拦截器的拦截效果
+    ```
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--对哪些资源执行拦截操作-->
+            <mvc:mapping path="/**"/>
+            <!-- 对哪些资源排除在外 -->
+            <mvc:exclude-mapping path=""/>
+            <bean class="com.shzu.interceptor.MyInterceptor1"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    ```
+6. SpringMVC异常处理
+    1. 
