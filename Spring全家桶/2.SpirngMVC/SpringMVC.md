@@ -334,4 +334,110 @@
     </mvc:interceptors>
     ```
 6. SpringMVC异常处理
-    1. 
+    1. 异常处理机制
+        1. 使用SpringMVC提供的简单异常处理器SimpleMappingExceptionResolver
+        ```
+        <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+            <property name="defaultErrorView" value="exception/error.jsp"/>
+            <property name="exceptionMappings">
+                <map>
+                    <entry key="com.shzu.exception.MyException" value="exception/error.jsp"/>
+                    <entry key="java.lang.ClassCastException" value="exception/error.jsp"/>
+                </map>
+            </property>
+        </bean>
+        ```
+        2. 实现Spring的异常处理接口HandlerExceptionResolver自定义自己的异常处理类
+            1. 创建异常处理器类实现HandlerExceptionResolver
+            2. 配置异常处理器
+            3. 编写异常页面
+            4. 测试异常跳转
+7. Spring的AOP
+    1. 简介
+        1. AOP为Aspect Oriented Programming的缩写，意思为面向切面编程，是通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术
+        2. AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率
+    2. AOP的作用及其有事
+        1. 在程序运行期间，在不修改源码的情况下对方法进行功能增强
+        2. 减少重复代码，提高开发效率，并且便于维护
+    3. AOP的底层实现
+        1. 实际上，AOP的底层是通过Spring提供的动态代理技术实现的。在运行期间，Spring通过动态代理技术动态的生成代理对象，代理对象方法执行时进行增强功能的介入，在去调用目标对象的方法，从而完成功能的增强
+    4. 常用的动态代理技术
+        1. JDK代理 基于接口的动态代理技术
+        2. cglib代理 基于父类的动态代理技术
+        3. java动态代理机制中有两个重要的类和接口InvocationHandler（接口）和Proxy（类），这一个类Proxy和接口InvocationHandler是我们实现动态代理的核心
+    5. AOP相关概念
+        1. Target（目标对象）：代理的目标对象
+        2. Proxy（代理）：一个类被AOP织入增强后，就产生一个结果代理类
+        3. Joinpoint（连接点）：所谓连接点是指那些被拦截到的点。在Spring中，这些点指的是方法，因为Spring只支持方法类型的连接点
+        4. Pointcut（切入点）：所谓切入点是知我们要对那些JoinPoint进行拦截的定义
+        5. Advice（通知/增强）：所谓通知是指拦截到Joinpoint之后所要做的事情就是通知
+        6. Aspect（切面）：是切入点和通知（引介）的结合
+        7. Weaving（织入）：是指把增强应用到目标对象来创建新的代理对象的过程。Spring采用动态代理织入，而AspectJ采用编译器织入和类装载期织入
+    6. AOP开发明确的事项
+        1. 需要编写的内容
+            1. 编写核心业务代码（目标类的目标方法）
+            2. 编写切面类，切面类中有通知（增强功能方法）
+            3. 在配置文件中，配置织入关系，即将那些通知与那些连接点进行结合
+        2. AOP技术实现的内容
+            Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理机制，根据通知类别，在代理对象的对应位置，将通知对应的功能织入，完成完整的代码逻辑运行
+        3. AOP底层使用哪种代理方式
+            在Spring中，框架会根据目标类是否实现了接口来决定采用哪种动态代理的方式
+8. 基于XML的AOP开发
+    1. 快速入门
+        1. 导入AOP相关坐标
+        ```
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.4</version>
+        </dependency>
+        ```
+        2. 创建目标接口和目标类（内部有切点）
+        3. 创建切面类（内部有增强方法）
+        4. 将目标类和切面类的对象创建权交给Spring
+        5. 在applicationContext.xml织入关系
+        6. 测试代码
+        ```
+        public class MyAspect {
+            public void before(){
+                System.out.println("before...");
+            }
+        }
+        ```
+        ```
+        public class Target implements TargetInterface{
+            public void save() {
+                System.out.println("run....");
+            }
+        }
+        ```
+        ```
+        public class Target implements TargetInterface{
+            public void save() {
+                System.out.println("run....");
+            }
+        }
+        ```
+        ```
+        <bean id="target" class="com.shzu.Target"></bean>
+        <bean id="myAspect" class="com.shzu.MyAspect"></bean>
+        <aop:config>
+            <!--声明切面-->
+            <aop:aspect ref="myAspect">
+                <!--切面：切点+通知-->
+                <aop:before method="before" pointcut="execution(public void com.shzu.Target.save())"></aop:before>
+            </aop:aspect>
+        </aop:config>
+        ```
+        ```
+        @RunWith(SpringJUnit4ClassRunner.class)
+        @ContextConfiguration("classpath:applicationContext.xml")
+        public class TestAop {
+            @Autowired
+            private TargetInterface target;
+            @Test
+            public void testAop(){
+                target.save();
+            }
+        }
+        ```
