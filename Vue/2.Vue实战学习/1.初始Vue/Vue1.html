@@ -9,21 +9,26 @@
 </head>
 <body>
     <div id="app">
-        {{varibale}}
-        <a v-bind:href="url">abc</a>
-        <form action="#" method="get">
-            <input type="text" v-model:value="name" name="name">
-        </form>
-        <div>{{name}}</div>
+        <div>{{varibale}}</div>
+        <a href="http://www.baidu.com" @click="showInfo">点击我</a>
+        <!-- 阻止默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="showInfo2">点击我</a>
     </div>
     <script>
         Vue.config.productionTip=false;
         var vm=new Vue({
             el:"#app",
             data:{
-                name:"woshishi",
                 varibale:"hello world!",
-                url:'http://www.baidu.com',
+            },
+            methods:{
+                showInfo(event){
+                    event.preventDefault();//阻止默认行为
+                    alert("hello");
+                },
+                showInfo2(){
+                    alert("hello");
+                }
             }
         });
     </script>
