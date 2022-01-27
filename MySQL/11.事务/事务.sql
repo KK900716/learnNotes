@@ -65,3 +65,16 @@
 通过InnoDB使用事务
     1.InnoDB是事务型数据库的首选引擎，支持事务安全表（ACID）
     2.mysql5.7以上InnoDB作为默认存储引擎，5.5.5前默MyISAM是默认存储引擎，当表需要事务处理时需要设置存储引擎为InnoDB
+事务的并发问题
+    1.对于同时运行的多个事务，当这些事务访问数据库中相同的数据时，如果没有采取必要的隔离机制，就会导致并发问题
+    2.脏读
+    3.不可重复读
+    4.幻读
+数据库事务隔离级别
+    1.Mysql支持4中事务隔离级别，Mysql默认的事务的隔离级别为REPEATABLE READ
+        1.read uncommitted 读未提交数据
+        2.read commited 读已提交数据
+        3.repeatable read 可重复读
+        4.serializable 串行化
+    2.select @@transaction_isolation;查看事务隔离级别
+    3.set session transaction isolation level read uncommitted;更改事务的隔离级别
