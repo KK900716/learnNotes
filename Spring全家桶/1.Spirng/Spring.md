@@ -566,3 +566,53 @@
                 1. 谁是切点
                 2. 谁是通知
                 3. 配置切面
+            2. 
+            ```
+            <!--配置平台事务管理器-->
+            <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+                <property name="dataSource" ref="dataSource"/>
+            </bean>
+            <!--通知 事务的增强-->
+            <tx:advice id="txAdvice" transaction-manager="dataSourceTransactionManager">
+                <!--设置事务的属性信息 isolation="DEFAULT" propagation="REQUIRED" timeout="-1" read-only="false"-->
+                <tx:attributes>
+                    <!--name可以写通配符例如update*-->
+                    <tx:method name="*"/>
+                </tx:attributes>
+            </tx:advice>
+            <!--配置事务的aop织入-->
+            <aop:config>
+                <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.shzu.service.Impl.AccountServiceImpl.transfer(..))"/>
+            </aop:config>
+            ```
+    3. 基于注解的声明式事务控制
+    ```
+    @Service
+    public class AccountServiceImpl implements AccountService {
+        @Autowired
+        private AccountDao accountDao;
+        @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+        public void transfer(String outMan, String inMan, double money) {
+            accountDao.out(outMan,money);
+            int x=1/0;
+            accountDao.in(inMan,money);
+        }
+    }
+    ```
+    ```
+    @Service
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public class AccountServiceImpl implements AccountService {
+        @Autowired
+        private AccountDao accountDao;
+        public void transfer(String outMan, String inMan, double money) {
+            accountDao.out(outMan,money);
+            int x=1/0;
+            accountDao.in(inMan,money);
+        }
+    }
+    ```
+    ```
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+    ```
+    
