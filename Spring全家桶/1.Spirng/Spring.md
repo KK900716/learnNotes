@@ -186,6 +186,13 @@
    3. Spring配置数据源
       1. C3P0
    ```
+    </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+    <dependency>
          ComboPooledDataSource comboPooledDataSource=new ComboPooledDataSource();
          comboPooledDataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
          comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
@@ -358,7 +365,7 @@
       Long aLong = jdbcTemplate.queryForObject("select count(*) from account", long.class);
       System.out.println(aLong);
       ```
-   7. Spring的AOP
+ 11. Spring的AOP
     1. 简介
         1. AOP为Aspect Oriented Programming的缩写，意思为面向切面编程，是通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术
         2. AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率
@@ -388,7 +395,7 @@
             Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理机制，根据通知类别，在代理对象的对应位置，将通知对应的功能织入，完成完整的代码逻辑运行
         3. AOP底层使用哪种代理方式
             在Spring中，框架会根据目标类是否实现了接口来决定采用哪种动态代理的方式
-11. 基于XML的AOP开发
+12. 基于XML的AOP开发
     1. 快速入门
         1. 导入AOP相关坐标
         ```
@@ -476,7 +483,7 @@
                 </aop:aspect>
             </aop:config>
         ```
-11. 基于注解的AOP开发
+13. 基于注解的AOP开发
     1. 快速入门
         1. 创建目标接口和目标类（内部有切点）
         2. 创建切面类（内部有增强方法）
@@ -517,7 +524,7 @@
         System.out.println("after");
     }
     ```
-12. Spring声明式事务控制
+14. Spring声明式事务控制
     1. 编程式事务控制相关对象
         1. PlatformTransactionManager 平台事务管理器
             1. PlatformTransactionManager接口是Spring的事务管理器，他里面提供了我们常用的操作事务的方法
@@ -553,4 +560,9 @@
     2. 基于XML的声明式事务控制
         1. Spring的声明式事务控制就是采用声明的方式来处理事务
         2. 作用
-            1. 事务管理不侵入开发组件。具体来说，业务逻辑对象就不会意识到正在事务管理之中，事实上也应该如此，因为事务管理属于系统层面的服务，而不是业务逻辑的一部分，如果想要改变事物管理策划的话，也只需在定义文件中重新配置即可
+            事务管理不侵入开发组件。具体来说，业务逻辑对象就不会意识到正在事务管理之中，事实上也应该如此，因为事务管理属于系统层面的服务，而不是业务逻辑的一部分，如果想要改变事物管理策划的话，也只需在定义文件中重新配置即可
+        3. 实现
+            1. 明确
+                1. 谁是切点
+                2. 谁是通知
+                3. 配置切面
