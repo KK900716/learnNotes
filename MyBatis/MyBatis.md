@@ -350,3 +350,20 @@
         4. 使用映射器接口实现类的完全线性类名 class属性
         5. 将包内的映射器接口实现全部注册为映射器 package标签的name属性
     4. properties属性
+    ```
+    <properties resource="jdbc.properties"/>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    ```
+    5. typeAliases标签
+        1. 类型别名是为Java类型设置一个短的名字。原来的类型名称配置需要写全限定名
+        2. Mybatis已经为我们自定义了常用类型的别名
