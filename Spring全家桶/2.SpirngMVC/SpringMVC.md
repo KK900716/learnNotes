@@ -202,7 +202,7 @@
             2. 服务器原始容器下寻找资源
         7. post请求乱码问题
         ```
-          <filter>
+        <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>

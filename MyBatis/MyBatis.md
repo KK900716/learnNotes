@@ -299,10 +299,33 @@
 10. 注解完成增删改查
     1. 简单的语句可以用注解方式
     2. mybatis官方建议复杂语句还是应该配置xml
-        @Select
-        @Insert
-        @Update
-        @Delete
+        1. @Select
+        2. @Insert
+        3. @Update
+        4. @Delete
+        5. @Result 实现结果集封装
+            1. column 数据库列名
+            2. property 需要装配的属性名
+            3. one
+            4. many
+        6. @Results 可以与@Result一起使用，封装多个结果集
+        ```
+        @Results({
+                @Result(column = "",property = ""),
+                @Result(column = "",property = ""),
+                @Result(column = "",property = ""),
+                @Result(
+                        property = "",
+                        column = "",
+                        javaType = User.class,
+                        //查询哪个接口的方法获取值
+                        one = @One(select = "com.mapper.UserMapper.find"),
+                        many = @Many(select = "")
+                )
+        })
+        ```
+        7. @One 实现一对一结果集封装
+        8. @Many 实现一对多结果集封装
 11. 核心配置文件
     1. MyBatis核心配置文件层级关系
         1. configuration配置
@@ -457,3 +480,41 @@
             System.out.println("是否是第一页"+pageInfo.isIsFirstPage());
             System.out.println("是否是最后一页"+pageInfo.isIsLastPage());
             ```
+12. MyBatis的多表操作
+    1. 一对一查询
+    ```
+    <resultMap id="orderMap" type="com.domain.Order">
+        <!--手动指定字段实体与属性的映射关系-->
+        <id column="orders.id" property="id"/>
+        <result column="ordertime" property="ordertime"/>
+        <result column="total" property="total"/>
+        <result column="username" property="user.username"/>
+        <result column="password" property="user.password"/>
+    </resultMap>
+    <select id="selectAll" resultMap="orderMap">
+        select orders.id id,ordertime,total,username,password from orders,tb_user where orders.id=tb_user.id
+    </select>
+    ```
+    ```
+    <resultMap id="orderMap" type="com.domain.Order">
+        <!--手动指定字段实体与属性的映射关系-->
+        <id column="id" property="id"/>
+        <result column="ordertime" property="ordertime"/>
+        <result column="total" property="total"/>
+        <!--property：当前实体中属性的名称-->
+        <!--javaType:当前实体的属性类型-->
+        <association property="user" javaType="com.domain.User">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+        </association>
+    </resultMap>
+    ```
+    2. 一对多查询
+    ```
+        <collection property="orderList" ofType="com.domain.Order">
+            <result column="ordertime" property="ordertime"/>
+            <result column="total" property="total"/>
+        </collection>
+    ```
+    3. 多对多查询
