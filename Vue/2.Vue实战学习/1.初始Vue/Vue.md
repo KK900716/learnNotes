@@ -109,4 +109,47 @@
         5. self 只有event.target是当前操作的元素才触发事件
         6. passive 事件的默认行为立即执行，无需等待事件回调执行完毕
             这里可以绑定@scroll和@wheel，@wheel会等到回调函数执行完毕之后才执行事件所以该事件加入passive和@scroll有类似效果
+        7.时间修饰符可以连写
     4. 键盘事件
+        1. 按键别名
+        ```
+        <div id="app">
+            <input type="text" placeholder="按下回车提示输入" @keyup.enter="showInfo">
+        </div>
+        <script>
+            Vue.config.productionTip=false;
+            var vm=new Vue({
+                el:"#app",
+                data:{
+                    varibale:"hello world!",
+                },
+                methods:{
+                    showInfo(event){
+                        // if(event.keyCode!==13)return;
+                        console.log(event.target.value);
+                    }
+                }
+            });
+        </script>
+        ```
+        2. 常用别名
+            1. 回车 enter
+            2. 删除、退格 delete
+            3. 退出 esc
+            4. 空格 space
+            5. 换行 tab
+            6. 上 up
+            7. 下 down
+            8. 左 left
+            9. 右 right
+            10. tab已经绑定了事件建议绑定keydown
+        3. 未提供别名的按键，可以使用按键原始的key值去绑定，但注意要转为kebab-case（短横线命名）
+            1. event.keyCode按键编码
+            2. event.key按键名称
+            3. 例如caps-lock
+        4. 系统修饰键（用法特殊）ctrl、alt、shift、meta
+            1. 配合keyup使用：按下休时间的同时，再按下其他减，随后释放其他键，事件才被触发
+            2. 配合keydown使用：正常触发事件
+        5. 不建议使用按键编码定义事件
+        6. Vue.config.keyCodes.别名=编码 可以用来自定义别名按键，也不推荐
+        7. 可以指定多个按键，可以连写

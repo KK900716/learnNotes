@@ -9,10 +9,7 @@
 </head>
 <body>
     <div id="app">
-        <div>{{varibale}}</div>
-        <a href="http://www.baidu.com" @click="showInfo">点击我</a>
-        <!-- 阻止默认行为 -->
-        <a href="http://www.baidu.com" @click.prevent="showInfo2">点击我</a>
+        <input type="text" placeholder="按下回车提示输入" @keyup="showInfo">
     </div>
     <script>
         Vue.config.productionTip=false;
@@ -23,11 +20,8 @@
             },
             methods:{
                 showInfo(event){
-                    event.preventDefault();//阻止默认行为
-                    alert("hello");
-                },
-                showInfo2(){
-                    alert("hello");
+                    // if(event.keyCode!==13)return;
+                    console.log(event.key);
                 }
             }
         });
