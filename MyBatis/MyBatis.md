@@ -121,12 +121,6 @@
     </configuration>
     ```
     ```
-    <sql id="brand_column">
-    --         sql片段
-    </sql>
-    <include refid="brand_column">
-    ```
-    ```
         //mybatis代理开发
         //1.加载mybatis核心配置文件SqlSessionFactory
         String resource = "mybatis-config.xml";
@@ -231,6 +225,13 @@
                         </when>
                     </choose>
                 </where>
+        ```
+    3. sql片段抽取
+        ```
+        <sql id="brand_column">
+        --         sql片段
+        </sql>
+        <include refid="brand_column">
         ```
 6. 添加
     1. 直接利用mapper代理方式添加
@@ -367,3 +368,92 @@
     5. typeAliases标签
         1. 类型别名是为Java类型设置一个短的名字。原来的类型名称配置需要写全限定名
         2. Mybatis已经为我们自定义了常用类型的别名
+    6. tpyeHandlers标签
+        1. 类型处理器
+        2. 可以重写类型处理器或创建自己的类型处理器来处理不支持的非标准类型。
+            1. 定义转换类继承类BaseTypeHandler<T>，或实现TypeHandler接口
+            2. 覆盖4个为实现的方法，其中setNonNullParameter为java城西设置数据到数据库的回调方法，getNullableResult为查询时mysql的字符串类型转换为java的Type类型的方法
+            3. 在Mybatis核心配置文件中进行注册
+            4. 测试转换是否成功
+            ```
+            CREATE TABLE `tb_user` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `username` varchar(20) DEFAULT NULL,
+            `password` varchar(32) DEFAULT NULL,
+            `date` bigint DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `username` (`username`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3
+            ```
+            ```
+                private Integer id;
+                private String username;
+                private String password;
+                private Date date;
+            ```
+            ```
+            public class DateTypeHandler extends BaseTypeHandler<Date> {
+                //将java类型转换为数据库类型
+                @Override
+                public void setNonNullParameter(PreparedStatement preparedStatement, int i, Date date, JdbcType jdbcType) throws SQLException {
+                    preparedStatement.setLong(i,date.getTime());
+                }
+                //将数据库类型转换为java类型
+                @Override
+                public Date getNullableResult(ResultSet resultSet, String s) throws SQLException {
+                    return new Date(resultSet.getLong(s));
+                }
+                @Override
+                public Date getNullableResult(ResultSet resultSet, int i) throws SQLException {
+                    return new Date(resultSet.getLong(i));
+                }
+                @Override
+                public Date getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
+                    return new Date(callableStatement.getLong(i));
+                }
+            }
+            ```
+            ```
+            <typeHandlers>
+                <package name="com.handler"/>
+            </typeHandlers>
+            ```
+    6. plugins标签
+        1. Mybatis可以使用第三方的差劲来对功能进行扩展，分页助手PageHelper试讲分页的复杂操作进行封装，使用简单的方式即可获得分页的相关数据
+        2. 开发步骤
+            1. 导入通用PageHelper的坐标
+            ```
+            <dependency>
+                <groupId>com.GitHub.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>3.7.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.GitHub.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+            ```
+            2. 在MyBatis核心配置文件中配置PageHelper插件
+            ```
+            <plugins>
+                <plugin interceptor="com.github.pagehelper.PageHelper">
+                    <property name="dialect" value="mysql"/>
+                </plugin>
+            </plugins>
+            ```
+            3. 测试分页数据获取
+            ```
+            //设置分页相关参数 当前页+每页显示的条数
+            PageHelper.startPage(1,2);
+            //获得与分页相关参数
+            PageInfo<User> pageInfo=new PageInfo<User>(users);
+            System.out.println("当前页"+pageInfo.getPageNum());
+            System.out.println("每页显示条数"+pageInfo.getSize());
+            System.out.println("总条数"+pageInfo.getTotal());
+            System.out.println("总页数"+pageInfo.getPages());
+            System.out.println("上一页"+pageInfo.getPrePage());
+            System.out.println("下一页"+pageInfo.getNextPage());
+            System.out.println("是否是第一页"+pageInfo.isIsFirstPage());
+            System.out.println("是否是最后一页"+pageInfo.isIsLastPage());
+            ```
