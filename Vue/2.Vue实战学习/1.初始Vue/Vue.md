@@ -153,3 +153,34 @@
         5. 不建议使用按键编码定义事件
         6. Vue.config.keyCodes.别名=编码 可以用来自定义别名按键，也不推荐
         7. 可以指定多个按键，可以连写
+3. 计算属性
+    ```
+    <div id="app">
+        姓：<input type="text" v-model="fristName"><br>
+        名：<input type="text" v-model="lastName"><br>
+        姓名：<span>{{fullName}}</span>
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                fristName:"",
+                lastName:"",
+            },
+            computed:{
+                fullName:{
+                    get(){
+                        return this.fristName+"-"+this.lastName
+                    }
+                }
+            }
+        });
+    </script>
+    ```
+    1. get调用的时机
+        1. 初次调用计算属性时
+        2. 依赖数据发生变化时
+    2. set不是必须的
+        1. set调用的时机
+        2. 当计算属性发生变化时

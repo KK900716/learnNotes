@@ -9,19 +9,23 @@
 </head>
 <body>
     <div id="app">
-        <input type="text" placeholder="按下回车提示输入" @keyup="showInfo">
+        姓：<input type="text" v-model="fristName"><br>
+        名：<input type="text" v-model="lastName"><br>
+        姓名：<span>{{fullName}}</span>
     </div>
     <script>
         Vue.config.productionTip=false;
         var vm=new Vue({
             el:"#app",
             data:{
-                varibale:"hello world!",
+                fristName:"",
+                lastName:"",
             },
-            methods:{
-                showInfo(event){
-                    // if(event.keyCode!==13)return;
-                    console.log(event.key);
+            computed:{
+                fullName:{
+                    get(){
+                        return this.fristName+"-"+this.lastName
+                    }
                 }
             }
         });
