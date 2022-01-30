@@ -247,5 +247,200 @@
     8. 计时器中的第一个参数即回调函数，不是Vue管理的，应该使用箭头函数
     9. 即所有不被Vue管理的函数，不要使用匿名函数，应该写成箭头函数
 5. Vue绑定样式
-    1. 绑定class可以动态的给class修改值，适用于样式的类名不确定，需要动态指定
-    2. 绑定的class样式的值可以是数组，这样可以指定多个样式，适用于要绑定的样式个数和名字都不确定的情况
+    1. class样式绑定
+        1. 绑定class可以动态的给class修改值，适用于样式的类名不确定，需要动态指定
+        2. 绑定class样式的值可以是数组，这样可以指定多个样式，适用于要绑定的样式个数和名字都不确定的情况
+        3. 绑定class样式的值可以是对象，对象里写描述类的布尔值，来表示是否应用该样式，适用于要绑定的样式个数和名字都确定的情况
+    2. style内联样式绑定（不常用）
+        1. 绑定style样式的值可以是对象，例如:style="{fontSize:'40px'}"
+        2. 这里要注意两单词要用驼峰命名法
+        3. 绑定style样式的值可以是数组，数组里嵌套这对象，不常用
+6. 条件渲染
+    1. v-show:true/false
+        1. 真为显示，假为隐藏
+        2. 原理是调整display属性
+    2. v-if
+        1. 真为显示，假为隐藏
+        2. 原理是直接干掉该模块，即不渲染该模块
+    3. 故1的效率高，2的效率低
+    4. v-else-if v-else
+        1. 同分支语句相同
+        2. 会使效率更高
+        3. 如果使用这个结构，中间是不能被其他DOM结构打断的
+    5. 用template模版包裹，可以不影响结构，但该模版只能配合v-if使用
+7. 列表渲染
+    ```
+    <div id="app">
+        <ul>
+            <li v-for="person in people" :key="person.id">
+                {{person.name}}:{{person.age}}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(person,index) in people" :key="index">
+                {{person.name}}:{{person.age}}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(value,key) of car" :key="key">
+                {{key}}:{{value}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                people:[
+                    {id:'001',name:'张三',age:'18'},
+                    {id:'002',name:'李四',age:'19'},
+                    {id:'003',name:'王五',age:'20'},
+                ],
+                car:{
+                    name:'奥迪',
+                    price:'70w',
+                    color:'black'
+                }
+            },
+        });
+    </script>
+    ```
+    1. 可以遍历数组
+    2. 可以遍历对象
+    3. 可以遍历字符串（不常用）
+    4. 可以遍历指定次数（不常用）v-for="(value,key) in 10"
+    5. 可以用v-for遍历，第一个值是value，第二个值是key
+    6. 原理
+        1. Vue会将数据->虚拟DOM->真是DOM
+        2. Vue会对比更新前后的虚拟DOM应用虚拟DOM对比算法
+        3. 算法依靠key值进行对比进行重新渲染
+        4. 从上述算法可以知道，如果应用index作为key值，会降低效率
+        5. 如不设置，Vue会默认将index作为key
+8. 列表过滤
+    1. 监视属性写法
+    ```
+    <div id="app">
+        <ul>
+            <li v-for="(person,index) in fil" :key="person.id">
+                {{person.name}}:{{person.age}}{{person.sex}}
+            </li>
+        </ul>
+        <input type="text" v-model="input">
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                people:[
+                    {id:'001',name:'马冬梅',age:'18',sex:'女'},
+                    {id:'002',name:'周冬雨',age:'19',sex:'女'},
+                    {id:'003',name:'周杰伦',age:'20',sex:'男'},
+                    {id:'004',name:'温兆伦',age:'20',sex:'男'},
+                ],
+                input:'',
+                fil:[]
+            },
+            watch:{
+                input:{
+                    immediate:true,
+                    handler(value){
+                        this.fil=this.people.filter((p)=>{
+                            return p.name.indexOf(value)!==-1
+                        })
+                    }
+                }
+            }
+        });
+    </script>
+    ```
+    2. 计算属性写法
+    ```
+    <div id="app">
+        <ul>
+            <li v-for="(person,index) in fil" :key="person.id">
+                {{person.name}}:{{person.age}}，性别：{{person.sex}}
+            </li>
+        </ul>
+        <input type="text" v-model="input">
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                people:[
+                    {id:'001',name:'马冬梅',age:'18',sex:'女'},
+                    {id:'002',name:'周冬雨',age:'19',sex:'女'},
+                    {id:'003',name:'周杰伦',age:'20',sex:'男'},
+                    {id:'004',name:'温兆伦',age:'20',sex:'男'},
+                ],
+                input:'',
+            },
+            computed:{
+                fil(){
+                    return this.people.filter((p)=>{
+                        return p.name.indexOf(this.input)!==-1
+                    })
+                }
+            }
+        });
+    </script>
+    ```
+    3. 列表排序
+    ```
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                people:[
+                    {id:'001',name:'马冬梅',age:'19',sex:'女'},
+                    {id:'002',name:'周冬雨',age:'18',sex:'女'},
+                    {id:'003',name:'周杰伦',age:'20',sex:'男'},
+                    {id:'004',name:'温兆伦',age:'21',sex:'男'},
+                ],
+                input:'',
+                sortType:0
+            },
+            computed:{
+                fil(){
+                    let x = this.people.filter((p)=>{
+                        return p.name.indexOf(this.input)!==-1
+                    });
+                    if(this.sortType){
+                        x.sort((a,b)=>{
+                            return this.sortType===1?a.age-b.age:b.age-a.age;
+                        });
+                    }
+                    return x;
+                }
+            },
+        });
+    </script>
+    ```
+9. 更新时的问题即监视属性原理
+    1. Vue通过get和set方法巧妙的通过构造函数避开无限递归去实现数据代理
+    2. Vue.set方法可以将后添加数据接受Vue管理vm.$set
+        Vue.set(vm.对象,属性,值)
+    3. 不允许直接给vm的data域中直接加入对象
+    4. Vue无法识别数组中的更改，原因是数组中没有匹配的get和set方法
+    5. 但使用push pop shift unshift splice sort reverse可以让Vue监视到
+    6. 原理是Vue重写了上述方法
+    7. 可以调用Vue.set方法修改数组中的值使得Vue能够监测到该方法还可以写成vm.$set()
+    8. 实例看1.数据监测总结
+    9. 上述这种原理我们称之为数据劫持
+10. 收集表单数据
+    1. 实例看2.收集表单数据
+    2. 若type="text"，则v-model收集的是value值，用户输入的就是value值
+    2. 若type="radio"，则v-model收集的是value值，要提前配置value值
+    3. 若type="checkbox"，
+        1. 没有配置input的value属性，那么收集的就是checked，布尔值
+        2. 配置input的value属性
+            1. v-model的初始值是非数组，那么收集的就是checked，布尔值
+            2. v-model的初始值是数组，那么收集的就是value组成的数组
+    4. v-model修饰符
+        1. lazy失去焦点再收集数据
+        2. number输入字符串转为有效的数字
+        3. trim输入首位空格过滤
