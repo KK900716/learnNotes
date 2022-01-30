@@ -172,8 +172,10 @@
                 fullName:{
                     get(){
                         return this.fristName+"-"+this.lastName
+                    }，
+                    set(){
+
                     }
-                }
             }
         });
     </script>
@@ -184,3 +186,66 @@
     2. set不是必须的
         1. set调用的时机
         2. 当计算属性发生变化时
+    3. 计算属性
+        1. 定义：要用的属性不存在，要通过已有属性计算得来
+        2. 原理：底层借助Object.defineproperty方法提供的getter和setter
+        3. 优势：内部有缓存机制（复用），效率高，利于调试
+        4. 计算属性最终会出现在vm上
+    4. 计算属性的简写：若计算属性只读取不修改
+        ```
+        fullName:function(){
+            return
+        }
+        ```
+4. 监视属性
+    ```
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                isHot:true,
+            },
+            computed:{
+                info:function(){
+                    return this.isHot?"炎热":"凉爽";
+                }
+            },
+            watch:{
+                isHot:{
+                    // 当值被修改时调用该函数
+                    handler(newValue,oldValue){
+                        console.log(newValue,oldValue);
+                    },
+                    // 当前监视是立即执行还是值修改时执行，默认false
+                    immediate:true,
+                },
+                info:{
+                    handler(x,y){
+                        console.log(x,y);
+                    }
+                }
+            }
+        });
+        vm.$watch('isHot',{
+            handler(newValue,oldValue){
+                console.log(newValue,oldValue);
+            }
+        })
+    </script>
+    ```
+    1. 简单的语句可以直接放在事件属性后
+    2. 当监视属性变化时，回调函数自动调用
+    3. 监视属性必须存在才能监视（但没有不会报错）
+    4. vm.$watch是一种简写
+    5. 深度监视
+        1. 监视多级需求中某个属性的变化请带引号"Numbers.a"
+        2. Vue默认不会在watch中监视某个属性的子属性
+        3. 如果要开启深度监视，即开启多级结构中的监视，设置属性deep为true
+    6. 监视的简写，如果只需要调用handler可以直接写成该函数
+    7. 计算属性依靠返回值，所以不能开启异步任务，但是监视属性不依赖返回值，能够较好的兼容异步任务
+    8. 计时器中的第一个参数即回调函数，不是Vue管理的，应该使用箭头函数
+    9. 即所有不被Vue管理的函数，不要使用匿名函数，应该写成箭头函数
+5. Vue绑定样式
+    1. 绑定class可以动态的给class修改值，适用于样式的类名不确定，需要动态指定
+    2. 绑定的class样式的值可以是数组，这样可以指定多个样式，适用于要绑定的样式个数和名字都不确定的情况
