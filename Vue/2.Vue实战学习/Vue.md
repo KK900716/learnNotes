@@ -447,3 +447,142 @@
 11. 过滤器
     1. 比较有用的第三方开源库BootCDN
     2. 处理时间：moment.js，轻量化解决方案：dayjs
+    3. 定义 对要显示的数据进行特定格式化后再显示（适用于一些简单逻辑的处理）
+    4. 过滤器可以串联，可以接受额外的参数
+    5. 并没有改变原本的数据，是产生新的对应的数据
+    ```
+    <div id="app">
+        {{fmtTime}}<br>
+        {{getFmtime()}}<br>
+        {{time|timeFormater('YYYY-MM-DD HH:mm:ss')}}<br>
+        {{time|timeFormater('YYYY-MM-DD HH:mm:ss')|mySlice}}<br>
+    </div>
+    <div id="app2">
+        {{variation|mySlice}}
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        Vue.filter('mySlice',function(value){
+            return value.slice(0,4)
+        });
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                time:Date.now(),
+            },
+            computed:{
+                fmtTime(){
+                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            methods: {
+                getFmtime(){
+                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                }
+            },
+            filters:{
+                timeFormater(time,s){
+                    return dayjs(time).format(s)
+                },
+            }
+        });
+        var vm=new Vue({
+            el:"#app2",
+            data:{
+                variation:'Hello world!'
+            },
+        });
+    </script>
+    ```
+12. 内置指令
+    1. v-text，将文字覆盖掉坐在元素的内容
+    2. v-html，与1相比支持标签
+    3. v-html存在安全性问题
+        1. 在网站上动态渲染任意HTML是非常危险的，容易导致xss攻击
+        2. 一定要在可信的内容上使用v-html，永远不要用在用户提交内容上
+    4. v-cloak配合属性选择器可以控制未编译内容不再渲染到网页中，当Vue介入时会删除该属性
+    5. v-once只渲染一次变量
+    6. v-pre跳过内容解析，以增快速度
+13. 自定义指令
+    1. 自定义指令的函数调用时机
+        1. 指令与元素成功绑定时
+        2. 指令所在的模版被重新解析时
+    2. 自定义指令的对象内容和调用时机（一般用于拿到父元素、获取焦点等特殊需求）
+        1. bind 指令与元素成功绑定时
+        2. inserted 指令所在元素被插入页面时
+        3. update 指令所在的模版被重新解析时
+    3. 传参类型
+        1. element所在元素对象
+        2. binding传入的参数对象
+            1. value传入参数的值
+    4. 多个单词用-作分割，原因是html不区分大小写，可以用原生''来定义该指令
+    5. 自定义指令里的this是window
+    6. 指令是局部指令
+    7. 定义全局可以同过滤器
+    ```
+    <div id="app">
+        <span>{{n}}</span>
+        <span v-big="n"></span>
+        <button @click="n++">点我n++</button>
+        <input type="text" v-fbind:value="n">
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                n:0,
+            },
+            directives:{
+                big(element,binding){
+                    element.innerText=binding.value*10
+                },
+                fbind:{
+                    bind(){
+
+                    },
+                    insereted(){
+
+                    },
+                    updated() {
+                        
+                    },
+                }
+            }
+        });
+    </script>
+    ```
+14. 生命周期回调函数（生命周期函数、生命周期、生命周期钩子）
+    ```
+    // 在实例初始化之后，数据观测（data observer）和event/watcher事件配置之前被调用
+    beforeCreate:function(){
+        console.log('beforeCreate');
+    },
+    // 在实例创建完成后被立即调用
+    // 在这一步实例已完成一下的配置：数据观测（data observer），属性和方法的运算，watch/event事件回调
+    // 然而，挂在阶段还没开始，$el属性目前不可见
+    created:function(){
+        console.log('created');
+    },
+    // 在挂载开始之前被调用：相关的渲染函数首次被调用
+    beforeMount:function(){
+        console.log('beforeMount');
+    },
+    // el被新创建的vm.$el替换，挂载成功
+    mounted:function(){
+        console.log('mounted')
+    },
+    // 数据更新时调用
+    beforeUpdate:function(){
+        console.log('beforeUpdate')
+    },
+    // 组件DOM已经更新，组件更新完毕
+    updated:function(){
+        console.log('updated')
+    },
+    ```
+    1. this的指向是vm
+    2. debugger 断点
+    3. template属性，模版，模版内只能有一个根标签节点，不能用template标签做跟标签，且会直接替换掉vue的根结点
+    4. vm.$destroy() 销毁vm，完全销毁一个实例，清理它与其他实例的连接，解绑它的全部指令及事件监听器
+    5. beforeDestroy 一般在此阶段关闭定时器、取消订阅消息、解绑自定义事件等收尾操作 不再会触发对数据的修改

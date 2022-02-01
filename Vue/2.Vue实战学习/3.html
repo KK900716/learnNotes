@@ -5,35 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../1.Vue2官网教程/resources/vue.js"></script>
-    <script src="./resources/dayjs.js"></script>
     <title>Document</title>
 </head>
 <body>
     <div id="app">
-        {{fmtTime}}<br>
-        {{getFmtime()}}<br>
-        {{time|timeFormater}}<br>
+        <span>{{n}}</span>
+        <span v-big="n"></span>
+        <button @click="n++">点我n++</button>
+        <input type="text" v-fbind:value="n">
     </div>
     <script>
         Vue.config.productionTip=false;
         var vm=new Vue({
             el:"#app",
             data:{
-                time:Date.now(),
+                n:0,
             },
-            computed:{
-                fmtTime(){
-                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
-                }
-            },
-            methods: {
-                getFmtime(){
-                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
-                }
-            },
-            filters:{
-                timeFormater(time){
-                    return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
+            directives:{
+                big(element,binding){
+                    element.innerText=binding.value*10
+                },
+                fbind:{
+                    bind(){
+
+                    },
+                    insereted(){
+
+                    },
+                    updated() {
+                        
+                    },
                 }
             }
         });
