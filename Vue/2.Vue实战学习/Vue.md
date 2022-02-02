@@ -663,3 +663,10 @@
             2. 则组件实例对象（vc）可以访问到Vue原型上的属性和方法
     4. 单文件组件 一个文件中只有一个组件
         1. Vue脚手架（Vue CLI（command line interfac 命令行接口工具））
+            1. npm config set registry https://registry.npm.taobao.org
+            2. npm install -g @vue/cli
+            3. set-ExecutionPolicy RemoteSigned
+            4. vue create vueTest
+            5. cd vuetest
+            6. npm run serve
+            7. render配置项
