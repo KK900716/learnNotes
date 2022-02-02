@@ -672,4 +672,9 @@
             7. render配置项是防止vue中没有模版解析器
             8. vue=vue核心+vue模版解析器
         2. 脚手架的配置
-        
+            1. vue inspect > output.js 查看配置
+            2. 同目录下创建vue.config.js参考官网文档进行配置
+            3. lintOnSave语法检查
+            ```
+            lintOnSave:false
+            ```
