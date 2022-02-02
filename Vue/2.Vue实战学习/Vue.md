@@ -669,4 +669,7 @@
             4. vue create vueTest
             5. cd vuetest
             6. npm run serve
-            7. render配置项
+            7. render配置项是防止vue中没有模版解析器
+            8. vue=vue核心+vue模版解析器
+        2. 脚手架的配置
+        
