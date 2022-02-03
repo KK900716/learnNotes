@@ -764,4 +764,17 @@
             1. 数据的类型、名称是什么
             2. 数据保存在哪个组件
         3. 交互 从绑定事件监听开始
-        4. 
+    6. 浏览器本地存储
+        1. localStorage 除了操作API或清空缓存，一般不会丢失
+            1. 保存数据
+                1. localStorage.setItem(键,值) 必须都是字符串
+                2. 不是字符串可以用JSON存即JSON.stringify
+            2. 读数据
+                1. localStorage.getItem(键) 
+                2. 同样可以用JSON.parse解析
+                3. 没有数据就是null
+            3. 删除数据localStorage.removeItem(键)
+            4. 清空数据localStorage.clear()
+        2. sessionStorage API同上 浏览器关闭就会消失
+        3. 统称为webStorage，存储大小约5M（不同浏览器不同）
+    7. 组件的自定义事件
