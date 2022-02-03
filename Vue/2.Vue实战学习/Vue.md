@@ -678,3 +678,90 @@
             ```
             lintOnSave:false
             ```
+        3. ref
+            1. vue中替代id的标签属性
+            ```
+            <template>
+            <div>
+            <h1 v-text="msg" ref="title"></h1>
+            <button @click="showDOM">点我输出上方元素</button>
+            <School/>
+            </div>
+            </template>
+
+            <script>
+            import School from './components/School.vue'
+
+            export default {
+            name: 'App',
+            components: {
+                School
+            },
+            data() {
+                return {
+                msg:'继续',
+
+                }
+            },
+            methods: {
+                showDOM(){
+                console.log(this.$refs.title)
+                }
+            },
+            }
+            </script>
+            ```
+            2. 如果给组件指定ref，则指向的是组件实例对象
+            3. 被用来给元素或子组件注册引用信息
+        4. props
+            1. 需要在组件标签属性中写入，建议加入数据绑定:
+            2. 在被注册的组件中写入props，可以写成数组和对象形式，对象形式中值可以限制数据类型
+            3. 可以写成对象中每个变量都是对象的形式，type指类型、required指是否必须传，default指默认值
+            4. 收到的数据无法在组件内修改
+            ```
+            <School address='看看'/>
+            props:['address']
+
+            ```
+        5. mixin混入
+            1. 两个组件共享一个配置
+            ```
+            export const mixin={
+                methods: {
+                    show(){
+                        alert(this.name);
+                    }
+                },
+            }
+            import {mixin} from './mixin'
+            mixins:[mixin]
+            ```
+            2. 数据冲突遵循原混合
+            3. 生命周期钩子则都执行
+            3. 局部混合和全局混合
+                1. 上述是局部混合
+                2. 全局混合Vue.mixin()
+            4. 功能把共有属性抽取出来实现代码复用
+        6. 插件（本质是包含install的对象）
+            ```
+            export default{
+                install(){
+
+                }
+            }
+            import plugins from './plugins'
+            Vue.use(plugins)
+            ```
+            1. 用于增强vue，传入的第一个参数是Vue的原型对象，后续也可以传入其他参数
+        7. style的scoped会在渲染时添加一个属性随机生成值，这样用属性选择器和该类选择器的交集可以避免命名空间冲突问题
+        8. style的lang可以指定语言，要注意版本兼容性问题 例如安装less-loader
+            1. npm view webpack versions
+            2. npm view less-loader versions（8、9为webpack5服务）
+            3. npm i less-loader@7
+    5. 组件化编码流程
+        1. 实现静态组件：抽取组件，使用组件实现静态页面效果
+        2. 展示动态数据：
+            1. 数据的类型、名称是什么
+            2. 数据保存在哪个组件
+        3. 交互 从绑定事件监听开始
+        4. 
