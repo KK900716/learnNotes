@@ -1,36 +1,28 @@
 <template>
   <div id="app">
-    <h2>你好</h2>
-    <HelloWorld v-on:evezdy="demo"/>
-    <Comp2 ref="Comp2"/>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import Comp2 from './components/Comp2'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,Comp2
-  },
-  methods:{
-    demo(x){
-      alert(x)
-    },
-    f(x){
-      alert(x)
-    }
-  },
-  mounted() {
-    this.$refs.Comp2.$on('getSj',this.f)
+    HelloWorld
   }
 }
 </script>
 
 <style>
-#app{
-  background-color: aqua;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div class="hello">
     <h1>{{msg}}</h1>
-    <button @click="sendMsg">点0我</button>
+    <button>点0我</button>
   </div>
 </template>
 
 <script>
+import pubsub from 'pubsub-js'
 export default {
   name: 'Comp2',
   data() {
@@ -14,9 +15,13 @@ export default {
     }
   },
   methods: {
-    sendMsg(){
-      this.$emit('getSj',this.msg);
-    }
+
+  },
+  mounted() {
+    pubsub.subscribe('hello',function(name,content){
+      console.log('收到');
+      console.log(content);
+    });
   }
 
 }

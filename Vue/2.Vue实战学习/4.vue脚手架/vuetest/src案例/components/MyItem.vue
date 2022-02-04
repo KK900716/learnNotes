@@ -3,9 +3,11 @@
       <li>
         <label>
           <input type="checkbox" v-model="mydo.done">
-          <span>{{mydo.title}}</span>
+          <span v-show="!mydo.isEdit" >{{mydo.title}}</span>
+          <input v-show="mydo.isEdit" type="text" v-model="mydo.title" @blur="store(mydo)" ref="inp" >
         </label>
         <button class="btn btn-danger" @click="HandleDelete(mydo.id)">删除</button>
+        <button class="btn btn-danger" input v-show="!mydo.isEdit" @click="handleEdit(mydo)" >编辑</button>
       </li>
   </div>
 </template>
@@ -19,7 +21,22 @@ export  default{
       if(confirm("确定删除吗？")){
         this.deleHander(x)
       }
-    }
+    },
+    handleEdit(mydo){
+      if (mydo.hasOwnProperty('isEdit')){
+        mydo.isEdit=true;
+      }else{
+        this.$set(mydo,'isEdit',true)
+      }
+      this.$nextTick(()=>this.$refs.inp.focus())
+    },
+    store(mydo){
+      if(mydo.title.trim()===''){
+        alert('请输入内容');
+      }else{
+        mydo.isEdit=false
+      }
+    },
   },
 }
 </script>
