@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @keyframes  test{
+            0%{
+                margin-left: 0;
+            }
+            100%{
+                margin-left: 700px;
+            }
+        }
+        .box1{
+            width: 800px;
+            height: 800px;
+            background-color: silver;
+            overflow: hidden;
+        }
+        .box1 div{
+            width: 100px;
+            height: 100px;
+            margin-bottom: 100px;
+        }
+        .box2{
+            background-color: #bfa;
+            animation-name: test;
+            animation-duration: 0.2s;
+            animation-iteration-count: 9;
+            animation-direction: alternate;
+            animation-play-state: running;
+            animation-fill-mode: forwards;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    1.动画<br>
+        1.比过渡更灵活<br>
+        2.设置动画必须设置关键帧<br>
+    2.@keyframes test 关键帧<br>
+        1.from开始位置 可以写成%0<br>
+        2.to结束位置 可以写成%100<br>
+    3.animation动画<br>
+        <div class="box1"><div class="box2 test"></div></div>
+    4.其他属性和过渡相同<br>
+    5.多出的属性<br>
+        a.animation-iteration-count执行次数<br>
+            （1）数值<br>
+            （2）infinite无限执行<br>
+        b.animation-direction执行顺序<br>
+            （1）默认normal，from-tobr<br>
+            （2）reverse反向执行<br>
+            （3）alternate重复执行时反向执行<br>
+            （4）alternate-reverse<br>
+        c.animation-play-state设置动画的执行状态<br>
+            （1）默认running动画执行<br>
+            （2）paused暂停<br>
+        d.animation-fill-mode动画填充模式<br>
+            （1）默认none，回到原位置<br>
+            （2）forwards停在执行完的位置<br>
+            （3）backwards动画延时等待时，就会处于开始状态<br>
+            （4）both<br>
+    6.简写属性同过渡<br>
+    7.用雪碧图制作动画可以成为精灵动画，sprite animation<br>
+</body>
+</html>
