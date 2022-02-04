@@ -61,5 +61,47 @@
                 <td>第一格</td>
             </tr>
         </table>
+    三、长表格<br>
+        <table border="2" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>收入</th>
+                    <th>支出</th>
+                    <th>合计</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2000.1.1</td>
+                    <td>500</td>
+                    <td>200</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>2000.1.1</td>
+                    <td>500</td>
+                    <td>200</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>2000.1.1</td>
+                    <td>500</td>
+                    <td>200</td>
+                    <td>300</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>合计</td>
+                    <td>300</td>
+                </tr>
+            </tfoot>
+        </table>
+        1.把表格分成三个部分<br>
+        2.这三个结构互换顺序页面渲染不会变化<br>
+        3.th表示头<br>
+    四、浏览器会自动创建tbody，所以table的子元素不是tr
 </body>
 </html>

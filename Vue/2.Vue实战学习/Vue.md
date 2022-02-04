@@ -791,3 +791,66 @@
                 1. 和2类似但更灵活
                 2. 可以在生命周期钩子中设置定时器等
                 3. once可以只触发一次
+                4. 注意这种写法的函数要么写成箭头函数，要么调用methods中的方法，原因是该回调this指向子组件
+        2. 解绑自定义事件
+            1. 解绑一个自定义事件
+            ```
+            this.$off('evezdy');
+            ```
+            2. 解绑多个自定义事件
+            ```
+            this.$off(['evezdy','事件2']);
+            ```
+            3. 解绑全部事件
+            ```
+            this.$off();
+            ```
+        3. .nativ修饰符可以告诉vue这是原生的事件
+    8. 全局事件总线
+        ```
+        beforeCreate() {
+            Vue.prototype.$bus=this //安装全局事件总线
+        }
+        ```
+        1. GolbalEventBus，一种组件间通信的方式
+        2. 最好再beforeDestroy钩子中，用$off去解绑当前组件所用到的事件
+    9. 消息订阅与发布（第三方库）
+        1. 订阅消息：消息名
+        2. 发布消息：消息内容
+        3. pubsub-js库
+        4. 安装 npm i pubsub-js
+        ```
+        import pubsub from 'pubsub-js'
+            this.pubID=pubsub.subscribe('hello',(name,content)=>{
+                console.log('收到');
+                console.log(content);
+            });
+
+            pubsub.publish('hello',this.msg)
+
+            pubsub.unsubscribe(this.pubID)
+        ```
+        5. _可以做实参占位符使用
+        6. this.$nextTick(()=>this.$refs.inp.focus())在下一次DOM更新结束后执行其指定的回调
+    10. 过渡与动画
+        1. <transition>标签用来添加过渡
+        ```
+        .a{
+            background-color: #da4f49;
+        }
+        .v-enter-active{
+            animation: dh 1s;
+        }
+        .v-leave-active{
+            animation: db 1s reverse;
+        }
+        @keyframes dh {
+            from{
+            transform: translateX(-100%);
+            }to{
+            transform: translateX(0px);
+                }
+        }
+        ```
+        2. v为默认name名
+        3. appear为刚出现则有效果

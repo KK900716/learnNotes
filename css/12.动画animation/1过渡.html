@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/reset.css">
+    <style>
+        .box1{
+            width: 800px;
+            height: 800px;
+            background-color: silver;
+            overflow: hidden;
+        }
+        .box1 div{
+            width: 100px;
+            height: 100px;
+            margin-bottom: 100px;
+        }
+        .box2{
+            background-color: #bfa;
+            transition:all 2s;
+        }
+        .box1:hover .box2{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box1">
+        <div class="box2"></div>
+    </div>
+    1. 过渡<br>
+        a.transition简写<br>
+        b.可以写对高度和宽度或all，后面写时间<br>
+    2.过渡属性<br>
+        a.transition-property: ;<br>
+            （1）指定过渡属性<br>
+            （2）width<br>
+            （3）height<br>
+            （4）all<br>
+            （5）多个属性使用，隔开<br>
+        b.transition-duration: ;<br>
+            （1）过渡持续时间<br>
+            （2）单位需要指定m、ms<br>
+            （3）可以分别指定时间<br>
+        c.transition-timing-function: ;<br>
+            （1）过渡时序函数<br>
+            （2）指过渡执行的方式<br>
+            （3）ease默认值，慢速开始，先加速，后减速<br>
+            （4）linear允许运动<br>
+            （5）ease-in慢速开始<br>
+            （6）ease-out减速运动<br>
+            （7）ease-in-out<br>
+            （8）cubic-bezier()贝塞尔曲线指定<br>
+            （9）steps()分步执行过渡效果<br>
+                1）第一个参数是指定几步<br>
+                2）第二个参数是指定start end计时开始还是结束执行<br>
+        d.transition-delay: ;<br>
+            （1）过渡效果的延迟<br>
+    3.大部分属性都支持过渡，可计算的属性<br>
+    4.过渡必须从一个有效值向另外一个有效值过渡<br>
+    5.简写，第一个时间是持续时间，第二个是延迟时间，其他没有顺序要求<br>
+</body>
+</html>
