@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            perspective: 800px;
+        }
+        .box1{
+            margin: 200px;
+            width: 200px;
+            height: 200px;
+            background-color: aquamarine;
+            transition: all 2s;
+        }
+        .box1:hover{
+            /* transform: rotateZ(5turn); */
+            /* transform: rotateX(5turn) rotateY(5turn) rotateZ(5turn); */
+            transform: rotateY(60deg) translateZ(200px) ;
+            backface-visibility: visible;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box1"></div>
+    1.旋转<br>
+        a.rotateX<br>
+        b.rotateY<br>
+        c.rotateZ<br>
+        d.单位deg、turn
+    2.可以配合平移使用<br>
+        a.顺序不同效果不同<br>
+        b.指定perspective会有透视效果，即近大远小<br>
+        c.backface-visibility<br>
+            （1）默认visible显示背面<br>
+            （2）hidden隐藏<br>
+</body>
+</html>

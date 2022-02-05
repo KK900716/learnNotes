@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        html{
+            perspective: 800px;
+        }
         body{
             background-color: rgb(230, 230, 230);
         }
@@ -34,6 +37,12 @@
             transform: translateY(-4px);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
+        .box4{
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+            transform: translateZ(100px);
+        }
     </style>
     <title>Document</title>
 </head>
@@ -42,15 +51,17 @@
     <div class="content">content</div>
     <div class="box2"></div>
     <div class="box3"></div>
+    <div class="box4"></div>
     1.变形就是指通过CSS来改变元素的形状或位置<br>
     2.变形不会影响到页面布局<br>
     3.transform<br>
         a.translateX沿x平移<br>
         b.translateY沿y平移<br>
-        z.translateZ沿z平移<br>
+        c.translateZ沿z平移<br>
         d.百分比相对于自身计算<br>
     4.可以解决不确定大小的居中问题<br>
     5.可以做出上移效果<br>
-    6.
+    6.z轴平移，调整和人眼的距离，距离越大离人眼越进<br>
+        a.默认情况下浏览器不启动透视，如果要看到z轴效果则应该设置视距<br>
 </body>
 </html>
