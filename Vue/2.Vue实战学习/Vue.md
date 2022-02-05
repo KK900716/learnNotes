@@ -833,24 +833,48 @@
         5. _可以做实参占位符使用
         6. this.$nextTick(()=>this.$refs.inp.focus())在下一次DOM更新结束后执行其指定的回调
     10. 过渡与动画
-        1. <transition>标签用来添加过渡
-        ```
-        .a{
-            background-color: #da4f49;
-        }
-        .v-enter-active{
-            animation: dh 1s;
-        }
-        .v-leave-active{
-            animation: db 1s reverse;
-        }
-        @keyframes dh {
-            from{
-            transform: translateX(-100%);
-            }to{
-            transform: translateX(0px);
+        1. 动画
+            1. <transition>标签用来添加过渡
+            ```
+            .a{
+                background-color: #da4f49;
+            }
+            .v-enter-active{
+                animation: dh 1s;
+            }
+            .v-leave-active{
+                animation: dh 1s reverse;
+            }
+            @keyframes dh {
+                from{
+                transform: translateX(-100%);
+                }to{
+                transform: translateX(0px);
                 }
-        }
-        ```
-        2. v为默认name名
-        3. appear为刚出现则有效果
+            }
+            ```
+            2. v为默认name名，可以在transition的name标签指定动画名
+            3. appear为刚出现则有效果
+        2. 过渡
+            1. 
+            ```
+            .na-enter,.na-leave-to{
+            /*  进入的起点*/
+                transform: translateX(-100%);
+            }
+            .na-enter-to,.na-leave{
+            /*  进入的终点*/
+                transform: translateX(0);
+            }
+            .na-enter-active,.na-leave-active{
+                transition: 0.5s;
+            }
+            ```
+            2. transition只能使用在一个标签上，多个标签请使用transition-group标签
+            3. 并且必须给定:key值
+        3. 集成第三方动画
+            1. animate.css库https://animate.style/
+            2. <transition name="animate__animated animate__bounce" enter-active-class="animate__jello" leave-active-class="animate__hinge" appear>
+        4. 总结
+            1. 作用 在插入、更新或移除DOM元素时 在合适的时候给元素添加样式类名
+3. AJAX跨域问题
