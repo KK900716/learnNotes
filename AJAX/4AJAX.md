@@ -9,7 +9,10 @@
     // 3.创建路由规则
     app.get('/',(request,response)=>{
         // 设置响应头，设置允许跨域
-        response.setHeader('Access-Controll-Allow-Origin','*')
+        response.header('Access-Control-Allow-Origin', '*')
+        response.header('Access-Control-Allow-Headers', 'Authorization,X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method' )
+        response.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PATCH, PUT, DELETE')
+        response.header('Allow', 'GET, POST, PATCH, OPTIONS, PUT, DELETE')
         response.send('hello ajax')
     })
     // 4.监听端口启动服务
@@ -36,8 +39,8 @@
                     // 1.响应行
                     console.log(xhr.status);//状态码
                     console.log(xhr.statusText);//状态字符串
-                    console.log(xhr.getAllResponseHaders());//响应头
-                    console.log(xhr.respon);//响应体
+                    console.log(xhr.getAllResponseHeaders());//响应头
+                    console.log(xhr.response);//响应体
                 }else{
                     console.log('失败');
                 }
