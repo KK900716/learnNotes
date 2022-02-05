@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .box2{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #bfa;
+            animation: test 3s forwards ease-in;
+        }
+        .box1{
+            height: 500px;
+            border-bottom: 10px black solid;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+        @keyframes test{
+            from{
+                margin-top:0;
+            }
+            33%{
+                margin-top: 400px;
+                animation: ease-out;
+            }
+            66%{
+                margin-top: 100px;
+            }
+            to{
+                margin-top: 400px;
+            }
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="box1"><div class="box2"></div></div>
+</body>
+</html>
