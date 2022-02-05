@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            perspective: 800px;
+            height: 200px;
+        }
+        .cul div{
+            width: 200px;
+            height: 200px;
+            opacity: 0.9;
+            position: absolute;
+            text-align: center;
+        }
+        /* .cul:hover{
+            transform: translateX(45deg);
+            transform: translateY(45deg);
+            transform: translateZ(45deg);
+        } */
+        .cul{
+            margin: 300px auto;
+            width: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: test 4s infinite linear;
+            
+        }
+
+        .box1{
+            background-color: aqua;
+            transform: translateZ(-100px);
+        }
+        .box2{
+            background-color: rgb(126, 177, 59);
+            transform: translateZ(100px);
+        }
+        .box3{
+            background-color: rgb(218, 9, 96);
+            transform:rotateY(90deg) translateZ(100px);
+        }
+        .box4{
+            background-color: rgb(183, 228, 20);
+            /* transition: all 2s; */
+            transform:rotateY(-90deg) translateZ(100px);
+        }
+        .box5{
+            background-color: rgb(235, 124, 21);
+            transform: rotateX(90deg) translateZ(100px);
+        }
+        .box6{
+            background-color: rgb(198, 19, 214);
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+        @keyframes test{
+            from{
+                transform: rotateX(0) rotateY(0) rotateZ(0);
+            }
+            to{
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="cul">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <div class="box4"></div>
+        <div class="box5"></div>
+        <div class="box6"></div>
+    </div>
+</body>
+</html>
