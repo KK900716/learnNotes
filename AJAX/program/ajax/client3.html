@@ -15,46 +15,38 @@
 </head>
 <body>
     <button>点我发送Get数据</button>
-    <button>点我发送Post数据</button>
+    <button>点我取消发送数据</button>
     <div id="app"></div>
     <script>
         const btn=document.getElementsByTagName('button')[0];
         const btn2=document.getElementsByTagName('button')[1];
         const result=document.getElementById('app');
+        let xhr=null;
+        let isSending=false;
         btn.onclick=function(){
-            // 1.创建对象
-            const xhr=new XMLHttpRequest();
-            // 2.初始化 设置请求方法和url
+            if(isSending) xhr.abort();
+            xhr=new XMLHttpRequest();
+            isSending=true;
             xhr.open('GET','http://127.0.0.1:8000/serve',true);
-            // 3.发送
             xhr.send();
-            // 4.事件绑定 处理服务端返回的结果
-            // readystate有5个值
-            // 0开始 1open方法调用完毕 2send方法调用完毕 3服务端返回部分结果 4服务端返回所有结果
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4){
+                    isSending=false;
+                }
+            }
             xhr.onreadystatechange=function(){
                 if(xhr.readyState===4&&xhr.status>=200&&xhr.status<300){
-                    // 1.响应行
-                    console.log(xhr.status);//状态码
-                    console.log(xhr.statusText);//状态字符串
-                    console.log(xhr.getAllResponseHeaders());//响应头
-                    console.log(xhr.response);//响应体
+                    result.innerText=xhr.response;
                 }else{
                     console.log('失败');
                 }
             }
         }
         btn2.onclick=function(){
-            const xhr=new XMLHttpRequest();
-            xhr.open('POST','http://127.0.0.1:8000/serve',true);
-            xhr.send('a=100&b=200');
-            xhr.onreadystatechange=function(){
-                if(xhr.readyState===4&&xhr.status>=200&&xhr.status<300){
-                    result.innerHTML=xhr.response;
-                }else{
-                    console.log('失败');
-                }
-            }
+            // 取消发送
+            xhr.abort();
         }
+
     </script>
 </body>
 </html>

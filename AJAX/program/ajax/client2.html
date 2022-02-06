@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+            width: 200px;
+            height: 200px;
+            border: 2px solid orange;
+        }
+    </style>
+</head>
+<body>
+    <button>点我发送Get数据</button>
+    <div id="app"></div>
+    <script>
+        const btn=document.getElementsByTagName('button')[0];
+        const result=document.getElementById('app');
+        btn.onclick=function(){
+            const xhr=new XMLHttpRequest();
+            //超时设置
+            xhr.timeout=2000;
+            // 超时回调
+            xhr.ontimeout=()=>alert("网络异常，稍后重试！");
+            //网络异常回调
+            xhr.onerror=()=>alert("你的网络似乎出现了一些问题！");
+            xhr.open('GET','http://127.0.0.1:8000/serve',true);
+            xhr.send();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4&&xhr.status>=200&&xhr.status<300){
+                    result.innerText=xhr.response;
+                }else{
+                    console.log('失败');
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

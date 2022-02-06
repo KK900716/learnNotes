@@ -3,8 +3,9 @@
     // 2.创建应用对象
     const app=express();
         // 设置响应头，设置允许跨域
-    app.all('*', function(req, res, next) {
+    app.all('*', function(req, res, next) {//all是可以接受任意类型请求
         res.header("Access-Control-Allow-Origin", "*");
+        // res.header("Access-Control-Allow-Headers", "*");所有类型头信息都可以接收
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
         res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
         res.header("X-Powered-By",' 3.2.1')
@@ -13,7 +14,9 @@
     });
     // 3.创建路由规则
     app.get('/serve',(request,response)=>{
-        response.send('hello ajax')
+        setTimeout(()=>{
+            response.send('延时响应')
+        },3000)
     })
     app.post('/serve',(request,response)=>{
         response.send('hello ajax')

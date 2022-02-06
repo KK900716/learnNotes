@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.25.0/axios.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <button>get</button>
+    <button>post</button>
+    <button>ajax</button>
+    <button>fetch</button>
+    <script>
+        const btns=document.getElementsByTagName('button');
+        // 配置baseURL
+        axios.defaults.baseURL='http://127.0.0.1:8000';
+        btns[0].onclick=()=>{
+            axios.get('/serve',{
+                // url参数
+                params:{
+                    id:100,
+                    vip:7
+                },
+                // 请求头信息
+                // headers:{
+                //     name:'abc'
+                // }
+            }).then(value=>{
+                console.log(value);
+            })
+        }
+        btns[1].onclick=()=>{
+            axios.post('/serve',{//请求体
+                    usename:'zhangsan',
+                    password:'123'
+                },{
+                // url参数
+                params:{
+                    id:100,
+                    vip:7
+                },
+                // 请求头信息
+                // headers:{
+                //     name:'abc'
+                // }
+            }).then(value=>{
+                console.log(value);
+            })
+        }
+        // 通用方式
+        btns[2].onclick=()=>{
+            axios({
+                method: 'POST',
+                url:'/serve',
+                // url参数
+                params:{
+                    id:100,
+                    vip:7
+                },
+                headers:{
+                    a:100
+                },
+                data:{
+                    usename:'zhangsan',
+                    password:'123'
+                }
+            }).then(value=>{
+                console.log(value);
+            })
+        }
+        btns[3].onclick=()=>{
+            // 第一个参数URL，第二个参数可选配置项
+            fetch('http://127.0.0.1:8000/serve',{
+                method: 'POST',
+                // url参数
+                headers:{
+                    a:100
+                },
+                body:'abcs'
+            }).then(value=>{
+                return value.text();//或者json方法
+            }).then(value=>{
+                console.log(value);
+            })
+        }
+    </script>
+</body>
+</html>
