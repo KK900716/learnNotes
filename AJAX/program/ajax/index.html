@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.25.0/axios.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>主页</h1>
+    <button>点击获取用户数据</button>
+    <script>
+        btn=document.getElementsByTagName('button')[0];
+        btn.onclick=function(){
+            // axios.get('/',{
+
+            // }).then(value=>{
+            //     console.log(value);
+            // })
+            const xhr=new XMLHttpRequest();
+            // 同源则协议和端口可以省略
+            xhr.open('GET','/data');
+            xhr.send();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4&&xhr.status>=200&&xhr.status<300){
+                    console.log(xhr.response);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
