@@ -15,6 +15,9 @@
     app.get('/serve',(request,response)=>{
         response.send('hello ajax')
     })
+    app.post('/serve',(request,response)=>{
+        response.send('hello ajax')
+    })
     // 4.监听端口启动服务
     app.listen(8000,()=>{
         console.log("服务器已经启动，8000端口监听中....");
