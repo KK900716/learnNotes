@@ -878,3 +878,37 @@
         4. 总结
             1. 作用 在插入、更新或移除DOM元素时 在合适的时候给元素添加样式类名
 3. AJAX跨域问题
+    1. 引入axios npm i axios
+    2. 代理服务器解决跨域问题
+        1. nginx反向代理
+        2. vue-cli
+            ```
+            devServer:{
+                proxy:'http://localhost:8000'
+            }
+            ```
+            1. 上述配置缺点
+                1. 只能配置一个代理，不够灵活
+                2. 已有的静态资源无法请求
+            2. 故可以有以下配置
+            ```
+            devServer:{
+                proxy:{
+                    '/api':{//请求前缀
+                        target:'http://localhost:8000',
+                        pathRewrite:{'^/api':''},//重命名路径
+                        ws:true,//用于支持websocket，默认为真
+                        changeOrigin:true//用于控制请求头中的post值，默认为真
+                    },
+                    // '/foo':{
+                    //     target:'http://localhost:8000'
+                    // }
+                }
+            }
+            ```
+    3. 在js中引入css会严格检查语法，这是可以选择在public文件下的页面中直接引入css
+    4. vue-resource插件发送ajax请求
+        1. npm i vue-resource
+        2. 和axios风格相同$http调用即可
+        3. 维护不够频繁，vue1.0时期常用的插件
+    5. 插槽
