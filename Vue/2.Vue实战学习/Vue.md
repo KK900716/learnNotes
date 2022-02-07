@@ -926,3 +926,9 @@
     2. 什么时候使用（共享）
         1. 多个组件依赖于同一状态
         2. 来自不同组件的行为需要变更同一状态
+    3. Vue Components --(Dispatch)--> Actions --(Commit)--> Mutations --(Mutate)--> State --(Render)--> Vue Componeents
+        1. Vue允许组件可以直接调用Commit
+        2. Actions可以用来向服务器发送数据接收参数后再提交
+        3. Actions也可以用来写一些业务逻辑
+        4. store用来管理Vuex
+    4. npm i --legacy-peer-deps npm i vuex
