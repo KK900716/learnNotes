@@ -1021,3 +1021,89 @@
                 2. emit用来触发自定义事件
             3. vue3需要用emits进行声明，否则会报警告提示
             4. slot传递的是父组件的虚拟DOM（插槽），需要注意在template标签中应使用v-slot属性写法
+    7. 计算属性
+        1. 需要引入computed，在vue中
+        ```
+        let 变量=computed(()=>)（简写）
+        ```
+        2. 可以将计算属性写到普通属性中
+        3. 完整写法，考虑读和写，传递包含get，set方法的对象即可
+    8. 监视属性
+        1. 同样需要引入
+        2. 传递的第一个参数可以是数组，第二个参数应该取数组中的值，实现监视多个情况，第三个参数是监视的其他属性，传递一个对象
+        3. 目前深度监视deep可能存的在问题（3.2.30未修复）
+            1. reactive目前无法获得正确的reactive的旧值
+            2. 另一个问题是watch监视reactive默认是深度监视，而且关不掉（比较严重丧失效率）
+            3. 目前想解决2的问题，可以将第一个参数写成一个函数形式返回值是要监视的对象
+            4. 想监视多个属性，可以用数组的方式即把此项3和父项2结合
+            5. 3、4只能监视本层属性，若要进行深度监视，要开启深度监视
+        4. 注意用ref监视基本属性不应用value，而要监视对象属性时，则可以监视他的value，如果不则其value的指向没有变化watch是无法监测到的，监视value实质是监视proxy对象
+        5. watchEffect函数
+            1. watchEffect(()=>{})默认immediately为true
+            2. 回调函数里自动能够监测到使用的变量
+            3. 相比computed，前者更注重过程，后者更注重结果
+    9. 生命周期
+        1. 相比vue2，没有销毁而是卸载，beforeUnmount和unmountde
+        2. 将挂载判断提前
+        3. 配置项可以写入setup中，但名字有所不同
+            1. beforeCreate和created相当于setup()
+            2. 需要引入
+            3. beforeMount===>onBeforeMount
+            4. mountde===>onMountde
+            5. ....前面加on
+        4. 如果在setup中和在全局中都使用了生命周期函数，则setup中的函数先执行
+        5. 自定义hook
+            1. 开发中一般创建一个文件夹hooks内使用use...的js文件，文件中是一个函数，可以默认暴露给组件，返回值是该函数的功能
+            2. 将这个方法引入到组件中可以达到抽取的效果
+    10. toRef
+        1. 要取出的值=toRef(对象,对象中的属性)
+        2. 返回一个ref对象是动态的，而且指向就是该属性
+        3. toRefs批量处理（取出）对象中的值
+        ```
+        return{
+            ...toRefs(对象名)
+        }
+        ```
+    11. 其他Compostion API
+        1. shallowReactive，shallowRef 浅层次响应式
+        2. readonly，shallowReadonly只读与浅层次只读
+        3. toRaw将reactive生成的对象变换原始类型，markRaw标记一个对象使其永远不会成为响应式对象
+            1. 有些值不应该被设置为响应式，例如第三方类库
+            2. 当渲染具有不可变数据源的大列表时，跳过响应式转换可以提高性能
+        4. customRef自定义Ref，创建一个自定义的Ref，并对其依赖项跟踪和更新出发进行显式控制参数是回调函数，返回一个对象，对象中必须有get和set函数属性，对象传入两个参数track，trigger两个函数，
+            1. trigger是通知Vue重新解析模版，一般在set返回值前
+            2. track是通知Vue追踪值的改变，一般在get返回值前
+        5. provide与inject用于祖后代间通讯，以键值对方式传递
+        6. 响应式数据判断isRef，isReactive，isReadonly，isProxy
+    12. 组合式API的优势
+        1. Vue2的配置式的缺点是需要在不同配置中不断修改
+        2. 组合式API可以将相同功能和数据的方法编写在一起，可以使用自定义hook便于维护
+    13. 新组建
+        1. Fragment标签，Vue3将标签包在一个虚拟的Fragment跟标签中
+        2. Teleport标签，能将我们的组件html结构移动到指定位置的技术，to属性值是传送的位置，可以写CSS选择器
+        3. Suspense组件，异步组件，（试验阶段）
+            1. defineAsyncComponent异步组件
+            2. 从vue引入
+            3. 是一个函数，函数参数是一个函数返回值是动态引入的组件
+            4. 异步引入的组件是有先后顺序的，并不是同时出现，会导致一些问题
+            5. Suspense标签是一个插槽
+            ```
+            <Suspense>
+                <template v-slot:default>
+                    //组件
+                </template>
+                <template v-slot:fallback>
+                    //备用组件
+                </template>
+            </Suspense>
+            ```
+            6. 可以有效地解决setup不能是一个async函数
+    14. 其他
+        1. 全局API转移至app
+        2. 移除开发者提示
+        3. Vue.prototype改为app.config.globalProperties
+        4. data选项应始终被声明为一个函数
+        5. 过渡类名的更改v-enter-from
+        6. 移除了keyCode作为v-on的修饰符同时不再支持config.keyCodes
+        7. 移除v-on.native修饰符
+        8. 移除过滤器        
