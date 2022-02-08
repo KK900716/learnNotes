@@ -917,7 +917,7 @@
         2. 默认插槽
         3. 具名插槽
             1. 给插槽指定name，在要插入的内容中指定slot属性名字是指定插槽名
-            2. 可以用template标签包裹，此事不适用slot命名，而使用v-slot: 命名 无引号
+            2. 可以用template标签包裹，此时不适用slot命名，而使用v-slot: 命名 无引号
         4. 作用域插槽
             1. 子组件用插槽向父组件传递data中的数据
             2. 即数据由组件定，结构由使用者定
@@ -949,4 +949,75 @@
             2. 优势，开发环境中，无需打包操作，可快速冷启动
             3. 轻量快速的热重载（HMR）
             4. 真正的按需编译，不再等待整个应用编译完成
-        3. 
+    3. 结构分析
+        1. 引入的不再是Vue构造函数了，引入的是一个名为createApp的工厂函数
+            ```
+            import { createApp } from 'vue'
+            import App from './App.vue'
+            createApp(App).mount('#app')
+            //拆解
+            const app=createApp(App);
+            App.mount('#app');
+            ```
+            1. mount挂载，mount卸载
+            2. 此处的写法并不兼容Vue2写法
+        2. 相比Vue2的vm这个App更轻
+        3. Vue3的组件可以没有根标签
+        4. setup是所有Compostion API的表演的舞台
+            1. 组件中所用到的：数据、方法等等，均要配置在setup中
+            2. setup若返回一个对象，则对象中的属性、方法，在模版中均可以直接使用
+            3. setup还可以返回一个渲染函数，可以自定义渲染内容
+            ```
+            improt {h} from 'vue'
+            return ()=>{return h('h1','content')}
+            ```
+            4. Vue2可以读取Vue3的内容，但Vue3无法读取Vue2的内容，Vue2和Vue3冲突则Vue3为主
+            5. 不能使用acync修饰setup
+        5. ref函数
+            1. 使用
+            ```
+            setup(){
+                let n=ref(1);//用户选择的数据
+                let sum=ref(0);
+                function increment(){
+                    sum.value+=n.value;
+                }
+                function decrement(){
+                    sum.value-=n.value;
+                }
+                function odd(){
+                    if ((sum.value+n.value)%2){
+                        sum.value+=n.value;
+                }
+                }
+                function incrementWait(){
+                    setTimeout(()=>sum.value+=n.value,500);
+                }
+                return {
+                    n,sum,increment,decrement,odd,incrementWait
+                }
+            }
+            ```
+            2. 作用 定义一个响应式数据reference对象简称ref对象
+                1. 基本类型数据：响应式依然靠的是Object.defineProperty()的get和set完成
+                2. 对象类型的数据：内部求助了Vue3.0中的一个新函数reactive函数
+            3. reactive定义一个对象类型的响应式数据，将源对象通过Proxy生成代理对象
+    4. Vue3的响应式原理
+        1. Proxy是window内置的一个方法Proxy(传递对象,{})
+        2. 代理对象会监测你对传递对象的增删改查操作
+        3. {}，对该对象的get、set、deleteProperty等方法可以进行重写可对监测做出反馈
+        4. reflect是window内置的一个方法目前ES组织正在将Object上的方法移植到reflect上，该方法有很多优点，例如对框架友好等
+    5. vue2的几个特点
+        1. $attrs能够拿到父组件向子组件传递的数据
+            1. 可以不需要props属性，但不能对所传数据类型进行限制
+            2. 如果props属性拿到了该属性，$attrs就不能拿到该属性
+        2. $slot属性同5一样，用来承载传递的插槽，
+    6. setup的连个注意点
+        1. 执行的时机 在beforeCreate之前执行一次，this是undefined
+        2. setup可以接收两个参数
+            1. props，接收事和vue2相同
+            2. context，
+                1. attrs相当于vue2的$attrs
+                2. emit用来触发自定义事件
+            3. vue3需要用emits进行声明，否则会报警告提示
+            4. slot传递的是父组件的虚拟DOM（插槽），需要注意在template标签中应使用v-slot属性写法
