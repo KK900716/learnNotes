@@ -33,6 +33,11 @@
             2. 实现快速开发
             3. 目的是减少依赖配置
         3. 引导类
+            1. 引导类运行的就是Spring的容器，即应用上下文
+            2. 给引导类上加的注解@SpringBootApplication中就是Spring的配置类，该配置类默认扫描当前包及其子包
         4. 内嵌tomcat
+            1. 可以将内嵌的tomcat排除掉使用其他服务器，例如jetty、undertow
+    8. REST开发
+        
 2. 基础配置
 3. 整合SSM

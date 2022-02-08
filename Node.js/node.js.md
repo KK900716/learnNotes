@@ -48,4 +48,12 @@
     7. package-lock.json配置文件，记录报的下载信息
     8. 安装相同的包会覆盖上次安装，@后跟版本号
     9. 包的语义化版本规范，第一位数代表大版本，第二位数代表功能版本，第三位数代表Bug修复版本
-    29-----
+    10. 包管理配置文件
+        1. npm规定，在项目根目录中，必须提供一个叫做package.json的包管理配置文件，用来记录项目有关的一些配置信息
+        2. 项目开发中，将node_modules文件夹添加到.gitignore忽略文件中
+        3. 快速创建package.json npm init -y，项目目录不应包含中文和空格
+        4. dependencies节点，记录安装的包
+        5. 一次性安装所有包 npm i
+    11. 卸载包npm uninstall 全包名
+    12. devDeppendencies，如果某些包只在开发项目阶段会用到，建议包这些包记录在devDependencies节点npm i 包名 -D 是（--save-dev的简写）
+    13. 如果某些包开发阶段和项目上线阶段都需要用到，建议记录到dependencies节点中
