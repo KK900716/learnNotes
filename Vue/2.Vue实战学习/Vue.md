@@ -982,7 +982,57 @@
             1. 浏览器的历史记录是push模式，其原理是利用栈的属性
             2. 浏览器的历史记录还有replace模式，即替换掉栈顶数据，可以再route-link中添加replace属性
         11. 编程式路由导航
-            1. 
+            ```
+            pushShow(){
+            this.$router.push({
+                name:'r1',
+            })
+            },
+            replaceShow(){
+            this.$router.replace({
+                    name:'r2',
+                }
+            )
+            },
+            backShow(){
+            this.$router.back();
+            },
+            forwardShow(){
+            this.$router.forward();
+            },
+            goShow(){
+            // 前进或后退几步
+            this.$router.go(2);
+            }
+            ```
+        12. 缓存路由组建
+            1. 可以在要展示的组件外加keep-alive标签
+            2. 便签内可以用include属性中写入要缓存的组件名，可以是数组形式
+            3. 作用是让不展示的路由组建保持挂载状态
+        13. 两个新的生命周期钩子
+            1. 路由组建独有的生命周期钩子，用于捕获路由组建状态
+            2. activated激活的
+            3. deactivated失活的
+        14. 路由守卫
+            1. 用于保护路由安全（权限）
+            2. 全局前置路由守卫router.beforeEach
+            3. 全局后置路由守卫router.afterEach
+            4. 独享路由守卫，路由内写入beforeEnter
+            5. 组件内路由守卫
+                1. beforeRouteEnter通过路由规则，进入该组件时被调用
+                2. beforeRouteLeave通过路由规则，离开该组件时被调用
+        15. 路由器中的mode
+            1. hash哈希url后的/#/后不会发给服务器，某些第三方校验严格的app不支持
+            2. history没有#，兼容性不好，并且会导致刷新请求失败的后端问题
+            3. npm bulid打包文件，dist是打包后文件
+    7. Vue UI库
+        1. 移动端
+            1. Vant
+            2. Cube UI
+            3. Mint UI
+        2. PC端
+            1. Element UI
+            2. IVide UI
 2. Vue3
     1. 对比Vue2
         1. 速度更快
