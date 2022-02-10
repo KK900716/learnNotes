@@ -162,7 +162,7 @@
         id：唯一表示  type：映射的类型，支持别名
         内部有id：完成主键字段映射  result：完成一般字段的映射
         1. 定义resultMap标签
-        2. 在<select>标签中，使用resultMap属性替换resultType属性
+        2. 在select标签中，使用resultMap属性替换resultType属性
 4. 参数占位符
     1. #{}:会将其替换为? 为了防止sql注入
     2. ${}:直接拼接参数，存在sql注入问题
@@ -368,7 +368,7 @@
             2. POOLED这种数据源的实现利用“池”的概念将JDBC连接对象组织起来
             3. JNDI这个数据源的实现是为了能在如EJB或应用服务器这雷容器中使用，容器可以集中或在外部配置数据源，然后放置一个JNDI上下文的引用
     3. mapper标签
-        1. 该标签的作用是加载映射的，加载方式有如下集中
+        1. 该标签的作用是加载映射的，加载方式有如下几种
         2. 使用相对于类路径的资源引用 resources属性
         3. 使用完全限定资源定位符URL url属性
         4. 使用映射器接口实现类的完全线性类名 class属性
@@ -442,7 +442,7 @@
             </typeHandlers>
             ```
     6. plugins标签
-        1. Mybatis可以使用第三方的差劲来对功能进行扩展，分页助手PageHelper试讲分页的复杂操作进行封装，使用简单的方式即可获得分页的相关数据
+        1. Mybatis可以使用第三方的插件来对功能进行扩展，分页助手PageHelper试讲分页的复杂操作进行封装，使用简单的方式即可获得分页的相关数据
         2. 开发步骤
             1. 导入通用PageHelper的坐标
             ```
@@ -518,3 +518,19 @@
         </collection>
     ```
     3. 多对多查询
+13. mybatis结合springboot
+    1. 日志配置
+    ```
+    mybatis:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    ```
+    2. 分页插件
+    ```
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+    ```
+    3. 
