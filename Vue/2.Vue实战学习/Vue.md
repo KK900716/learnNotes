@@ -1206,3 +1206,5 @@
         6. 移除了keyCode作为v-on的修饰符同时不再支持config.keyCodes
         7. 移除v-on.native修饰符
         8. 移除过滤器
+3. 其他注意问题
+    1. 
