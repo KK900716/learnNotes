@@ -1,12 +1,12 @@
 I/O流
-    1.分类
-        a.按流向
-            输入流
-            输出流
-        b.按数据传输单位分
-            字节流 Reader Writer
-            字符流 InputStream OutputStream
-    2.File
+1. 分类
+    a.按流向
+        输入流
+        输出流
+    b.按数据传输单位分
+        字节流 Reader Writer
+        字符流 InputStream OutputStream
+2. ile
 ```
         File file=new File("a.txt");
         //1.创建文件
@@ -28,7 +28,7 @@ I/O流
         //9.重命名
         file.renameTo(new File("a.txt"));
 ```
-    3.字节输入流
+3. 字节输入流
 ```
         File file=new File("a.txt");
         //字节输入流FileInputStream
@@ -56,7 +56,7 @@ I/O流
             }
         }
 ```
-    4.字符输入流
+4. 字符输入流
 ```
         File file=new File("a.txt");
         //字符输入流FileReader
@@ -79,7 +79,7 @@ I/O流
             }
         }
 ```
-    5.字节输出流
+5. 字节输出流
 ```
         //字节输出流
         String s="hello java!";
@@ -96,7 +96,7 @@ I/O流
             fos.close();
         }
 ```
-    6.字符输出流
+6. 字符输出流
 ```
         //字符输出流
         String s="hello java!";
@@ -112,7 +112,7 @@ I/O流
             fw.close();
         }
 ```
-    7.缓冲流
+7. 缓冲流
 ```
         //缓冲流
         File file=new File("a.txt");
@@ -136,7 +136,7 @@ I/O流
             bw.close();
         }
 ```
-    8.打印流
+8. 打印流
 ```
         //1.打印到控制台
         String s="hello java!";
@@ -154,38 +154,43 @@ I/O流
             pw.close();
         }
 ```
-    9.对象输入、输出流
-        需要实现Serializable接口即序列化
-```
-        //ObjectOutputStream对象流
-        Student student=new Student();
-        ArrayList<Student> arrayList = new ArrayList<Student>();
-        arrayList.add(student);
-        ObjectOutput objectOutput=null;
-        try {
-            objectOutput=new ObjectOutputStream(new FileOutputStream("a.txt"));
-            objectOutput.writeObject(arrayList);
-            objectOutput.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+9. 对象输入、输出流
+    需要实现Serializable接口即序列化
+    ```
+            //ObjectOutputStream对象流
+            Student student=new Student();
+            ArrayList<Student> arrayList = new ArrayList<Student>();
+            arrayList.add(student);
+            ObjectOutput objectOutput=null;
             try {
-                objectOutput.close();
+                objectOutput=new ObjectOutputStream(new FileOutputStream("a.txt"));
+                objectOutput.writeObject(arrayList);
+                objectOutput.flush();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    objectOutput.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        ObjectInput objectInput=null;
-        try {
-            objectInput=new ObjectInputStream(new FileInputStream("a.txt"));
-            ArrayList<Student> arrayList1=(ArrayList<Student>) objectInput.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+            ObjectInput objectInput=null;
             try {
-                objectInput.close();
-            } catch (IOException e) {
+                objectInput=new ObjectInputStream(new FileInputStream("a.txt"));
+                ArrayList<Student> arrayList1=(ArrayList<Student>) objectInput.readObject();
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    objectInput.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-```
+    ```
+10. StringBuilder和String
+    1. StringBuilder线程不安全
+        1. appden 连接任意类型数据
+        2. reverse 反转
+    2. toString可以转换成String
