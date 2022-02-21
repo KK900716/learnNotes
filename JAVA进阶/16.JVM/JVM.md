@@ -118,3 +118,15 @@
             8. 当寿命达到阈值，将该对象放入老年代
         2. 老年代 Tenured Gen 存放JVM认为生命周期比较长的对象（经过几次的Young Gen的垃圾回收后仍然存在）
             1. 老年代内存不足触发Full GC
+        3. Minor GC会触发stop the world 暂停其他用户线程直到垃圾回收结束，但时间较短
+        4. 寿命阈值最大是15，原因是对象头信息中有4bit用来存储寿命
+    6. 相关vm参数
+        1. 堆初始大小 -Xms
+        2. 堆最大大小 -Xms或-XX:MaxHeapSize=size
+        3. 新生代大小 Xmn或（-XX:NewSize=size+-XX:MaxNewSize=size）
+        4. 幸存区比例（动态）-XX:InitialSurvivorRatio=ratio和-XX:+UseAdaptiveSizePolicy
+        5. 幸存区比例-XX:SurvivorRatio=ratio
+        6. 晋升阈值-XX:MaxTenuringThreshold=threshold
+        7. 晋升详情-XX:+PrintTenuringDistribution
+        8. GC详情-XX:+PrintGCDetails -verbose:gc
+        9. FullGC前MinorGc -XX:+ScavengeBeforeFullGC
