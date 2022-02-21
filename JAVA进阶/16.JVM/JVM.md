@@ -125,8 +125,12 @@
         2. 堆最大大小 -Xms或-XX:MaxHeapSize=size
         3. 新生代大小 Xmn或（-XX:NewSize=size+-XX:MaxNewSize=size）
         4. 幸存区比例（动态）-XX:InitialSurvivorRatio=ratio和-XX:+UseAdaptiveSizePolicy
-        5. 幸存区比例-XX:SurvivorRatio=ratio
+        5. 幸存区比例-XX:SurvivorRatio=ratio（默认是8，即百分之八十是伊甸园）
         6. 晋升阈值-XX:MaxTenuringThreshold=threshold
         7. 晋升详情-XX:+PrintTenuringDistribution
         8. GC详情-XX:+PrintGCDetails -verbose:gc
         9. FullGC前MinorGc -XX:+ScavengeBeforeFullGC
+        10. -XX:+UseSerialGC调整虚拟机使用的垃圾回收器
+    6. 大对象直接加入老年代，即当对象过大时，老年代空间充足时，会直接加入到老年代
+    7. 注意，线程出现内存溢出时，不会导致其他线程结束
+    8. 垃圾回收器
