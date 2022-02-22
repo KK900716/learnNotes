@@ -130,7 +130,77 @@
         7. 晋升详情-XX:+PrintTenuringDistribution
         8. GC详情-XX:+PrintGCDetails -verbose:gc
         9. FullGC前MinorGc -XX:+ScavengeBeforeFullGC
-        10. -XX:+UseSerialGC调整虚拟机使用的垃圾回收器
+        10. -XX:+UseSerialGC调整虚拟机使用的垃圾回收器（串行垃圾回收期）
     6. 大对象直接加入老年代，即当对象过大时，老年代空间充足时，会直接加入到老年代
     7. 注意，线程出现内存溢出时，不会导致其他线程结束
     8. 垃圾回收器
+        1. 串行垃圾回收器
+            1. 单线程
+            2. 堆内存较小，适合PC
+            3. -XX:+UseSerialGC=Serial+SerialOld，复制算法和标记整理算法
+        2. 吞吐量优先垃圾回收器
+            1. 多线程
+            2. 堆内存较大，需要多核CPU支持
+            3. 让单位时间内，stw的时间最短
+            4. -XX:+UseParallelGC ~ -XX:+UseParallelOldGC（开启一个则默认开启另一个）
+            5. 垃圾回收线程会开启多个，特点是垃圾回收发生时，CPU占用率飙升
+            6. -XX:ParallelGCThreads=n 控制线程数
+            7. -XX:+UseAdaptiveSizePolicy 动态调整堆区大小
+            8. -XX:GCTimeRatio=ratio 尝试调整垃圾回收时间占比（原理是调整堆区大小）一般调整为0.05
+            9. -XX:MaxGCpauseMillis=ms 尝试调整每次垃圾回收的时间（但与8矛盾，原因是堆区越大，单次垃圾回收时间越长）
+        3. 响应时间优先垃圾回收器
+            1. 多线程
+            2. 堆内存较大，需要多核CPU支持
+            3. 尽可能减小单次stw时间
+            4. -XX:+UseConcMarkSweepGC ~ -XX:+UseParNewGC ~ SerialOld，可以部分和用户线程并发工作 工作在老年代、新生代，或在工作失败时退化为串行垃圾回收器 标记清除算法
+            5. 初始标记（stw）->并发标记->重新标记（stw）->并发清理
+            6. -XX:ParallelGCThreads=n ~ -XX:ConcGCThreads=threads 前一个参数同2，后一个参数一般设置为CPU线程数的1/4
+            7. 垃圾回收时CPU占用并不高，但考虑到用户的线程可用于计算的线程，即吞吐量有影响
+            8. -XX:CMSInitiatingOccupancyFraction=percent 控制垃圾回收的时机，预留给一些空间给浮动垃圾，早期JVM默认值为65%左右
+            9. -XX:+CMSScavengeBeforeRemark在重新标记前进行一次垃圾回收
+            10. 当并发失败时即标记清除算法失败时，响应时间会飙升，这也是该算法的缺点
+        4. Garbage First（G1）
+            1. JDK9才成为默认垃圾回收器
+            2. 同时注重吞吐量和低延迟，默认在听目标是200ms
+            3. 适合超大堆内存，会将堆划分为多个大小相等的Region
+            4. 整体上是标记整理算法，两个区域之间是复制算法
+            5. -XX:+UseG1GC
+            6. -XX:G1HeapRegionSize=size
+            7. -XX:MaxGCPauseMillis=time
+            8. Young Collection ~ Young Collection+Concurrent Mark ~ Mixed Collection 往复进行
+            9. Young Collection
+                1. 触发stw 将伊甸园Eden复制算法移入Suvivor
+                2. Suvivor晋升到Old或另一个Suvivor
+            10. Young Collection+Concurrent Mark
+                1. 初始标记（新生代GC时）
+                2. 老年代占用空间达到阈值（不会STW）-XX:InitiatingHeapOccupancyPercent=percent（默认45%）
+            11. Mark ~ Mixed Collection
+                1. 对E、S、O进行全面的垃圾回收
+                2. 最终标记和拷贝存活会STW
+                3. -XX:MaxGCPauseMillis=ms调整最大暂停时间，如果老年代太大无法全部复制，G1会选择认为价值比较高的进行复制
+            12. 当垃圾回收速度跟不上垃圾产生速度则才会Full GC
+            13. 跨带引用问题
+                1. 老年代可以细分为卡表
+                2. 当老年代的卡引用新生代，就被标记为脏卡 以减少搜索范围
+                3. 新生代通过Remebered Set记录脏卡 脏卡的
+                4. 引用变更时通过post-write barrier+dirty card queue异步更新脏卡
+            14. Remark阶段
+                1. 在对象引用改变前，加入写屏障pre-write barrien+satb_mark_queue，并加入标记队列
+            15. JDK8U20
+                1. 字符串去重，当新生代垃圾回收时，G1并发检查是否有字符串重复，如果有会让他们引用一个相同的char[]
+                2. -XX:+UseStringDeduplication 默认开启
+            16. JDK8u40并发标记类卸载
+                1. 所有对象都经过并发标记后，就能知道哪些类不再被使用，当一个类加载器的所有类都不再使用，则卸载它所加载的所有类
+                2. -XX:ClassUnloadingWithConcurrentMark 默认开启
+            17. JDK8u60回收举行对象
+                1. 一个对象大于region的一半时，称之为巨型对象
+                2. G1不会对巨型对象进行拷贝
+                3. 回收时被优先考虑
+                4. G1会跟踪老年代所有incoming引用，这样老年代引用为0的巨型对象就会被新生代垃圾回收时处理掉
+            18. JDK9并发标记起始时间的调整
+                1. 并发标记必须在对空间占满前完成，否则退化成FullGC
+                2. JDK9之前需要使用-XX:InitiatingHeapOccupancyPercent
+                3. JDK9可以动态调整
+                    1. -XX:InitiatingHeapOccupancyPercent用来设置初始值
+                    2. 进行数据采样并动态调整
+                    3. 总会添加一个安全的空档空间
