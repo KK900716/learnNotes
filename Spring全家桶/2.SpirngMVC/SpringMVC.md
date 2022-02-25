@@ -215,7 +215,7 @@
             <url-pattern>/*</url-pattern>
         </filter-mapping>
         ```
-        8. 参数编订注解@requestParam、
+        8. 参数编订注解@requestParam
             1. 当请求的参数名称与Controller的业务方法参数名称不一致时，就需要通过@RequestParam注解显示的绑定
             2. 参数
                 1. value 与请求参数名称
