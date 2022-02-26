@@ -96,3 +96,96 @@
         2. zrange key start stop [WITHSCORES]
         3. zrevrange key start stop [WITHSCORES]
         4. zrem key member [member]
+        5. 按条件获取数据
+            1. zrangebyscore key min max [WITHSCORES] [LIMIT]
+            2. zrevrangebyscore key min max [WITHSCORES] [LIMIT]
+        6. 按条件删除数据
+            1. zremrangebyrank key start stop
+            2. zremrangebyscore key min max
+        7. 获取集合数据总量
+            1. zcard key
+            2. zcount key min max
+        8. 集合交、并操作
+            1. zinterstore destination numkeys key [key ...]
+            2. zunionstore destination numkeys key [key ...]
+        9. 扩展操作
+            1. 获取数据对应索引
+                zrank key member
+                zrevrank key member
+            2. score值获取与修改
+                zscore key member
+                zincrby key increment member
+        10. 注意事项
+            1. score保存的数据存储空间时64b，可以存浮点数
+            2. 基于set结构，数据不能存储
+5. key基本操作
+    1. del key删除指定key
+    2. exists key获取key是否存在
+    3. type key获取key的类型
+    4. 扩展操作
+        1. 时效性控制
+            1. 为指定key设置有效期
+                1. expire key seconds
+                2. pexpire key milliseconds
+                3. expireat key timestamp
+                4. pexpireat key milliseconds-timestamp
+            2. 获取key的有效时间
+                1. ttl key
+                2. pttl key
+            3. 切换key从时效性转换为永久性persist key
+        2. 查询key
+            1. keys pattern
+            2. *查询所有
+            3. ？配合一个任意符号
+            4. []匹配一个指定符号
+        3. 其他
+            1. 改名
+                1. rename key newekey
+                2. renamenx key newkey
+            2. 对所有key排序sort
+            3. 其他key通用操作
+                1. help @generic
+6. 数据库通用指令
+    1. reis为每个服务提供有16个数据库
+    2. select index切换数据库
+    3. quit ping echo
+    4. move key db 数据移动
+    5. dbsize
+    6. flushdb flushall清楚数据
+7. Jedis
+    1. 坐标
+    ```
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+    ```
+    2. 案例
+    ```
+        Jedis jedis = new Jedis("127.0.0.1", 6379);
+        System.out.println(jedis.set("abc", "def"));
+        jedis.close();
+    ```
+    3. JedisUtil
+        1. 数据库连接池
+        2. JedisPool
+            1. poolConfig
+            2. host
+            3. port
+            ```
+            public class JedisUtil {
+                private static JedisPool  jedisPool;
+                static {
+                    ResourceBundle resourceBundle=ResourceBundle.getBundle("redis");
+                    JedisPoolConfig jedisPoolConfig=new JedisPoolConfig();
+                    jedisPoolConfig.setMaxTotal(Integer.parseInt(resourceBundle.getString("redis.maxTotal")));
+                    jedisPoolConfig.setMaxIdle(Integer.parseInt(resourceBundle.getString("redis.maxIdle")));
+                    jedisPool=new JedisPool(jedisPoolConfig,resourceBundle.getString("redis.host"),Integer.parseInt(resourceBundle.getString("redis.port")));
+                }
+                public static Jedis getJedis(){
+                    return jedisPool.getResource();
+                }
+            }
+            ```
+8. redis高级
