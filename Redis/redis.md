@@ -189,3 +189,7 @@
             }
             ```
 8. redis高级
+    1. linux下使用redis
+        1. 先使用make编译
+        2. 进入src执行./redis-server
+        3. 进入src执行./redis-cli
