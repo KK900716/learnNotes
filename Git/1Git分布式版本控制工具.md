@@ -83,3 +83,5 @@
    8. git fetch [remote name][branch name] 抓取指令就是将仓库里的更新都抓取到本地，不会合并
    9. git pull [remote name][branch name] 拉去指令，会合并到本地分支
    10. 不指定远端名称会默认抓取master分支
+
+8.
