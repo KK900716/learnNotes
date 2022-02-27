@@ -193,3 +193,15 @@
         1. 先使用make编译
         2. 进入src执行./redis-server
         3. 进入src执行./redis-cli
+    2. ./redis-server --port 端口号
+    3. ./redis-cli -p 端口号
+    4. redis.conf配置文件 cat redis.conf | grep -v "#" | grep -v "^$"
+        1. daemonize no 守护进程，用来处理日志信息
+        2. logfile "" 日志文件
+        3. dir ./ 生成日志文件位置
+        4. redis-server 配置文件名
+        5. ps -ef | grep redis-查看链接状态
+        6. 可以将配置文件提取出来，进而可以启动多个服务
+9. 持久化
+    1. 简介
+        1. 
