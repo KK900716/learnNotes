@@ -259,5 +259,87 @@
         ```
     3. 根据业务场景选择RDB和AOF
 10. 事务
-    1. multi ... exec 开启事物，执行事物
-    2. discard 取消事务
+    1. 事务
+        1. multi ... exec 开启事物，执行事物
+        2. discard 取消事务
+        3. 正确的语句会执行，错误的语句会报错并忽略，且不会回滚
+        4. 由于没有回滚功能故redis在应用中偏少
+    2. 锁
+        1. watch key1 [key2...]
+        2. 监控属性，若key改变则事务不会执行
+        3. 开启事务前进行监控
+        4. unwatch 全部取消监控
+    3. 分布式锁
+        1. setnx lock-key value
+        2. del删除锁
+        3. expire lock-key second 设置锁时效性
+        4. 锁时间设定推荐 最大耗时*120%+平均网络延迟*110%
+11. 删除策略
+    1. 数据删除策略
+        1. 定时删除 CPU压力大
+        2. 惰性删除 内存压力大
+        3. 定期删除
+            1. server.hz 每秒中执行serverCron次数
+            2. 调用databasesCron轮询数据库，每秒执行server.hz次
+            3. activeExpireCycle对每个expires[*]注意进行检测，每次执行1/4s /server.hz
+            4. 对某个expires[*]检测时，随机挑选W个key检测
+                1. 如果key超时，删除key
+                2. 如果一轮中删除的key数量>w*25%，循环该过程
+                3. 小于则执行下个一数据库
+                4. W=ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP
+            5. current_db用来记录activeExpireCycle进入哪个expires[*]执行
+        4. 其实就是维护expires哈希表
+    2. 数据删除策略的目标 在内存占用与CPU占用之间寻找一种平衡
+    3. 逐出算法
+        1. maxmemory 最大可使用内存 默认值0，表示不限制，通常设置50%以上
+        2. maxmemory-samples 每次选取待删除数据的个数
+        3. maxmemory-policy 删除策略
+        4. 逐出策略
+            1. 检测易失性数据（可能会过期的数据集server.db[i].expires）
+                1. volatile-lru 最近最久未使用
+                2. volatile-lfu 最近使用次数最少
+                3. volatile-ttl 将要过期数据
+                4. volatile-random 随机
+            2. 全库数据（所有数据集server.db[i].dict）
+                1. allkeys-lru
+                2. allkeys-lfu
+                3. allkeys-random
+            3. 放弃数据逐出
+                1. no-enviction（redis4.0默认策略）
+12. 服务器基础配置
+    1. 基础配置
+        1. 设置服务器以守护进程方式运行 daemonize yse|no
+        2. 绑定主机地址 bind 127.0.0.1
+        3. 设置服务端口号 port 6379
+        4. 设置数据库数量 databases 16
+    2. 日志
+        1. loglevel debug|verbose（默认）|notice|warning
+        2. logfile 端口号.log
+    3. 客户端
+        1. 客户端最大连接数 maxclients 0
+        2. 超时时长 timeout 300
+    4. 多服务器快捷配置
+        1. include /path/server-端口号conf
+13. 高级数据类型
+    1. Bitmaps
+        1. setbit key index value
+        2. getbit key index
+        3. 本质是string默认补0
+        4. 统计指定key中1的数量 bitcount key [start end]
+        5. 位运算 bitop op destKey key1 [key2...]
+            1. and
+            2. or
+            3. not
+            4. xor
+    2. HyperLogLog
+        1. 统计不重复数据的数量 基数统计
+        2. HyperLoglog算法
+        3. pfadd key element [element ...] 添加数据
+        4. pfcount key [key ...] 统计数据
+        5. pfmerge destkey sourcekey [sourcekey...] 合并数据
+        6. 估算算法 误差约0.81%
+    3. GEO
+        1. 坐标运算数据类型
+        2. 添加坐标点 geoadd key longitude latitude member [longitude latitude member ...]
+        3. 获取坐标 geopos key member [member ...]
+        4. 计算坐标点距离 geodist key member1 member2 [unit]
