@@ -343,3 +343,31 @@
         2. 添加坐标点 geoadd key longitude latitude member [longitude latitude member ...]
         3. 获取坐标 geopos key member [member ...]
         4. 计算坐标点距离 geodist key member1 member2 [unit]
+        5. 根据坐标求范围内的数据 georadius key longitude latitude redius m|km|ft|mi [withcoord] [withdist] [withhash] [count count]
+        6. 根据点求范围内数据 georadiusbymember key member radius m|km|ft|mi [withcoord] [withdist] [withhash] [count count]
+        7. 获取指定点对应坐标hash值
+        8. geohash key member [member ...]
+        9. 估算值
+14. redis集群
+    1. 主从复制
+        1. 互联网“三高”架构 高并发 高性能 高可用
+        2. 业界可用性目标5个9，99.999%，即服务器年宕机时长低于315秒，约5.25分钟
+        3. 为了避免单点Redis服务器故障，准备多台服务器，互相联通。将数据复制多个副本保存在不同的服务器上，连接在一起，并保证数据是同步的。即使有其中一台服务器宕机，其他服务器依然可以继续提供服务，实现Redis的高可用，同时实现数据冗余备份
+            1. 提供数据方 master
+                1. 写数据
+                2. 执行写操作时，将出现变化的数据自动同步到slave
+                3. 读数据（可忽略）
+            2. 接收数据方 slave
+                1. 读数据
+                2. 写数据（禁止）
+            3. 解决数据同步问题
+        4. 主从复制即将master中的数据即使、有效的复制到slave中
+        5. 一个master可以拥有多个slave，一个slave只对应一个master
+        6. 作用
+            1. 读写分离
+            2. 负载均衡
+            3. 故障恢复
+            4. 数据冗余
+            5. 高可用基石
+    2. 工作流程
+        1. 
