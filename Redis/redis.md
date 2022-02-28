@@ -206,21 +206,58 @@
     1. 简介
         1. 利用永久性存储介质将数据进行保存，在特定的时间将保存的数据进行恢复的工作机制成为持久化
         2. 防止数据的意外丢失，确保数据安全性
-        3. 数据持久化的方案
-            1. 快照RDB
-                1. save保存当前快照信息
-                2. dbfilename 设置本地数据文件名，通常设置dump-端口号.rdb
-                3. dir 设置存储.rdb文件的路径 通常设置成存储空间较大的目录中，目录名称data
-                4. rdbcompression yes 设置存储至本地数据库时是否压缩数据，默认为yes，采用LZF压缩 通常默认为开启状态，如果设置为no，可以节省CPU运行时间，但会使存储的文件变大（巨大）
-                5. rdbchecksum yes 设置是否进行RDB文件格式校验，该校验过程在写文件和读文件过程均进行 通常默认为开启，如果设置为no，可以节约读写性过程约10%时间消耗，但时存在一定的数据损坏风险
-                6. redis启动时会自动加载数据
-                7. 工作原理
-                    1. 单线程工作时，阻塞io进行备份，会降低效率
-                    2. bgsave，后台执行save 用于解决1的问题（建议线上使用）
-                8. 自动执行快照指令(bgsave模式)
-                    1. save second changes满足限定时间范围内key的变化数量达到制定数量即进行持久化
-                    2. second：监控时间范围
-                    3. changes：监控key的变化量
-                9. debug reload 服务器运行中重启
-                10. shutdown save 关闭服务器保存数据
-            2. 日志AOF
+    2. 数据持久化的方案
+        1. 快照RDB
+            1. save保存当前快照信息
+            2. dbfilename 设置本地数据文件名，通常设置dump-端口号.rdb
+            3. dir 设置存储.rdb文件的路径 通常设置成存储空间较大的目录中，目录名称data
+            4. rdbcompression yes 设置存储至本地数据库时是否压缩数据，默认为yes，采用LZF压缩 通常默认为开启状态，如果设置为no，可以节省CPU运行时间，但会使存储的文件变大（巨大）
+            5. rdbchecksum yes 设置是否进行RDB文件格式校验，该校验过程在写文件和读文件过程均进行 通常默认为开启，如果设置为no，可以节约读写性过程约10%时间消耗，但时存在一定的数据损坏风险
+            6. redis启动时会自动加载数据
+            7. 工作原理
+                1. 单线程工作时，阻塞io进行备份，会降低效率
+                2. bgsave，后台执行save 用于解决1的问题（建议线上使用）
+            8. 自动执行快照指令(bgsave模式)
+                1. save second changes满足限定时间范围内key的变化数量达到制定数量即进行持久化
+                2. second：监控时间范围
+                3. changes：监控key的变化量
+            9. debug reload 服务器运行中重启
+            10. shutdown save 关闭服务器保存数据
+        2. 日志AOF
+            1. 写数据的三重策略（appendfsync）
+                1. always每次
+                2. everysec每秒 默认配置
+                3. no系统控制 操作系统操作，不可控
+            2. appendonly yse|no 开启对AOF支持
+            3. appendfsync 开启策略
+            4. AOF重写
+                1. 作用
+                    1. 降低磁盘占用率，提高磁盘利用率
+                    2. 提高持久化效率，降低持久化写时间，提高IO性能
+                    3. 降低数据恢复用时，提高数据恢复效率
+                2. aof重写原则
+                    1. 进程超时数据不再写入文件
+                    2. 忽略无效指令
+                    3. 对同一数据多条写命令合并为一条命令
+                3. 命令 
+                    1. bgrewriteaof手动重写（后台重写）
+                    2. 自动重写
+                        1. 自动重写触发条件设置
+                            1. auto-aof-rewrite-min-size size
+                            2. auto-aof-rewrite-percentage percent
+                        2. 自动重写触发比对参数（运行指令info Persistence获取具体信息）
+                            1. aof_current_size
+                            2. aof_base_size
+                        3. 自动重写触发条件
+                            1. aof_current_size>auto-aof-rewrite-min-size
+                            2. aof_current_size-aof_base_size / aof_base_size >= auto-aof-rewrite-percentage
+        3. RDB和AOF对比
+        ```
+        持久化方式      占用存储空间        存储速度        恢复速度        数据安全性      资源消耗        启动优先级
+        RDB           小（数据级：压缩）      慢            快           会丢失数据      高/重量级          低
+        AOF           大（指令级：重写）      快            慢           依策略决定      低/轻量级          高
+        ```
+    3. 根据业务场景选择RDB和AOF
+10. 事务
+    1. multi ... exec 开启事物，执行事物
+    2. discard 取消事务
