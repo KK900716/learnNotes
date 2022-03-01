@@ -387,5 +387,44 @@
                 2. 方式二 启动服务器参数 redis-server -slaveof <masterip> <masterport>
                 3. 方式三 服务器配置 slaveof <masterip> <masterport>
                 4. slaveof no one断开主从复制
+            3. 授权访问
+                1. master配置文件设置密码 requirepass <password>
+                2. master客户端发送命令设置密码 config set requirepass <password>、config get requirepass
+                3. slave客户端发送命令设置密码 auth <password>
+                4. slave配置文件设置密码 masterauth <password>
+                5. 启动客户端设置密码 redis-cli -a <password>
         2. 数据同步阶段
+            1. 流程
+                1. slave请求数据同步
+                2. mastere创建RDB同步数据
+                3. slave恢复RDB同步数据
+                4. slave请求部分同步数据
+                5. slave恢复部分同步数据
+                6. 即全量复制和部分复制
+            2. 详细实现
+                1. slave发送指令 psync2
+                2. master执行 bgsave
+                3. master接受第一个slave连接时，创建命令缓冲区
+                4. master生成RDB文件，通过socket发送给slave
+                5. slave接受RDB，清空数据，执行RDB文件恢复过程
+                6. slave发送命令告知RDB恢复已经完成
+                7. master发送复制缓冲区信息
+                8. slave接受信息，执行bgrewriteaof复制数据
+            3. 注意
+                1. 避免高峰期同步
+                2. 避免复制缓冲区溢出，避免全量复制周期太长或增大缓冲区，否则会导致slave继续进行全量复制陷入死循环 repl-backlog-size 1mb（默认）
+                3. master单机内存占用主机内存的比例不应过大，建议使用50%~70%，留下30%~50%的内存用于执行bgsave命令和创建复制缓冲区
+                4. 为了米面slave进行全量复制、部分复制时服务器相应阻塞或数据不同步，建议关闭此期间的对外服务 slave-serve-stale-data yse|no
+                5. 多个slave请求数据同步会占用大量带宽，故要适量错峰
         3. 命令传播阶段
+            1. 命令传布阶段出现断网现象
+                1. 短时间网络总段，部分复制
+                2. 长时间网络中断，全量复制
+            2. 部分复制的三个核心要素
+                1. 服务器的运行id（run id）
+                    1. 身份识别，多次运行多个id
+                    2. 时一个随机的十六进制40位字符
+                2. 主服务器的复制积压缓冲区
+                    1. 
+                3. 主从服务器的复制偏移量
+            
