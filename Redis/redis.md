@@ -371,5 +371,21 @@
             5. 高可用基石
     2. 工作流程
         1. 建立连接阶段
+            1. 流程
+                1. slave发送指令 slaveof ip port
+                2. master接收到指令相应对方
+                3. slave保存master的ip与端口 masterhost masterport
+                4. slave根据保存的信息创建连接master的socket
+                5. slave周期性发送命令ping
+                6. master响应pong
+                7. slave发送指令 auth password
+                8. master验证授权
+                9. slave发送指令 replconf listening-port<port-number>
+                10. master保存slave的端口号
+            2. 实现
+                1. 方式一 客户端发送命令 slaveof <masterip> <masterport>
+                2. 方式二 启动服务器参数 redis-server -slaveof <masterip> <masterport>
+                3. 方式三 服务器配置 slaveof <masterip> <masterport>
+                4. slaveof no one断开主从复制
         2. 数据同步阶段
         3. 命令传播阶段
