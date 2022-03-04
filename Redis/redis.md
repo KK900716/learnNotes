@@ -425,6 +425,34 @@
                     1. 身份识别，多次运行多个id
                     2. 时一个随机的十六进制40位字符
                 2. 主服务器的复制积压缓冲区
-                    1. 
+                    1. 队列
+                    2. slave和master都记录偏移量offset
+                    3. 服务器启动时，如果开启有AOF或被连接成为master节点，即创建复制缓冲区
                 3. 主从服务器的复制偏移量
-            
+            3. 数据同步+命令传播工作流程
+                1. slave发送指令 psync2 ? -1 （run id和offset）
+                2. master执行bgsave生成RDB文件记录当前复制偏移量
+                3. master发送+FULLRESYNC runid offset 通过socket发送REB文件给slave
+                4. slave收到 +FULLRESYNC保存master的runid和offset清空当前全部数据，通过socket接受RDB文件，恢复RDB数据（到此进行完全量复制）
+                5. slave发送 psync2 sunid offset
+                6. master接受命令，判定runid是否匹配，判定offset是否在赋值缓冲区中
+                7. master如果runid或offset有一个不满足（不符合runid或超出缓冲区），执行全量复制；如果runid或offset校验通过，前次offset和本次相同，忽略；如果前次offset和本次不同，发送+CONTINUE offset通过socket发送复制缓冲区中前次offset到本次offset的数据
+                8. master收到+continul 保存master到offset接受信息后，执行bgrewriteaof，恢复数据（部分复制流程）
+            4. 心跳机制
+                1. slave心跳任务
+                    1. 指令 REPLCONF ACK {offset}
+                    2. 周期 1s
+                    3. 作用1 汇报slave自己的赋值偏移量，获取最新的数据变更指令
+                    4. 作用2 判断master是否在线
+                2. master心跳
+                    1. 指令 PING
+                    2. 周期 由repl-ping-slave-period决定，默认10s
+                    3. 作用 判断slave是否在线
+                    4. 查询 INFO replication 获取slave最后一次连接时间间隔，lag项维持在0或1视为正常
+                3. 注意事项
+                    1. 当slave多数掉线，或延迟过高时，master为保障数据稳定性，将拒绝所有信息同步操作
+                    2. min-slaves-to-write 2
+                    3. min-slaves-max-lag 8
+                    4. 当slave数量少于2个，或者所有slave的延迟都大于等于10s时，强制关闭master写功能，停止数据同步
+                    5. slave数量由slave发送REPLCONF ACK命令做确认
+                    6. slave延迟由slave发送REPLCONF ACK命令做确认
