@@ -512,3 +512,28 @@
     6. 缓存预热
     7. 缓存雪崩
     8. 缓存击穿
+    9. 缓存穿透
+    10. 性能指标监控
+        1. 性能
+            1. latency Redis 响应一个请求时间
+            2. instantaneous_ops_per_sec 平均每秒处理请求总数
+            3. hit rate（calculated） 缓存命中率（计算出来的）
+        2. 内存
+            1. used_memory 已使用内存
+            2. mem_fragmentation_ratio 内存碎片率
+            3. evicted_keys 由于最大内存限制被移除的key的数量
+            4. blocked_clients 由于BLPOP,BRPOP,or BRPOPLPUSH而备阻塞的客户端
+        3. 基本活动指标
+            1. connected_clients 客户端连接数
+            2. connected_slaves slave数量
+            3. master_last_io_seconds_ago 最近一次主从交互之后的秒数
+            4. keyspace 数据库中的key值总数
+        4. 持久性指标
+            1. rdb_last_save_time 最后一次持久化保存到磁盘的时间戳
+            2. rdb_changes_since_last_save 自最后一次持久化以来数据库的更改数
+        5. 错误指标
+            1. rejected_connections 由于达到maxclient限制而备拒绝的连接数
+            2. keyspace_misses key值查找失败（没有命中）次数
+            3. master_link_down_since_seconds 主从断开的持续时间（以秒为单位）
+        6. 工具
+        7. 命令
