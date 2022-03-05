@@ -456,3 +456,59 @@
                     4. 当slave数量少于2个，或者所有slave的延迟都大于等于10s时，强制关闭master写功能，停止数据同步
                     5. slave数量由slave发送REPLCONF ACK命令做确认
                     6. slave延迟由slave发送REPLCONF ACK命令做确认
+    3. 注意事项
+        1. master内部创建master_replid变量，使用runid相同的策略生成，长度41位，并发送给所有slave
+        2. 在master关闭时执行命令shutdown save，进行RDB持久化，将runid与offset保存到RDB文件中
+            1. repl-id repl-offset
+            2. 通过redis-check-rdb命令可以查看该信息
+        3. master重启后加载RDB文件，回复数据
+            1. 重启后，将RDB文件保存的repl-id与repl-offset加载到内存中
+            2. master_repl_id=repl master_repl_offset=repl_offset
+            3. 通过info命令可以查看该信息
+        4. 作用 本机保存上次runid，重启后恢复该值，使所有slave认为还是之前的master
+    4. 哨兵模式
+        1. master宕机时将宕机的master下线，找一个slave作为master，通知所有的slave连接心得master，启动心得master与slave
+        2. 配置哨兵
+            1. 配置哨兵（参看sentinel.conf）
+                1. port 26379 配置端口号
+                2. dir /tmp 相关日志信息存放目录
+                3. sentinel montor mymaster 127.0.0.1 6379 2，有几个哨兵认定master挂了则认定挂了 通常设定为 哨兵/2+1
+                4. sentinel down-after-milliseconds mymaster 30000 判断连接时长单位ms
+                5. sentinel parallel-syncs mymaster 1 一次有多少个服务器开始同步
+                6. failover-timeout mymaster 180000 认定同步超时
+            2. 启动哨兵 redis-sentinel sentinel-端口号.conf
+        3. 工作原理
+            1. 主要任务：主从切换
+            2. 阶段一 监控
+                1. 同步各个节点的状态信息 通过ping获取各个sentinel的状态（是否在线）
+                2. 获取master的状态
+                    1. runid
+                    2. role：master
+                    3. 各个slave的详细信息
+                3. 获取所有slave的信息
+                    1. runid
+                    2. role
+                    3. master_host、master_port
+                    4. offset
+                    ...
+            2. 阶段二 通知阶段
+            3. 阶段三 故障转移阶段
+    5. 集群
+        1. 集群就是使用网络将若干台计算机联通起来，并提供统一的管理方式，使其对外呈现单击的服务效果
+        2. 集群作用
+            1. 分散单台服务器的访问压力，实现负载均衡
+            2. 分散单台服务器的存储压力，实现可扩展性
+            3. 降低单台服务器宕机带来的业务灾难
+        3. Redis集群机构设计
+            1. 通过算法设计，计算出key应该保存的位置
+            2. 将所有的存储空间计划切割成16384份（槽），每台主机保存一部分
+        4. 集群内部通讯设计
+        5. cluster-enabled yes 设置集群节点
+        6. cluster-config-file node-6379.conf 设置启动配置文件
+        7. cluster-node-timeout  单位ms 设置超时时间
+        8. redis-trib.rb create --replicas 1(master的数量) 127.0.0.1:6379(master)（需要ruby版本支持）
+        9. redis-cli -c启动客户端
+        10. cluster nodes查看节点信息
+    6. 缓存预热
+    7. 缓存雪崩
+    8. 缓存击穿
