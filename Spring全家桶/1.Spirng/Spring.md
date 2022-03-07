@@ -1,6 +1,6 @@
 1. 简介
     1. Spring是分层的JavaSE/EE应用full-stack轻量级开源框架，以IOC（Inverse Of Control：反转控制）和AOP（Aspect Oriented Programming：面向切面编程）为内核。
-    2. 提供了展现层SpringMVC和持久层Spring JDBCTemplate一级业务事务管理等众多的企业级应用技术，还能整合开源世界众多注明的第三方框架和类库，逐渐成为使用最多的JavaEE企业应用开源框架。
+    2. 提供了展现层SpringMVC和持久层Spring JDBCTemplate以及业务事务管理等众多的企业级应用技术，还能整合开源世界众多著名的第三方框架和类库，逐渐成为使用最多的JavaEE企业应用开源框架。
     3. 发展
        1. 1997年IBM提出了EJB的思想
        2. 1998年SUN制定开发标准规范EJB1.0
@@ -108,9 +108,9 @@
    ```
       2. set方法
          1. property属性设置
-   ```
+        ```
         <property name="userDao" ref="userDao"/>
-   ```
+        ```
          2. p命名空间注入
             1. p命名空间
    ```
