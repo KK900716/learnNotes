@@ -286,4 +286,105 @@
         Ut.cv_show('res',res)
         ```
         3. Canny边缘检测算法
+        ```
+        img=cv2.imread("test.png",cv2.IMREAD_GRAYSCALE)
+        # Canny边缘检测算法
+        # 1.使用高斯滤波器，以平滑处理图像，滤除噪声
+        # 进行归一化处理
+        # 2.计算图像中每个像素点的梯度强度和方向
+        # 采用Sobel算子G=√(Gx^2+Gx^2) θ=arctan(Gy/Gx)
+        # 3.应用非极大值抑制，以消除边缘检测的杂散响应
+        # 线性插值法设g1的梯度幅值M(g1)，g2的梯度幅值M(g2)，则dtmp1可以得到M(dtmp1)=w*M(g2)+(1-w)*M(g1)其中w=distanc(dtmp1,g2)/distance(g1,g2),distance(g1,g2)表示两点之间的距离
+        # 简化计算，可以分解成八个方向，则不需要插值
+        # 考虑一个点临近的点是否小于这个点，如果是，则保留认为是边界，如果不是则抛弃这个点
+        # 4.应用双阈值检测来确定真是的和潜在的边缘
+        # 梯度值>maxVal：则处理为边界
+        # minVal>梯度值>maxVal：连有边界则保留，否则舍弃
+        # 梯度值<minVal：则处舍弃
+        v1=cv2.Canny(img,80,150)
+        v2=cv2.Canny(img,50,100)
+        # 5.通过抑制孤立的若边缘最终完成边缘检测
+        res=np.hstack((img,v1,v2))
+        Ut.cv_show('res',res)
+        ```
+        4. 图像金字塔
+            1. 高斯金字塔
+                1. 向下采样（缩小）
+                    1. 将Gi与高斯内核卷积
+                    2. 将所有偶数行和列去除
+                2. 向上采样（扩大）
+                    1. 将图像在每个方向扩大为原来的两倍，新增的行和列以0填充
+                    2. 使用现在同样的内核（×4）与放大后的图像卷积，获得近似值
+                    ```
+                    img=cv2.imread('a.jpg')
+                    up=cv2.pyrUp(img)
+                    down=cv2.pyrDown(img)
+                    Ut.cv_show('img',down)
+                    ```
+            2. 拉普拉斯金字塔
+                1. Li=Gi-pyrUp（pyrDown（Gi））
+                ```
+                img=cv2.imread('test.png')
+                down=cv2.pyrDown(img)
+                down_up=cv2.pyrUp(down)
+                img=cv2.resize(img,(1402,704))
+                l_l=img-down_up
+                Ut.cv_show('res',l_l)
+                ```
+    11. 图像轮廓
+        1. vc2.findContours（img，mode，method）
+        2. mode 轮廓检索模式
+            1. RETR_EXTERNAL 只检索最外面的轮廓
+            2. RETR_LIST 检索所有的轮廓，并将其保存到一条链表当中
+            3. RETR_CCOMP 检索所有的轮廓，并将它们组织为两层，顶层是各个部分的外边界，第二层是空洞的边界
+            4. RETR_TREE 检索所有的轮廓，并重构嵌套轮廓的整个层次（常用）
+        3. method 轮廓逼近方法
+            1. CHAIN_APPROX_NONE 以Freeman链码的方式输出轮廓，所有其他方法输出多边形（顶点的序列）
+            2. CHAIN_APPROX_SIMPLE 压缩水平的、垂直的和斜的部分，也就是，函数只保留他们的终点部分
+            3. ......
+            ```
+            import cv2
+            import matplotlib.pyplot as plt
+            import numpy as np
+            import Untils.untils as Ut
+
+            img=cv2.imread('test.png')
+            # 转换为灰度图
+            gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            # # 转换为二值
+            ret,thresh=cv2.threshold(gray,100,255,cv2.THRESH_BINARY)
+            # 第一个值是二值结果，第二个值是轮廓信息，第三个值是层级(3.4.3.18前)
+            contours,hierarchy=cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+            #
+            # 绘制轮廓
+            # 注意要copy
+            draw_img=img.copy()
+            # -1指全部，1指绘制宽度
+            res=cv2.drawContours(draw_img,contours,-1,(0,0,255),1)
+            Ut.cv_show('img',res)
+
+            # 轮廓特征计算
+            cnt=contours[0]
+            # 面积
+            print(cv2.contourArea(cnt))
+            # 周长 True代表闭合
+            print(cv2.arcLength(cnt, True))
+            # 轮廓近似
+            epsilon=0.1*cv2.arcLength(cnt,True)
+            approx=cv2.approxPolyDP(cnt,epsilon,True)
+            draw_img=img.copy()
+            res=cv2.drawContours(draw_img,[approx],-1,(0,0,255),1)
+            Ut.cv_show('img2',res)
+            # 边界矩形
+            x,y,w,h=cv2.boundingRect(cnt)
+            img=cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+            Ut.cv_show('img3',img)
+            # 外接圆
+            (x,y),radius=cv2.minEnclosingCircle(cnt)
+            center=(int(x),int(y))
+            radius=int(radius)
+            img=cv2.circle(img,center,radius,(255,0,0),2)
+            Ut.cv_show('img4',img)
+            ```
+    12. 模版匹配
         
