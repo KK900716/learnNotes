@@ -151,7 +151,7 @@
     3. quit ping echo
     4. move key db 数据移动
     5. dbsize
-    6. flushdb flushall清楚数据
+    6. flushdb flushall清除数据
 7. Jedis
     1. 坐标
     ```
