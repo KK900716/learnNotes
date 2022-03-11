@@ -109,3 +109,20 @@
         1. @Data增加除构造函数外的全部方法
         2. @Constructor
     6. static文件内就是web的静态资源
+4. 整合redis
+    1. 配置
+    ```
+    <!--通用池-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+            </dependency>
+    <!--        通用mapper-->
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot-starter</artifactId>
+                <version>2.1.5</version>
+            </dependency>
+    ```
+    2. 使用
+    

@@ -387,4 +387,19 @@
             Ut.cv_show('img4',img)
             ```
     12. 模版匹配
-        
+        ```
+        # 模版匹配
+        img=cv2.imread('c.jpg',cv2.IMREAD_GRAYSCALE)
+        template=cv2.imread('a.jpg',cv2.IMREAD_GRAYSCALE)
+        # TM_SQDIFF 计算平方不同，计算出来的值越小，越相关
+        # TM_CCORR 计算相关性，计算出来的值越大，越相关
+        # TM_CCOEFF 计算相关系数，计算出来的值越大，越相关
+        # TM_SQDIFF_NORMED 计算归一化平方不同，计算出来的值越接近0，越相关
+        # TM_CCOORR_NORMED 计算归一化相关性，计算出来的值越接近1，越相关
+        # TM_CCOOEFF_NORMED 计算归一化相关系数，计算出来的值越接近1，越相关
+        # 推荐用归一化结果
+        res=cv2.matchTemplate(img,template,1)
+        min_val,max_val,min_loc,max_loc=cv2.minMaxLoc(res)
+        Ut.cv_show('res',res)
+        ```
+    13. 直方图
