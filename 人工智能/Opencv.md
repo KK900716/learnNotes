@@ -403,3 +403,33 @@
         Ut.cv_show('res',res)
         ```
     13. 直方图
+    ```
+  # 直方图
+    img = cv2.imread('test.png', cv2.IMREAD_GRAYSCALE)
+    Ut.cv_show('img', img)
+    # 参数
+    # images:原图像格式为uint8或float32，当传入函数时应用括号[]括起来如[img]
+    # channels:同样用中括号括起来会告诉函数我们统计图像的直方图。如果图像是灰度图它的值就是[0]，如果图像是彩色图像，传入的参数[0][1][2]他们分别对应着BGR
+    # maks:掩模图像。统计整幅图像的直方图None，如果统计一部分就制作一个掩模图像并使用它
+    # ranges:像素值范围肠胃[0,256]
+    hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+    plt.hist(img.ravel(), 256)
+    plt.show()
+
+    # # 创建掩码
+    # mask = np.zeros(img.shape[:2], np.uint8)
+    # mask[100:300, 100:400] = 255
+    # Ut.cv_show('mask', mask)
+    # # 与操作（这里有一些问题，但编码思路是这样）
+    # masked_img = cv2.bitwise_and([img], [0], mask=mask)
+    # Ut.cv_show('masked_img', masked_img)
+
+    # 均衡化处理
+    equ = cv2.equalizeHist(img)
+    Ut.cv_show('equ', equ)
+    # 自适应均衡化
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    res_clahe = clahe.apply(img)
+    Ut.cv_show('res', res_clahe)  
+    ```
+    13. 傅里叶变换
