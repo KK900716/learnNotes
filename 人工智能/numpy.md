@@ -1,2 +1,15 @@
-1. numpy(a,b)返回a与b的点积
-2. a=np.random.rand(1000000)返回一个1000000的数组
+1. API
+    1. numpy.dot(a,b)返回a与b的点积
+    2. a=np.random.rand(1000000)返回一个1000000的数组
+        1. rand是从0~1中取值服从均匀分布
+        2. randn是服从标准正态分布
+    3. np.exp(x)e的x次方
+    4. np.log(v)逐个计算log
+    5. np.abs()
+    6. np.max()....
+    7. np.zeros((a,b))初始化一个a行b列的0矩阵
+    8. np.sum()求和
+        1. A.sum(axis=0)竖直相加
+        2. axis=1横轴相加
+    9. np.T二维转置
+    10. A.reshape((a,b))
