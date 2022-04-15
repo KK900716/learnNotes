@@ -17,3 +17,16 @@
     5. 常见的微服务架构SpringCloud、Dubbo
     6. 结构
         1. 服务网关、服务集群、注册中心、配置中心
+2. Eureka注册中心
+     1. 依赖
+     ```
+        <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependecies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+     ```
