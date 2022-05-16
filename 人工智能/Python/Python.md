@@ -80,4 +80,4 @@
     2. type list
     3. list()创建或直接[]创建
     4. index()可以获取目标值索引，只返回第一个，可以添加参数start、stop，在指定区间查找
-    
+    5. 切片list[start:stop:step]步长默认为1，start默认0，stop默认size，步长为负数则倒叙
