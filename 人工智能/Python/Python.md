@@ -116,4 +116,8 @@
         9. list将所有的key组成的视图转成列表
         10. 迭代字典的值是键
         11. 获取可以用get或直接[]
+        12. 字典生成式
+            1. zip()
+            2. {key:value for key,value in zip(keys,values)} 若keys和values大小不等则取小
+            3. .upper() 转换大写
     3. 
