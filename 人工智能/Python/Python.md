@@ -121,3 +121,42 @@
             2. {key:value for key,value in zip(keys,values)} 若keys和values大小不等则取小
             3. .upper() 转换大写
     3. 元组
+        1. 不可变序列
+        2. 用小括号定义的
+        3. 没有增删改查操作
+        4. 创建方式
+            1. ()
+            2. tuple(())
+        5. 需要注意如果元组只有一个元素，逗号不能省略
+        6. 空元组的创建方式同空字典或空列表
+        7. 元组的遍历
+            1. 使用索引
+            2. for in遍历
+    4. 集合
+        1. 可变类型
+        2. 没有value的字典，类似于set，不允许重复且无序
+        3. 创建{a,b} set()
+        4. 新增
+            1. add()
+            2. update()至少添加一个
+        5. 删除
+            1. remove()失败抛出异常
+            2. discard()失败不会抛出异常
+            3. pop()删除一个任意元素
+            4. clear()清空
+    5. 集合运算
+        1. == != 元素相同即相等
+        2. issubset() 判断是否是子集
+        3. issuperset() 判断是否是超集
+        4. isdisjoint() 两个集合是否含有交集
+        5. 运算
+            1. 交集intersection() 、 &
+            2. 并集union() 、 |
+            3. 差集difference() 、 -
+            4. 对称差集symmetric_different() 、 ^
+        6. 集合生成式
+            1. [{i*i for i in range(1,10)}]
+    6. 串
+        1. 不可变
+        2. 字符串驻留机制 仅保存一份字符串在内存中
+        
