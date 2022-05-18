@@ -198,5 +198,71 @@
         10. 字符串切片操作与列表类似，但不能进行增删改
         11. 格式化字符串
             1. 例如 print('%s,%d' % (name,age))  %s字符串 %d %i整数 %f浮点数，其他情况类似C语言
-            2. '{0}{1}'.format(name,age)
+            2. '{0}{1}'.format(name,age) 花括号内容可以省略
+                1. 0:.3表示有3位
+                2. 0:.3f表示保留3位
+                3. 0:10.3f同时制定宽度和精度
             3. f'{name}{age}'
+        12. 字符串编码转换
+            1. 编码encode(encoding='GBK')
+            2. 解码byte.decode(encoding='GBK')
+7. 函数
+    1. 格式
+    ```
+    def 函数名([输入参数]):
+        函数体
+        [return xxx]
+    ```
+    2. 传参可根据顺序位置传参，或根据关键字（参数名）传值
+    3. 返回值
+        1. 1个直接返回
+        2. 多个返回结果为元组
+    4. 参数定义
+        1. 可以指定默认值，这样当不传递参数时，则使用默认值
+        2. print参数不止一个 可以以print为例
+        3. 可变位置参数使用*参数名，可以传递多个参数
+        4. 可变关键字形参使用**参数名，可以传递字典参数
+        5. 可变的位置参数和关键字参数只能是一个
+        6. 若3，4都有，则需要将3放在前面
+8. 异常
+    1. 异常
+        1. SyntaxError 语法错误
+        2. IndexError 索引越界
+        3. ValueError 参数传递无效
+        4. ZeroDivisionError 0除数异常
+        5. KeyError 映射中没有这个键
+        6. NameError 未声明/初始化对象
+    2. 捕获异常
+        1. try...except...else结构
+        ```
+        try:
+
+        except BaseException as e:可省略异常
+        
+        else:
+
+        finally:
+        ```
+        2. traceback模块打印异常信息 traceback.print_exc()，需要导入traceback
+9. 类
+    1. 类的创建
+    ```
+    class [类名]:
+        native_place='吉林' #类属性
+        def __init__(self,name,age): #name,age为实例属性
+            self.name=name
+            self.age=age
+        #实例方法
+        def info(self):
+            pass
+        @classmethon
+        def cm(cls):
+            print('类方法')
+        @staticmethod
+        def sm():
+            print('静态方法')
+    ```
+    2. 实例名=类名()
+    3. 动态绑定属性和方法
+        1. Python是动态语言支持动态绑定
+        2. 直接绑定即可
