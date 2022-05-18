@@ -120,4 +120,4 @@
             1. zip()
             2. {key:value for key,value in zip(keys,values)} 若keys和values大小不等则取小
             3. .upper() 转换大写
-    3. 
+    3. 元组
