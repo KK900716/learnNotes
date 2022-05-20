@@ -276,3 +276,70 @@
             3. Python支持多继承
             4. 定义子类时，必须在构造函数中调用父类的构造函数super().__init__()
         3. 多态
+            1. 方法重写
+            2. 
+        4. Object类
+            1. dir()可以查看该类的所有属性、方法
+            2. __str__()用来返回类的描述，可以重写该方法，类似于java中的toString
+        5. 特殊属性和方法
+            1. 属性
+                1. __dict__ 获得绑定的实例对象的属性的字典
+                2. __class__ 获得对象属于的类
+                3. __bases__ 获得类的父类元素
+                4. __base__ 获得第一个父类元素（基类）
+                5. __mro__ 获得层次结构
+                6. __subclasses__() 获得子类列表
+            2. 方法
+                1. __len__ 让内置函数len的参数可以是自定义类型
+                2. __add__ 可以使对象具有“+”功能
+                3. __new__ 用于创建对象
+                4. __init__ 对创建对象进行初始化
+        6. 类的浅拷贝和深拷贝
+            1. import copy
+            2. copy.copy 浅拷贝
+            3. copy.deepcopy 深拷贝
+10. 模块（Modules）
+    1. 一个扩展名为.py的文件就是一个模块
+    2. 新建模块尽量不要和系统模块名称冲突
+    3. 导入模块
+        1. import 模块名称 [as 别名]
+        2. from 模块名称 import 函数/变量/类
+    4. 以主程序形式运行
+        1. 在每个模块的定义中都包括一个记录模块名称的变量__name__，程序可以检查该变量，以确定他们在哪个模块中执行。如果一个模块不是被导入到其他程序中执行，那么他可能在解释器的顶级模块中执行。顶级模块的__name__变量值为__main__
+        ```
+        if __name__ == '__main__':
+            pass
+        ```
+11. 包
+    1. import 包.模块 as 别名 只能跟报名和模块名
+    2. from ... import ...可以导入 函数、变量、类
+    3. 常用内置模块
+        1. import sys Python解释器及环境操作相关标准库
+            1. sys.getsizeof() 获取占用内存大小
+        2. time 提供与时间相关的各种函数的标准库
+            1. time.time() 获取时间s
+            2. time.localtime(time.time()) 获取本地时间
+        3. calendar 提供与日期相关的各种函数的标准库
+        4. urllib 读取来自网上(服务器)的数据标准库
+        5. json 序列化
+        6. re 正则表达式
+        7. math
+        8. decimal 用于进行精确运算控制
+        9. logging 日志
+        10. os模块
+    4. 第三方模块安装和使用
+        1. pip install 模块名
+12. 文件读写
+    1. file=open(filename [,mode,encoding]) mode可以取w、r、a、b、+
+    2. file.readlines() 将每一行放在一个列表中
+    3. file.close()
+    4. 常用方法
+        1. read([size])
+        2. readline()
+        3. write(str)
+        4. writelines(s_list) 不添加换行符
+        5. seek(offset [,whence])
+        6. tell() 返回文件指针当前位置
+        7. flush()
+        8. close()
+    5. with语句，自动管理上下文资源，无论什么情况都会自动关闭资源 with 上下文表达式 as src_file:
