@@ -31,4 +31,26 @@
 		2. 语法 mkdir -p [目录名]
 			1. -p 递归创建
 			2. 可以指定多个参数，即指定多个目录
-			
+	3. cd
+		1. cd命令
+			1. 英文：change directory
+			2. 命令所在路径：shell内置命令
+			3. 执行权限：所有用户
+			4. 功能：切换目录
+		2. 语法：cd [目录]
+		3. .当前目录 ..上级目录
+	4. pwd
+		1. pwd命令
+			1. 英文：print working directory
+			2. 命令所在路径：/bin/pwd
+			3. 执行权限：所有用户
+			4. 功能：显示当前目录
+		2. 语法 pwd
+	5. rmdir
+		1. rmdir命令
+			1. 英文：remove directories
+			2. 命令所在路径：/bin/rmdir
+			3. 执行权限：所有用户
+			4. 功能：删除空目录
+		2. 语法 rmdir [目录名]
+	6. 
