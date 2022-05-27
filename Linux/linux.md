@@ -334,6 +334,7 @@
 				3. -f 指定文件名
 				4. -z 打包同时压缩
 				5. -x 解包
+				6. -j 生成bz2的压缩文件/解压缩文件
 		3. zip
 			1. zip命令
 				1. 命令所在路径：/usr/bin/zip
@@ -350,3 +351,102 @@
 			2. 语法：bzip2 [选项-k] 文件名
 				1. -k 产生压缩文件后保留源文件
 			3. 对大文件压缩率可观
+			4. bunzip2 进行解压 -k 保留源文件
+	8. 网络命令
+		1. write
+			1. write命令
+				1. 英文：write
+				2. 命令所在路径：/usr/bin/write
+				3. 执行权限：所有用户
+				4. 功能：向网络中写入数据
+			2. ctrl退格删除，ctrl+d保存结束
+		2. wall
+			1. wall命令
+				1. 英文：write all
+				2. 命令所在路径：/usr/bin/wall
+				3. 执行权限：所有用户
+				4. 功能：发广播信息
+			2. wall 广播信息
+		3. ping
+			1. ping命令
+				1. 英文：ping
+				2. 命令所在路径：/bin/ping
+				3. 执行权限：所有用户
+				4. 功能：发送ping包，测试网络连通性
+			2. 语法：ping 选项 ip地址
+				1. -c指定发送次数
+		4. ifconfig
+			1. ifconfig命令
+				1. interface configure
+				2. 命令所在路径：/sbin/ifconfig
+				3. 执行权限：root
+				4. 功能：查看网络接口信息
+			2. 语法：ifconfig [网卡] [ip]
+		5. mail
+			1. mail命令
+				1. 英文：mail
+				2. 命令所在路径：/bin/mail
+				3. 执行权限：所有用户
+				4. 功能：发送邮件
+			2. 语法：mail [用户名]
+		6. last
+			1. last命令
+				1. 英文：last
+				2. 命令所在路径：/usr/bin/last
+				3. 执行权限：所有用户
+				4. 功能：查看系统上最近登录的用户
+			3. lastlog 最后一个用户登录的信息
+			4. lastlog -u 用户id
+		7. traceroute
+			1. traceroute命令
+				1. 英文：traceroute
+				2. 命令所在路径：/sbin/traceroute
+				3. 执行权限：所有用户
+				4. 功能：跟踪路由
+		8. netstat
+			1. netstat命令
+				1. 英文：net state
+				2. 命令所在路径：/bin/netstat
+				3. 执行权限：所有用户
+				4. 功能：查看网络连接信息
+			2. netstat [选项]
+				1. -t tcp协议
+				2. -u udp协议
+				3. -l 监听
+				4. -r 路由
+				5. -n 显示ip地址和端口号
+				6. -tlun 查看本机监听的端口
+				7. -an 查看本机所有的网络连接
+				8. -rn 查看本机路由表
+		9. setup （red hat独有，永久生效）
+			1. setup命令
+		10. mount
+			1. mount命令
+			2. 挂载
+			3. mount [-t 文件系统] 设备文件名 挂载点
+			4. 范例：mount -t iso9660 /dev/sr0/mnt/cdrom
+			5. unmount 卸载
+	9. 关机重启命令
+		1. shutdown 应尽量使用shutdown关机
+			1. 语法 shutdown [选项] 时间
+			2. 选项
+				1. -h 指定关机时间
+					1. now
+					2. 时间格式
+				2. -r 重启
+				3. -c 取消一个关机命令
+		2. 关机 halt 、poweroff 、 init ()
+		3. 重启 reboot 、 init 6
+		4. 系统运行级别 init
+			1. 0 关机
+			2. 1 单用户（类似于windows安全模式）
+			3. 2 不完全多用户，不含NFS（网络文件系统）服务 不建议使用该服务
+			4. 3 完全多用户
+			5. 4 未分配
+			6. 5 图形界面
+			7. 6 重启
+		5. cat /etc/inittab 查看系统默认运行级别
+		6. runlevel 查看当前系统运行级别
+		7. logout 退出登录
+2. vim文本编辑器
+	
