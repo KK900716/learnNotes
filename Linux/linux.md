@@ -570,5 +570,20 @@
 					3. -v 显示还原过程
 		3. 这里不推荐改安装默认位置
 		4. 这种方式最大问题是依赖性问题
-	3. yum在线管理（不上网也可以）
-		1. 
+	3. yum在线管理（不上网也可以，管理的同样是RPM包）
+		1. IP地址配置
+			1. ifconfig 网卡 ip netmask 子网掩码（重启失效且只能配这两个）
+			2. setup可以配置ip（redhat独有）
+			3. vi /etc/sysconfig/network-scripts/ifcfg-eth0
+				1. BOOTPROTO=static
+				2. ONBOOT=yes 网卡是否启动
+				3. service network restart 重启网卡
+		2. 网络yum源
+			1. /etc/yum.repos.d/CentOS-Base.repo
+			2. [base] 容器名称，一定要放在[]中
+			3. name 容器说明，可以自己随便写
+			4. mirrorlist 镜像占点，这个可以注释掉
+			5. baseurl 我们的yum源服务器的地址。默认是CentOS官方的yum源服务器
+			6. enabled 此容器是否生效，不写或=1生效，=0不生效
+			7. gpgcheck 1指rpm的数字整数生效，0则不生效
+			8. gpgkey 数字证书的公钥文件保存位置，不用修改
