@@ -587,3 +587,24 @@
 			6. enabled 此容器是否生效，不写或=1生效，=0不生效
 			7. gpgcheck 1指rpm的数字整数生效，0则不生效
 			8. gpgkey 数字证书的公钥文件保存位置，不用修改
+		3. yum命令（全部使用包名）
+			1. 查询
+				1. yum list
+				2. yum search 关键字
+			2. 安装
+				1. yum -y（自动回答yes） install 包名 
+			3. 升级
+				1. yum -y update 包名 如果不加包名则升级全部（包括Linux内核，故慎用）
+			4. 卸载
+				1. yum -y remove 包名 （尽量不要用）
+			5. yum软件组管理命令
+				1. yum grouplist 查看所有软件组
+				2. yum groupinstall 软件组名 安装
+				3. yum groupremove 软件组名 卸载
+		4. 光盘yum源搭建
+			1. 挂在光盘 
+				1. mkdir /mnt/cdrom
+				2. mount /dev/cdrom /mnt/cdrom
+			2. yum源文件检测的是后缀名.repo的文件 让网络yum失效
+			3. 修改光盘yum源文件 让它生效 baseurl=file:///mnt/cdrom/
+			4. 要注意不能够随便加缩进、空行
