@@ -524,11 +524,24 @@
 			3. 模块依赖
 			4. .so.2 是库依赖包
 			5. www.rpm.find是查询依赖包的网站
-			6. rpm -ivh 包名
+			6. 安装：rpm -ivh 包全名
 				1. -i （install） 安装
 				2. iv （verbose） 显示详细信息
 				3. -h （hash） 显示进度
 				4. --nodeps 不检测依赖性
+			7. 升级：rpm -Uvh 包全名
+				1. -U （upgrade） 升级
+			8. 卸载：rpm -e 包名
+				1. -e （erase） 卸载
+				2. --nodeps 不检查依赖性
+			9. rpm -q 包名 查询
+				1. -q （query） 查询
+				2. -qa （all）
+				3. -i （information） 信息
+				4. -p （package） 这里要跟包全名
+				5. -ql （list） 已安装位置 列表 -p 打算装载哪
+				6. -qf （file） 系统文件名 查询系统文件属于哪个软件包 
+		3. 这里不推荐改安装默认位置
 	3. yum在线管理（不上网也可以）
 		1. 包全名：操作的包是没有安装的软件包时，使用包全名，而且要注意路径
 		2. 包名：操作已经安装的软件包时，使用包名，是搜索/var/lib/rpm/中的数据库
