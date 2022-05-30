@@ -608,3 +608,29 @@
 			2. yum源文件检测的是后缀名.repo的文件 让网络yum失效
 			3. 修改光盘yum源文件 让它生效 baseurl=file:///mnt/cdrom/
 			4. 要注意不能够随便加缩进、空行
+	4. 源码包的RPM包
+		1. 区别
+			1. 安装位置需要人为手工指定位置
+				1. rpm默认安装位置
+					1. /etc/ 配置文件安装目录
+					2. /usr/lib/ 可执行的命令安装目录
+					3. /usr/lib/ 程序锁使用的函数库保存位置
+					4. /usr/share/doc/ 基本的软件使用手册保存位置
+					5. /usr/share/man/ 帮助文件保存位置
+				2. 源码安装位置
+					1. 一般安装在 /usr/local/软件名/
+				3. /etc/rc.d/init.d/ 是系统服务服务路径
+				4. service 服务名 start/stop/restart（redhat专有命令，实际上是去rpm默认安装位置搜索）
+			2. 概念上不同
+		2. 安装
+			1. 安装gcc
+			2. 下载源码包
+			3. 源代码保存位置：/usr/local/src/
+			4. 软件包安装位置：/usr/local/
+			5. 解压源码包
+			6. 进入解压缩目录
+			7. 定义安装功能 ./configure --prefix=/usr/local/.....
+			8. 监测是否符合要求
+			9. 写入Makefile文件
+			10. make 编译 make clean 清除编译结果
+			11. make install 安装
