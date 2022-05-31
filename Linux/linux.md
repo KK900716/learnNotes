@@ -730,4 +730,18 @@
 		1. groupadd [选项] 组名
 			1. -g GID：指定组ID
 			2. -n 新组名：修改组名
-		2. groupmod [选项] 组名
+		2. groupmod [选项] 组名 不建议使用
+		3. groupdel 组名
+		4. 不能删除有初始用户的组
+		5. gpasswd 选项 组名
+			1. -a 用户名：把用户加入组
+			2. -d 用户名：把用户从组中删除
+5. 权限管理
+	1. ACL权限 Access Control List(访问控制列表)
+		1. dumpe2fs -h 根分区文件系统名
+			1. -h 进现实超级快中信息，而不显示磁盘块组的详细信息
+			2. 查询指定分区详细文件系统信息命令
+		2. df -h 查看文件分区
+		3. mount -o remount,acl / 重新挂载 特殊挂载 临时赋予权限
+		4. vi /etc/fstab 加入acl 永久开启 mount -o remount / 重新挂载，或重启生效
+	
