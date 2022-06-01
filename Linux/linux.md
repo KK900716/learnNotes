@@ -738,10 +738,28 @@
 			2. -d 用户名：把用户从组中删除
 5. 权限管理
 	1. ACL权限 Access Control List(访问控制列表)
-		1. dumpe2fs -h 根分区文件系统名
-			1. -h 进现实超级快中信息，而不显示磁盘块组的详细信息
-			2. 查询指定分区详细文件系统信息命令
-		2. df -h 查看文件分区
-		3. mount -o remount,acl / 重新挂载 特殊挂载 临时赋予权限
-		4. vi /etc/fstab 加入acl 永久开启 mount -o remount / 重新挂载，或重启生效
-	
+		1. 简介与开启
+			1. dumpe2fs -h 根分区文件系统名
+				1. -h 进现实超级快中信息，而不显示磁盘块组的详细信息
+				2. 查询指定分区详细文件系统信息命令
+			2. df -h 查看文件分区
+			3. mount -o remount,acl / 重新挂载 特殊挂载 临时赋予权限
+			4. vi /etc/fstab （该命令是系统开启默认挂载的项目） 在defaults后加入,acl（现在的default都支持acl） 永久开启 mount -o remount / 重新挂载，或重启生效
+		2. 查看与设定
+			1. getfacl 文件名 查看acl权限 不支持绝对路径
+			2. setfacl 选项 文件名
+				1. -m 设定ACL权限
+					1. setfacl -m u(给用户，g给组，m最大权限):rwx 目录
+				2. -x 删除指定的ACL权限
+				3. -b 删除所有的ACL权限
+				4. -d 设定默认的ACL权限
+				5. -k 删除默认的ACL权限
+				6. -R 递归设定ACL权限
+		3. 最大有效权限与删除ACL权限
+			1. 需要与mask权限相与之后的权限才是真正能够拥有的权限
+			2. 删除ACL权限
+				1. setfacl -x u(g):用户名(组名) 文件名
+				2. setfacl -b 文件名 会删除所有的ACL权限
+		4. 默认与递归ACL权限
+			1. setfacl -m u(给用户，g给组，m最大权限):rwx -R 目录 递归设定
+			2. 默认ACL权限 d:u:用户名(组名):rwx 则设置为默认权限
