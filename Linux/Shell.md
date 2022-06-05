@@ -393,7 +393,97 @@
 ## 服务管理
 
 1. 服务的分类
+
    1. RPM包默认安装的服务
       1. 独立的服务
       2. 基于xinetd服务
    2. 源码包安装的服务
+
+2. 查询已安装的服务
+
+   1. RPM包安装的服务
+      1. chkconfig --list 查看服务自启动状态，可以查看RPM包安装的服务，2、3、4、5开启则自启动
+      2. ps aux 如果有则服务存在
+      3. netstat -tlun（有缺陷，守护进程没有端口无法查看）
+   2. 源码包安装的服务
+      1. 查看服务安装位置，一般是/usr/local/下
+   3. 注意service 和 chkconfig一般情况下只能查看RPM包安装的服务，原因是两条命令查询的是/etc/rc.d/init.d
+
+3. 配置文件目录
+
+   1. /etc/rc.d/init.d或/etc/init.d 独立服务的脚本位置
+   2. /etc/sysconfig 初始化环境配置文件配置
+   3. /etc/ 配置文件位置
+   4. /etc/xinetd.conf xinetd配置文件
+   5. /etc/xinetd.d 基于xinetd服务的启动脚本
+   6. /var/lib 服务产生的数据放在这里
+   7. /var/log 日志
+
+4. 独立服务
+
+   1. 独立服务的启动
+      1. /etc/init.d/独立服务 start|stop|status|restart
+      2. service 独立服务名 start|stop|status||restart （红帽专有）
+         1. service --status-all 列出所有已经安装RPM包运行状态
+   2. 独立服务的自启动
+      1. chkconfig --level 2345 服务名 on|off （默认就是--level 2345）
+      2. 修改 /etc/rc.d/rc.local 加入启动命令 建议使用
+      3. 使用ntsysv（红帽专属）
+
+5. 基于xinetd服务管理（超级守护进程）
+
+   1. 先装xinetd
+   2. 基于xinetd的服务越来越少
+
+6. 源码包服务管理
+
+   1. 将源码包加入管理 做一个软连接，将启动脚本链接到启动服务的管理包中
+
+   2. 不推荐链接，自启动可以采用加入启动命令的方式
+
+   3. 让源码包被chkconfig与ntsysv命令管理自启动 vi /etc/init.d/apache
+
+      ```shell
+      # chkconfig: 35 86 76
+      # 运行级别 启动顺序 关闭顺序
+      # description: source package apache
+      # 说明，内容随意
+      ```
+
+   4. rc.d下的目录中包含启动和关闭顺序
+
+   5. chkconfig --add apache
+
+   6. chkconfig --del
+
+## 系统管理
+
+1. 进程管理
+   1. ps aux 查看系统中所有进程，使用BSD操作系统格式
+   2. ps -le 使用Linux标准命令格式
+2. 进程输出含义
+   1. USER 进程用户
+   2. PID 进程id 1号进程是init进程
+   3. %CPU 进程占用CPU
+   4. %MEM 进程占用内存
+   5. VSZ 进程占用虚拟内存KB
+   6. RSS 进程占用实际物理内存KB
+   7. TTY 进程在那个中段运行，tty1~tty7代表本地控制终端，tty1~tty6本地控制台中段，tty7是图形终端，pts/0~256代表虚拟终端
+   8. STAT 进程状态 常见： R运行 S睡眠 T停滞状态 s包含子进程 +位于后台
+   9. START 该进程的启动时间
+   10. TIME 该进程占用CPU的运算事件
+   11. COMMAND 产生进程的命令名
+3. top [选项] 查看健康状态
+   1. -d 秒数 指定top命令每个多长时间更新，默认3s
+   2. ?或h 显示监护模式的帮助
+   3. P 以CPU使用率排序，默认就是此项
+   4. M 以内存使用率排序
+   5. N 以PID排序
+   6. q 退出
+4. top命令输出含义
+   1. 登陆时间、系统负载
+   2. 进程
+   3. cpu
+   4. 内存
+   5. 虚拟内存
+5. pstree 查看进程依赖关系 -p -u 显示pid和user
