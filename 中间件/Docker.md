@@ -19,3 +19,84 @@
             1. docker build
             2. docker pull
             3. docker run
+
+## 安装启动Docker
+
+1. 通过命令启动docker
+   1. systemctl start docker 启动
+   2. systemctl stop docker 停止
+   3. systemctl restart docker 重启
+2. 配置镜像
+
+## Docker基本操作
+
+1. 镜像名称命名规则[repository]:[tag]
+
+2. 镜像基本操作
+
+   1. docker build 构建镜像
+   2. docker images 查看镜像
+   3. docker rmi 删除镜像
+   4. docker push 推送镜像
+   5. docker pull 拉去镜像
+   6. docker save 保存镜像为一个压缩包
+   7. docker load 加载压缩包为镜像
+   8. docker [选项] --help 查看帮助文档
+
+3. 容器相关命令
+
+   1. docker run 运行
+      1. 例如 docker run --name containerName -p 80:80 -d nginx
+      2. --name 名字
+      3. -p 将宿主机端口与容器端口映射
+      4. -d 后台运行
+      5. 镜像名称
+   2. docker pause 暂停
+   3. docker unpause 继续
+   4. docker stop 停止
+   5. docker start 开始
+   6. docker logs 查看容器运行日志
+   7. docker ps 查看所有运行的容器
+   8. docker exec 进入容器执行命令
+   9. docker rm 删除指定容器
+
+4. 其他命令
+
+   1. docker exec -it mn（容器名） bash 进入容器内部执行命令（不推荐）
+      1. it 进入容器创建标准输入、输出终端
+      2. linux 终端交互命令
+
+5. 常用启动命令
+
+   1. mysql -e mysql的密码（环境变量）
+
+   ```console
+   docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+   ```
+
+   2. redis
+
+   ```console
+   docker run --name myredis1 -p 6379:6379 -d redis-server --appendonly yse
+   ```
+   3. a
+
+6. 数据卷 volume 是一个虚拟目录，指向宿主机文件系统中的某个目录
+
+   1. 数据卷操作语法 docker volume [COMMAND]
+      1. create 创建一个volume
+      2. inspect 显示一个或多个volume的信息
+      3. ls 列出所有volume
+      4. prune 删除未使用的volume
+      5. rm 删除一个或多个指定的volume
+   2. 挂载数据卷
+      1. 通过-v参数挂载
+      2. -v 数据卷名称/宿主机目录/宿主机文件:容器内目录/容器内文件
+
+## 自定义镜像
+
+1. 镜像结构
+   1. 基础镜像（BaseImage） 应用依赖的西戎函数库、环境、配置、文件等
+   2. 入口（Entrypoint） 镜像运行入口，一般是程序启动的脚本和参数
+   3. 层（Layer）在BaseImage基础上添加安装包、依赖、配置等，每次操作都形成新的一层
+2. 
