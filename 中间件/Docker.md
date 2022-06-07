@@ -99,4 +99,15 @@
    1. 基础镜像（BaseImage） 应用依赖的西戎函数库、环境、配置、文件等
    2. 入口（Entrypoint） 镜像运行入口，一般是程序启动的脚本和参数
    3. 层（Layer）在BaseImage基础上添加安装包、依赖、配置等，每次操作都形成新的一层
-2. 
+2. Dockerfile
+   1. FROM 指定基础镜像 FROM centos:6
+   2. EVN 设置环境变量，可在后面指令使用 ENV key value
+   3. COPY 拷贝本地文件到镜像的指定目录 COPY ./mysql-5.7.rpm /tmp
+   4. RUN 执行LINUX的shell命令，一般是安装过程的命令 RUN yum install gcc
+   5. EXPOSE 指定容器运行时监听的端口，是给惊险使用者看的 EXPOSE 8080
+   6. ENTRYPOINT 镜像中应用的启动命令，容器运行时调用 ENTRYPOINT java -jar xx.jar
+3. docker build -t javaweb:1.0 .
+
+## Docker Compose
+
+1. Docker Compose 可以基于Compose文件帮我们快速的部署分布式应用，无需手动一个个创建和运行容器
