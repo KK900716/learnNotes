@@ -88,4 +88,11 @@ mybatis-plus:
 
 ## 条件构造器
 
-1. 
+1. wapper介绍![image-20220608211518136](MyBatisPlus.assets/image-20220608211518136.png)
+2. wapper
+   1. like 模糊查询
+   2. between 在什么区间
+   3. isNotNull 不为空
+   4. orderby 排序
+      1. orderbyasc、orderbydesc
+
