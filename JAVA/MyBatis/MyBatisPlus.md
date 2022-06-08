@@ -41,7 +41,7 @@ mybatis-plus:
       1. byid 通过实体类对象进行就该
    4. select
       1. byid 通过id修改
-      2. batchids 通过集合进行查询
+      2. bybatchids 通过集合进行查询
       3. bymap 通过map集合的条件进行查询
       4. list 通过条件构造器来查询（可以填null）
 5. 自定义功能
@@ -90,9 +90,32 @@ mybatis-plus:
 
 1. wapper介绍![image-20220608211518136](MyBatisPlus.assets/image-20220608211518136.png)
 2. wapper
-   1. like 模糊查询
-   2. between 在什么区间
-   3. isNotNull 不为空
-   4. orderby 排序
-      1. orderbyasc、orderbydesc
-
+   1. QueryWrapper
+      1. 常用语法
+         1. like 模糊查询
+         2. between 在什么区间
+         3. isNotNull 不为空
+         4. orderby 排序
+            1. orderbyasc、orderbydesc
+         5. gt 大于
+         6. ge 大于等于
+         7. lt 小于
+         8. le 小于等于
+         9. in 在其中
+         10. eq 等于
+         11. ne 不等于
+         12. or 或
+      2. 条件的优先级
+         1. and(i->i.方法) 和or也可以用lambda方式
+         2. lambda中的条件优先执行
+      3. 组装select语句
+         1. selectByMap中的条件输入select 中加入查询出指定字段
+      4. 组装子查询
+         1. *Sql 列、sql语句
+   2. UpdateWrapper
+      1. set 设置键值对
+      2. entity可以填null
+   3. 组装条件中为空情况
+      1. StringUtils.isNotBlank(username)（Mybatis中的）判断某个字符串是否不为空、null、空白符
+      2. condition条件是一个布尔类型的值，可以用来判断并组装该条件
+   4. LambdaQueryWrapper、LambdaUpdateWrapper 第二个参数可以使用函数式编程指定列属性
