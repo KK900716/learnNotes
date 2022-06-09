@@ -119,3 +119,44 @@ mybatis-plus:
       1. StringUtils.isNotBlank(username)（Mybatis中的）判断某个字符串是否不为空、null、空白符
       2. condition条件是一个布尔类型的值，可以用来判断并组装该条件
    4. LambdaQueryWrapper、LambdaUpdateWrapper 第二个参数可以使用函数式编程指定列属性
+
+## MyBatis-Plus分页插件的配置和使用
+
+1. 配置Bean
+
+   ```java
+   @Configuration
+   public class MyBatisPlusConfig {
+       @Bean
+       public MybatisPlusInterceptor mybatisPlusInterceptor(){
+           MybatisPlusInterceptor mybatisPlusInterceptor=new MybatisPlusInterceptor();
+           mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+           return mybatisPlusInterceptor;
+       }
+   }
+   ```
+
+   
+
+2. Page对象
+
+   1. current，size是页码及条数
+   2. getTotal 总条数
+   3. hasNext 有没有下一页
+   4. hasPrevious 有没有上一页
+   5. getRecords 获取数据
+
+3. 自定义分页功能
+
+   1. type-aliasespackage 配置类型别名的包
+   2. @Param("page") Page\<Test1> page 必须位于第一个参数
+
+## 乐观锁和悲观锁
+
+1. 乐观锁
+   1. 实现原理，添加一个version字段，更新数据时查询版本号
+   2. @Version 标识乐观锁版本号字段，要添加OptimisticLockerInnerInterceptor插件
+
+## 通用枚举
+
+1. 
