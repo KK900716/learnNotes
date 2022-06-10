@@ -146,7 +146,7 @@
             3. 其他key通用操作
                 1. help @generic
 6. 数据库通用指令
-    1. reis为每个服务提供有16个数据库
+    1. redis为每个服务提供有16个数据库
     2. select index切换数据库
     3. quit ping echo
     4. move key db 数据移动

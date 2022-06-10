@@ -70,16 +70,23 @@
 
    1. mysql -e mysql的密码（环境变量）
 
-   ```console
-   docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
-   ```
+      ```bash
+      docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+      ```
 
    2. redis
 
-   ```console
-   docker run --name myredis1 -p 6379:6379 -d redis-server --appendonly yse
-   ```
-   3. a
+      ```bash
+      docker run --name myredis1 -p 6379:6379 -d redis-server --appendonly yse
+      ```
+
+   3. nginx
+
+      ```bash
+      docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+      ```
+
+      
 
 6. 数据卷 volume 是一个虚拟目录，指向宿主机文件系统中的某个目录
 

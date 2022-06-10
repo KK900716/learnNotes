@@ -159,4 +159,54 @@ mybatis-plus:
 
 ## 通用枚举
 
-1. 
+1. @EnumValue 将注解所表示的属性的值存入数据库
+1. 扫描通用枚举的包 type-enums-package
+
+## 代码生成器
+
+1. 依赖
+
+   ```xml
+           <dependency>
+               <groupId>com.baomidou</groupId>
+               <artifactId>mybatis-plus-generator</artifactId>
+               <version>3.5.1</version>
+           </dependency>
+           <dependency>
+               <groupId>org.freemarker</groupId>
+               <artifactId>freemarker</artifactId>
+               <version>2.3.31</version>
+           </dependency>
+   ```
+
+2. 代码（详见官网）
+
+   ```java
+   FastAutoGenerator.create("url", "username", "password")
+       .globalConfig(builder -> {
+           builder.author("baomidou") // 设置作者
+               .enableSwagger() // 开启 swagger 模式
+               .fileOverride() // 覆盖已生成文件
+               .outputDir("D://"); // 指定输出目录
+       })
+       .packageConfig(builder -> {
+           builder.parent("com.baomidou.mybatisplus.samples.generator") // 设置父包名
+               .moduleName("system") // 设置父包模块名
+               .pathInfo(Collections.singletonMap(OutputFile.xml, "D://")); // 设置mapperXml生成路径
+       })
+       .strategyConfig(builder -> {
+           builder.addInclude("t_simple") // 设置需要生成的表名
+               .addTablePrefix("t_", "c_"); // 设置过滤表前缀
+       })
+       .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+       .execute();
+   
+   ```
+
+3. MyBatisX插件
+
+## 多数据源
+
+![image-20220609231757197](MyBatisPlus.assets/image-20220609231757197.png)
+
+@DS("")指定所操作的数据源在service中
