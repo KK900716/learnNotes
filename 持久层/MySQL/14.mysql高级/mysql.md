@@ -198,7 +198,7 @@
                1. 在没有GROUPBY子句的情况下，基于索引优化MIN/MAX操作或者对于MyIsam存储引擎优化Count(*)操作，不必等到执行阶段再计算，查询执行计划生成的阶段即完成优化
             9. distinct 优化distinct操作，找到第一匹配的元组后即停止找同样值的动作
 
-## 索引优化
+## 索引优化（为查询建立索引）
 
 1. 多表连接
    1. 左连接右表加索引，右连接左表加索引
@@ -224,7 +224,7 @@
    8. 当全表扫描速度比索引速度快时，mysql会使用全表扫描，此时索引失效
 
 
-## 查询截取分析
+## 查询截取分析（为排序、分组建立索引）
 
 1. 操作
    1. 开启慢查询日志，设置阈值，并捕获
@@ -232,7 +232,61 @@
    3. show profile 查询sql在mysql服务器里的执行细节和生命周期情况
    4. 进行sql数据库服务器的参数调优
 2. 优化建议
-   1. 永远小表驱动大表
+   1. 永远小表驱动大表（字段应该建立索引）
+      1. 子查询数据少 in 优于 exits
+      2. 子查询数据多 exits 优于 in
+3. ORDER BY
+   1. 尽量遵循索引排序
+   2. 如果不在索引列上，filesort有两种算法
+      1. 双路排序
+         1. mysql4.1之前是使用双路排序，扫描两次磁盘得到数据
+         2. 读取行指针和orderby列，对它们进行排序，然后扫描已经排序号的列表，按照列表中的值重新从列表中读取对应的数据输出
+         3. 从磁盘取排序字段，在buffer进行排序，再从磁盘取其他字段
+      2. 单路排序
+         1. 从磁盘读取查询所需的所有列，按orderby在buffer对它们排序进行输出，占用了更多内存，但效率有显著提高
+         2. 把随机IO变成顺序IO，避免两次读取数据
+      3. 若单路排序一次无法抓取所有数据则效率会低于双路排序
+      4. sort_buffer容量是决定效率的重要因素
+         1. 慎用select *
+         2. 增大sort_buffer_size参数
+         3. 增大max_length_for_sort_data参数
+            1. 提高该参数会增加用改进算法的概率，但如果设置过高则会占用更多buffer
+4. GROUP BY
+   1. 同查询、排序原则相同
+   2. where高于having，能写在where的限定条件不要用having
+
+## 慢查询日志
+
+1. 简介
+
+   1. mysql的慢查询日志是mysql提供的一种日志记录，它用来记录在mysql中响应时间超过阈值的用户拒，具体指运行时间超过long_query_time的sql
+   2. long_query_time默认值为10s
+   3. 默认mysql不开启慢查询，如果不是调优，一般不建议启动该参数
+
+2. 查看是否开启
+
+   1. 默认 SHOW VARIABLES LIKE '%slow_query_log%'
+
+   2. 开启 set global slow_query_log=1; 重启失效
+
+   3. 永久生效 修改 my.cnf
+
+      1. 增加修改参数
+
+         ```sql
+         slow_query_log=1
+         slow_query_log_file=/var/lib/mysql/atguigu-slow.log
+         ```
+
+      2. 系统默认会给一个缺省的文件host_name-slow.log（没有指定参数时）
+
+      3. 重启服务
+
+   4. 参数
+
+      1. 查看当前阈值 SHOW [global] VARIABLES LIKE 'long_query_time%'
+      2. 设置阈值 set global long_query_time=3
+      3. 展示日志中有多少慢查询 show global status like '%Slow_queries%'
 
 ## 其他操作
 
