@@ -47,7 +47,10 @@
 
 6. 插件式的存储引擎架构将查询处理和其他的系统任务以及数据的存储提取相分离
 
-## 索引优化
+
+## SQL优化
+
+### 索引优化
 
 1. 分析
     1. 性能下降sql慢
@@ -113,7 +116,7 @@
         4. 索引的选择性是指索引列中不同值的数目与表中记录的比，一个索引的选择性越接近1，效率越高
         5. where条件里用不到的字段
 
-## 性能分析
+### 性能分析
 
 1. MySql Query Optimizer
     1. 通过计算分析系统中收集的统计信息，为客户端请求地Query提供他认为最优的执行计划（可能不是DBA人为最优的）
@@ -198,7 +201,7 @@
                1. 在没有GROUPBY子句的情况下，基于索引优化MIN/MAX操作或者对于MyIsam存储引擎优化Count(*)操作，不必等到执行阶段再计算，查询执行计划生成的阶段即完成优化
             9. distinct 优化distinct操作，找到第一匹配的元组后即停止找同样值的动作
 
-## 索引优化（为查询建立索引）
+### 索引优化（为查询建立索引）
 
 1. 多表连接
    1. 左连接右表加索引，右连接左表加索引
@@ -224,7 +227,7 @@
    8. 当全表扫描速度比索引速度快时，mysql会使用全表扫描，此时索引失效
 
 
-## 查询截取分析（为排序、分组建立索引）
+### 查询截取分析（为排序、分组建立索引）
 
 1. 操作
    1. 开启慢查询日志，设置阈值，并捕获
@@ -255,7 +258,7 @@
    1. 同查询、排序原则相同
    2. where高于having，能写在where的限定条件不要用having
 
-## 慢查询日志
+### 慢查询日志
 
 1. 简介
 
@@ -287,6 +290,83 @@
       1. 查看当前阈值 SHOW [global] VARIABLES LIKE 'long_query_time%'
       2. 设置阈值 set global long_query_time=3
       3. 展示日志中有多少慢查询 show global status like '%Slow_queries%'
+
+3. 配置
+
+   ```sql
+   slow_query_log=1
+   slow_query_log_file=/var/lib/mysql/atguigu-slow.log
+   long_query_time=3
+   logoutput=FILE
+   ```
+
+4. 日志分析工具mysqldumpslow
+
+   1. 选项
+      1. s 是表示按照何种方式排序
+      2. c 访问次数
+      3. i 锁定时间
+      4. r 返回记录
+      5. t 查询时间
+      6. al 平均锁定时间
+      7. ar 平均返回记录数
+      8. at 平均查询时间
+      9. t 返回前面多少条数据
+      10. g 搭配正则匹配 大小写不敏感
+
+5. 函数慢查询日志
+
+   1. 为function指定参数
+      1. show varables like 'log_bin_trust_function_creators'
+      2. set global log_bin_trust_function_creators=1
+
+   2. 配置
+      1. windows my.ini上log_bin_trust_function_creators=1
+      2. linux my.cnf上log_bin_trust_function_creators=1
+
+
+### Show Profile
+
+1. 简介
+   1. 是mysql提供可以用来分析当前会话中语句执行的资源消耗情况，可用于sql的调优的测量
+   2. 默认关闭，保存最近15次运行
+2. 使用
+   1. 开启
+      1. set profiling=on
+      2. Show variables like 'profiling'
+   2. 查询
+      1. show profiles;
+      2. show profile cpu.block io for query sql数字号;
+         1. ALL 显示所有的开销信息
+         2. BLOCK IO 显示块io相关开销
+         3. CONTEXT SWITCHES 上下文切换相关开销
+         4. CPU 显示cpu相关开销信息
+         5. PIC 显示发送和接受相关开销信息
+         6. MEMORY 显示内存相关开销信息
+         7. PAGE FAULTS 显示页面错误相关开销信息
+         8. SOURCE 显示和Source_function,source_file,Source_line相关的开销信息
+         9. SWAPS 显示交换次数相关开销的信息
+      3. 危险的提示
+         1. converting HEAP to MyISAM 查询结果太大，内存不够用
+         2. Creatingtmp table 创建临时表，用完即删除
+         3. Copying to tmp table on disk 把内存中临时表复制到磁盘
+         4. locked
+
+### 全局查询日志
+
+1. 配置启用
+2. 编码启用
+   1. set global general_log=1;
+   2. set global log_output='TABLE';
+   3. 此后所有编写的sql语句都会记录在general_log表，可以用下面的命令查看
+   4. select * from mysql.general_log;
+3. 永远不要在生产环境开启这个功能
+
+## 数据库锁理论
+
+1. 简介
+   1. 锁是计算机协调多个进程或县城并发访问某一资源的机制，在数据库中，数据也是一种提供许多用户共享的资源
+   2. 保证数据并发访问一致性、有效性是所有数据库必须解决的一个问题，锁从图也是影响并发访问性能的一个重要因素
 
 ## 其他操作
 
