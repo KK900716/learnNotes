@@ -111,7 +111,7 @@
    2. EVN 设置环境变量，可在后面指令使用 ENV key value
    3. COPY 拷贝本地文件到镜像的指定目录 COPY ./mysql-5.7.rpm /tmp
    4. RUN 执行LINUX的shell命令，一般是安装过程的命令 RUN yum install gcc
-   5. EXPOSE 指定容器运行时监听的端口，是给惊险使用者看的 EXPOSE 8080
+   5. EXPOSE 指定容器运行时监听的端口，是给镜像使用者看的 EXPOSE 8080
    6. ENTRYPOINT 镜像中应用的启动命令，容器运行时调用 ENTRYPOINT java -jar xx.jar
 3. docker build -t javaweb:1.0 .
 
