@@ -164,7 +164,7 @@
 
 ## RestTemplate
 
-1. RestTemplate提供了多种边界访问远程Http服务的方法
+1. RestTemplate提供了多种便捷访问远程Http服务的方法
 2. 是一种简单便捷的访问restful服务模版类，是Spring提供的用于访问Rest服务的客户端模版工具集
 3. 三个参数
    1. 请求地址
@@ -240,7 +240,9 @@
 
 4. 原理说明（Eureka集群）
 
-   1. 互相注册，相互守望
+   1. Eureka Server集群互相注册，相互守望
+   2. 服务提供者也使用集群，但名字相同，依靠地址、端口后进行区分
+   3. 消费者通过给RestTemplate配置@LoadBalanced注解后，可以通过服务名称访问服务
+   4. 
 
-   
 
