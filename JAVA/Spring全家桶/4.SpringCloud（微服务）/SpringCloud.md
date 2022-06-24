@@ -201,24 +201,24 @@
       2. yml配置文件
 
 
-      ```yml
-      server:
-        port: 10086
-      eureka:
-        instance:
-          hostname: localhost
-        client:
-          # 表示不注册自己
-          register-with-eureka: false
-          # 表示自己就是注册中心，不需要检索
-          fetch-registry: false
-          service-url:
-            defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-      #      defaultZone: http://127.0.0.1:7001/eureka/
-      spring:
-        application:
-          name: eurka-server
-      ```
+```yml
+  server:
+    port: 10086
+  eureka:
+    instance:
+      hostname: localhost
+    client:
+      # 表示不注册自己
+      register-with-eureka: false
+      # 表示自己就是注册中心，不需要检索
+      fetch-registry: false
+      service-url:
+        defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  #      defaultZone: http://127.0.0.1:7001/eureka/
+  spring:
+    application:
+      name: eurka-server
+```
 
    2. 客户端配置
 
@@ -227,16 +227,16 @@
       2. 配置文件
 
 
-      ```yml
-      eureka:
-        client:
-          # 表示是否将自己注册金EurekaServer默认为true
-          register-with-eureka: true
-          # 是否从EurekaServer抓取又有的注册信息，默认为true。单节点无所谓集群必须设置为true才能配合ribbon使用负载均衡
-          fetch-registry: true
-          service-url:
-            defaultZone: http://localhost:10086/eureka
-      ```
+```yml
+  eureka:
+    client:
+      # 表示是否将自己注册金EurekaServer默认为true
+      register-with-eureka: true
+      # 是否从EurekaServer抓取又有的注册信息，默认为true。单节点无所谓集群必须设置为true才能配合ribbon使用负载均衡
+      fetch-registry: true
+      service-url:
+        defaultZone: http://localhost:10086/eureka
+```
 
 4. 原理说明（Eureka集群）
 
@@ -244,5 +244,4 @@
    2. 服务提供者也使用集群，但名字相同，依靠地址、端口后进行区分
    3. 消费者通过给RestTemplate配置@LoadBalanced注解后，可以通过服务名称访问服务
    4. 
-
 
