@@ -111,5 +111,4 @@
 
    1. By default, multi-core CPU concurrent processing is used for stream processing
    2. Words of the same type are executed by the same thread
-
-## 
+   3. 

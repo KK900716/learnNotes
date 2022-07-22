@@ -82,4 +82,28 @@
       method2(b)
       ```
 
-      
+
+## Gradle project
+
+1. build.gradle
+   1. group
+   2. version
+   3. sourceCompatibility: java version
+   4. repositories: Designated main warehouse
+      1. mavenCentral(): use central repository
+      2. mavenLocal(): use local repository
+   5. dependencies：This property is saved all coordinates of the jar package 
+      1. scope
+         1. testCompile
+         2. complie
+      2. group
+      3. name
+      4. version
+2. Gradle use mavne local repository
+   1. In environment variables
+      1. The variable name: GRADLE_USER_HOME
+      2. The variable value: maven local repository path
+
+## Gradle packaging
+
+1. apply plugin: 'war'
