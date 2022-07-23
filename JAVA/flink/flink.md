@@ -111,4 +111,53 @@
 
    1. By default, multi-core CPU concurrent processing is used for stream processing
    2. Words of the same type are executed by the same thread
-   3. 
+   
+4. unbounded stream proccessing
+
+   ```java
+   public class StreamWordCount {
+       public static void main(String[] args) {
+           // 1. 创建流式执行环境
+           StreamExecutionEnvironment executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment();
+           // 2. 读取文本流
+           // 从参数中提取主机名和端口号
+           ParameterTool parameterTool=ParameterTool.fromArgs(args);
+           String host = parameterTool.get("host");
+           int port = parameterTool.getInt("port");
+           DataStreamSource<String> lineDataStream = executionEnvironment.socketTextStream(host, port);
+           // 3. 转换计算
+           SingleOutputStreamOperator<Tuple2<String, Long>> wordAndOneTuple = lineDataStream.flatMap((String line, Collector<Tuple2<String, Long>> out) -> {
+               String[] s = line.split(" ");
+               for (String word : s) {
+                   out.collect(Tuple2.of(word, 1L));
+               }
+           }).returns(Types.TUPLE(Types.STRING, Types.LONG));
+           // 4. 分组
+           KeyedStream<Tuple2<String, Long>, String> tuple2StringKeyedStream = wordAndOneTuple.keyBy(data -> data.f0);
+           // 5. 求和
+           SingleOutputStreamOperator<Tuple2<String, Long>> sum = tuple2StringKeyedStream.sum(1);
+           // 6. 打印
+           sum.print();
+           try {
+               executionEnvironment.execute();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
+   }
+   
+   ```
+
+## Flink deployment
+
+1. Flink has serveral componets
+   1. Client
+   2. JobManager
+   3. TaskManager
+   4. Our code from Client to convert submit to JobManger. So JobManager is Manager of Flink group. And it is responsible for the central scheduling of jobs. It get the job from Client and further processes the data and distribute TaskManager to execute.
+2. Flink default use port 8081 to start job
+3. Several model
+   1. Session model
+   2. Single job model (Flink dose not support)
+   3. Application model
+

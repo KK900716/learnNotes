@@ -22,11 +22,33 @@
 
 ## 安装启动Docker
 
-1. 通过命令启动docker
+1. Linux安装
+
+   1. Set up the repository
+
+      ```shell
+      $ sudo yum install -y yum-utils
+      $ sudo yum-config-manager \
+          --add-repo \
+          https://download.docker.com/linux/centos/docker-ce.repo
+      ```
+
+   2. Install Docker Engine
+
+      ```shell
+      $ sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+      $ systemctl start docker
+      ```
+
+      
+
+2. 通过命令启动docker
+
    1. systemctl start docker 启动
    2. systemctl stop docker 停止
    3. systemctl restart docker 重启
-2. 配置镜像
+
+3. 配置镜像
 
 ## Docker基本操作
 
