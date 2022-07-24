@@ -154,10 +154,39 @@
    1. Client
    2. JobManager
    3. TaskManager
-   4. Our code from Client to convert submit to JobManger. So JobManager is Manager of Flink group. And it is responsible for the central scheduling of jobs. It get the job from Client and further processes the data and distribute TaskManager to execute.
+   4. Our code from Client to convert submit to JobManger. So JobManager is Manager of Flink cluster. And it is responsible for the central scheduling of jobs. It get the job from Client and further processes the data and distribute TaskManager to execute.
 2. Flink default use port 8081 to start job
 3. Several model
-   1. Session model
+   1. Session model: Suitable for a single small scale, short execution time of a large number of jobs
    2. Single job model (Flink dose not support)
    3. Application model
+   4. different: The life cycle of the cluster and the way resources are allocated, And where does the main method of the application actually execute(Client or JobManager)
+
+## Flink System framework
+
+![image-20220724192416978](flink.assets\image-20220724192416978.png)
+
+1. JobManager
+   1. JobManager control a application to execute main process, is core of Flink culster that is task management and dispatch.
+   2. Jobmaster
+      1. JobMaster is the most compose of core JobManager. And It to be responsible for dealing with single job.
+      2. When a job is submitted, JobMaster connects to the application to be executed. Typically submitted by the client include: Jar packages, data flow graph, and job graph.
+      3. JobMaster transforms JobGraph into a physical data flow diagram called "execution diagram", which contains all tasks that can be executed concurrently. JobMaster makes a request to the resource manager for the resources necessary to perform the task. Once it has enough resources, it will distribute the star paths to the TaskManager that actually runs them.
+      4. During operation, JobMaster is responsible for all operations that require central coordination, such as the coordination of checkpoints
+   3. ResourceManager
+      1. Manager is mainly responsible for the allocation and management of resources, and there is only one in Flink cluster. Resources mainly refer to task slots of TaskManager.
+      2. Task slots is a resource allocation unit in Flink cluster, which contains a set of CPU and memory resources used by the machine to perform calculations. Every Task needs to be assigned to a slot for execution.
+   4. Dispatcher
+      1. Dispatcher is mainly responsible for providing a REST interface to submit applications, and is responsible for starting a new JobMaster component for each newly submitted job. 
+      2. Dispatcher will also launch a Web UI, which is used to conveniently display and monitor the information of job execution. Dispatcher is not necessary in the architecture, but may be in different deployment modes.
+   
+2. TaskManager
+   1. A worker process in Flink.
+   2. Usually there will be multiple TaskManagers running in Flink, and each task manager contains a certain number of slots. The number of slots limits the number of tasks that TaksManager can handle in parallel.
+   3. After startup, TaskManager will register its slots with the resource manager, and after receiving the instructions from the resource manager, TaskManager will provide one or more slots for JobMaster to call. JobMaster can assign tasks to slots to execute.
+   4. During execution, one TaskManager can exchange data with other task managers running unified applications.
+   
+3. Job submission process
+
+   ![image-20220724200233154](flink.assets\image-20220724200233154.png)
 
