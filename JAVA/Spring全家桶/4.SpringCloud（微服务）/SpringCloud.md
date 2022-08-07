@@ -243,5 +243,19 @@
    1. Eureka Server集群互相注册，相互守望
    2. 服务提供者也使用集群，但名字相同，依靠地址、端口后进行区分
    3. 消费者通过给RestTemplate配置@LoadBalanced注解后，可以通过服务名称访问服务
-   4. 
 
+### Ribbon load balancing
+
+- Ribbon load balancing process
+
+    ![image-20220806145506168](SpringCloud.assets/image-20220806145506168.png)
+
+    ![image-20220806150733478](SpringCloud.assets/image-20220806150733478.png)
+
+  - Global configuration
+
+    ![image-20220806151304160](SpringCloud.assets/image-20220806151304160.png)
+
+  - Local configuration
+
+    ![image-20220806151748909](SpringCloud.assets/image-20220806151748909.png)
