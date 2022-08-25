@@ -6,9 +6,20 @@
 
 ## Gradle introduce
 
+### introduce
+
 1.  Gradle supports generating JAR packages
 1.  Gradle supports managing dependency
 1.  Compared to Maven,XML files are abandoned and Groovy language is used in Gradle
+
+### PATH
+
+- GRADLE_USER_HOME: Gradle repository
+- GRADLE_HOME
+
+### The directory structure
+
+![image-20220825232647831](Gradle.assets/image-20220825232647831.png)
 
 ## Idea use Gradle
 
