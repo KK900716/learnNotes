@@ -21,6 +21,31 @@
 
 ![image-20220825232647831](Gradle.assets/image-20220825232647831.png)
 
+### Gradle source
+
+#### init.d directory
+
+- Create file that is the suffix of .gradle to execute before project.
+
+  ![image-20220829220844285](Gradle.assets/image-20220829220844285.png)
+
+  - mavenLocal()
+    - need environment variable M2_HOME
+  - developer.aliyun.com/mvn/guide  some sources
+
+  ![image-20220829221541913](Gradle.assets/image-20220829221541913.png)
+
+  ![image-20220829221839327](Gradle.assets/image-20220829221839327.png)
+
+### Gradle wrapper
+
+- Using gradle wrapper can avoid the impact of version configuration and other issues on the project 
+  - gradlew
+  - gradlew.cmd
+- command
+  - gradle wrapper --gradle-version Specify the version
+  - gradle--gradle-distribution-url Specify the url
+
 ## Idea use Gradle
 
 1. File structure
@@ -33,6 +58,12 @@
 
 ## Groovy syntax
 
+### The official website
+
+[The Apache Groovy programming language (groovy-lang.org)](http://www.groovy-lang.org/)
+
+### syntax
+
 1. First program
 
    ```groovy
@@ -43,7 +74,23 @@
 
 3. Groovy can omit "()"
 
-4. Define variables
+4. Groovy can use script or class in the same file.
+
+   1. Do not use class name as file name.
+
+   2. Specific data types are not recommended.
+
+5. Default modifier is public.
+
+6. Assign a value to an object
+
+   1. Object.attribute = xxx
+   2. Object.setter
+   3. Named name constructor
+
+7. ![image-20220830231102541](Gradle.assets/image-20220830231102541.png)
+
+8. Define variables
 
    1. "def" defines weakly typed variables
 
@@ -67,7 +114,7 @@
       println map.get('key3')
       ```
 
-5. Closures in Groovy
+9. Closures in Groovy
 
    1. Simple Closure
 
