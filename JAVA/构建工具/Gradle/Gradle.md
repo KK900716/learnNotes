@@ -4,26 +4,26 @@
 
 
 
-## Gradle introduce
+## 1. Gradle introduce
 
-### introduce
+### 1.1 introduce
 
 1.  Gradle supports generating JAR packages
 1.  Gradle supports managing dependency
 1.  Compared to Maven,XML files are abandoned and Groovy language is used in Gradle
 
-### PATH
+### 1.2 PATH
 
 - GRADLE_USER_HOME: Gradle repository
 - GRADLE_HOME
 
-### The directory structure
+### 1.3 The directory structure
 
 ![image-20220825232647831](Gradle.assets/image-20220825232647831.png)
 
-### Gradle source
+### 1.4 Gradle source
 
-#### init.d directory
+#### 1.4.1 init.d directory
 
 - Create file that is the suffix of .gradle to execute before project.
 
@@ -37,7 +37,7 @@
 
   ![image-20220829221839327](Gradle.assets/image-20220829221839327.png)
 
-### Gradle wrapper
+### 1.5 Gradle wrapper
 
 - Using gradle wrapper can avoid the impact of version configuration and other issues on the project 
   - gradlew
@@ -46,7 +46,7 @@
   - gradle wrapper --gradle-version Specify the version
   - gradle--gradle-distribution-url Specify the url
 
-## Idea use Gradle
+## 2. Idea use Gradle
 
 1. File structure
    1. src/main/java Placing production code
@@ -56,13 +56,13 @@
    5. src/main/webapp Placing page elements
 2. Groovy console
 
-## Groovy syntax
+## 3. Groovy syntax
 
-### The official website
+### 3.1 The official website
 
 [The Apache Groovy programming language (groovy-lang.org)](http://www.groovy-lang.org/)
 
-### syntax
+### 3.2 syntax
 
 1. First program
 
@@ -140,7 +140,9 @@
       method2(b)
       ```
 
-## Junit
+### 3.3 plugins
+
+#### 3.3.1 Junit
 
 - junit5 need some code
 
@@ -155,22 +157,22 @@
 
   
 
-## Life cycle
+## 4. Life cycle
 
-### Initialization
+### 4.1 Initialization
 
 - process
 
   ![image-20220901231445039](Gradle.assets/image-20220901231445039.png)
 
-## settings file
+### 4.2 settings file
 
 - The initialization phase determines which projects are introduced to be added to the project build
 - use ':' segmentation
 
-### Task
+### 4.3 Task
 
-#### Behavior of task
+#### 4.3.1 Behavior of task
 
 - Task is a list of object
 - Closure as last parameter could write out side.
@@ -185,7 +187,7 @@
 - Can pass a map closure
 - << 已废弃，代表dolast
 
-#### The way tasks are dependent
+#### 4.3.2 The way tasks are dependent
 
 - parameter dependence 
   - use parameter "dependsOn: []"
