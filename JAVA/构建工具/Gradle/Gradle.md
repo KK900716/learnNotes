@@ -140,5 +140,58 @@
       method2(b)
       ```
 
-      
+## Junit
 
+- junit5 need some code
+
+  ```groovy
+  test{
+      enabled(false) //jump test
+  	useJUnitPlatform()
+      include('xxx') //execute specific package(use ** to refer to files)
+      exclude('xxx')
+  }
+  ```
+
+  
+
+## Life cycle
+
+### Initialization
+
+- process
+
+  ![image-20220901231445039](Gradle.assets/image-20220901231445039.png)
+
+## settings file
+
+- The initialization phase determines which projects are introduced to be added to the project build
+- use ':' segmentation
+
+### Task
+
+#### Behavior of task
+
+- Task is a list of object
+- Closure as last parameter could write out side.
+  - Configuration Project
+  - Execute Project
+    - doFirst{}
+      - Add first, execute later
+    - doLast{}
+      - Those added later will be executed later
+- behavior
+  - Can be defined internally or externally
+- Can pass a map closure
+- << 已废弃，代表dolast
+
+#### The way tasks are dependent
+
+- parameter dependence 
+  - use parameter "dependsOn: []"
+
+- inner dependence 
+  - dependsOn = []
+- outer dependence 
+  - dependsOn = []
+- If the tasks do not depend on each other, the execution of the dependencies is random
