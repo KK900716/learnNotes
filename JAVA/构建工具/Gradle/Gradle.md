@@ -197,3 +197,79 @@
 - outer dependence 
   - dependsOn = []
 - If the tasks do not depend on each other, the execution of the dependencies is random
+- Dependencies are executed only once
+
+#### 4.3.3 Task execution
+
+- gradle [taskName...] [--option-name...]
+
+  ![image-20220908214150066](Gradle.assets/image-20220908214150066.png).
+
+  
+
+- gradle run
+
+  - add plugins
+
+  - ```groovy
+    plugins {
+    	id 'application'
+    }
+    mainClassName = 'com.xxx.xxx.Main'
+    ```
+
+- gradle clean only clean the current project
+
+  ![image-20220908214607461](Gradle.assets/image-20220908214607461.png)
+
+- gradle tasks
+
+  - group
+
+  - ```groovy
+    group "abc"
+    ```
+
+- gradle dependecies * have conflict
+
+  ![image-20220908215053434](Gradle.assets/image-20220908215053434.png)
+
+- Performance related
+
+  - use gradle.properties file
+
+    ![image-20220908221456899](Gradle.assets/image-20220908221456899.png)
+
+  - ![image-20220908221934748](Gradle.assets/image-20220908221934748.png)
+
+  - ![image-20220908222112951](Gradle.assets/image-20220908222112951.png)
+
+- expand
+
+  ![image-20220908222538970](Gradle.assets/image-20220908222538970.png)
+
+#### 4.3.4 Task define
+
+- 5 kinds of way
+
+- tasks.create
+
+- tasks.register  Create a delay
+
+  ![image-20220908223605627](Gradle.assets/image-20220908223605627.png)
+
+  
+
+#### 4.3.5 Task type
+
+![image-20220908224533609](Gradle.assets/image-20220908224533609.png)
+
+- Customize the task type
+
+  ![image-20220908225051141](Gradle.assets/image-20220908225051141.png)
+
+#### 4.3.6 execute the order
+
+![image-20220908225414564](Gradle.assets/image-20220908225414564.png)
+
+#### 4.3.7 
