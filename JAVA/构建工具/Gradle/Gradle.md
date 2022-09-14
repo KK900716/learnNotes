@@ -272,4 +272,38 @@
 
 ![image-20220908225414564](Gradle.assets/image-20220908225414564.png)
 
-#### 4.3.7 
+#### 4.3.7 dynamic dispatch
+
+![image-20220912204107392](Gradle.assets/image-20220912204107392.png)
+
+#### 4.3.8 task open and close
+
+- enabled default true
+- timeout = Duration.ofMilliseconds(500)
+
+#### 4.3.9 task find
+
+- findByName、getByName
+- findByPath、getByPath
+
+#### 4.3.10 task regular
+
+```groovy
+tasks.addRule("") {
+	String taskName->task(taskName) {
+		println taskName
+	}
+}
+```
+
+#### 4.3.11 task assert
+
+#### 4.3.12 task default
+
+defaultTasks ''
+
+## 5 Gradle operation file
+
+### 5.1 Project.file method
+
+### 5.2 new file
