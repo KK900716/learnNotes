@@ -99,21 +99,198 @@
   	private native void start0();
   ```
 
-  ## 2. Java多线程实现
 
-  ## 3. JVM级别锁，synchronized关键字及优化原理
+# 2. Java多线程实现
 
-  ## 4. JDK级别锁，Lock接口，及ReentrantLock实现类
+## 2.1 继承Thread类，重写run方法
 
-  ## 5. CAS操作及原子类
+```java
+        new Thread() {
+            @Override
+            public void run() {
+                log.info("{}", "hello world!");
+            }
+        }.start();
+```
 
-  ## 6. 线程间通信、死锁、饥饿
+## 2.2 实现Runnable接口
 
-  ## 7. AQS及JDK线程池
+```java
+        new Thread(() -> log.info("{}", "hello world!")).start();
+```
 
-  ## 8. Java并发工具包
+## 2.3 实现Callable接口
 
-  ## 9. 新特性JDK19协程
+```java
+        FutureTask<String> futureTask = new FutureTask<>(() -> "hello world!");
+        new Thread(futureTask).start();
+        log.info("{}", futureTask.get());
+```
+
+## 2.4 线程池
+
+```java
+    /**
+     * Creates a new {@code ThreadPoolExecutor} with the given initial
+     * parameters.
+     *
+     * @param corePoolSize the number of threads to keep in the pool, even
+     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
+     * @param maximumPoolSize the maximum number of threads to allow in the
+     *        pool
+     * @param keepAliveTime when the number of threads is greater than
+     *        the core, this is the maximum time that excess idle threads
+     *        will wait for new tasks before terminating.
+     * @param unit the time unit for the {@code keepAliveTime} argument
+     * @param workQueue the queue to use for holding tasks before they are
+     *        executed.  This queue will hold only the {@code Runnable}
+     *        tasks submitted by the {@code execute} method.
+     * @param threadFactory the factory to use when the executor
+     *        creates a new thread
+     * @param handler the handler to use when execution is blocked
+     *        because the thread bounds and queue capacities are reached
+     * @throws IllegalArgumentException if one of the following holds:<br>
+     *         {@code corePoolSize < 0}<br>
+     *         {@code keepAliveTime < 0}<br>
+     *         {@code maximumPoolSize <= 0}<br>
+     *         {@code maximumPoolSize < corePoolSize}
+     * @throws NullPointerException if {@code workQueue}
+     *         or {@code threadFactory} or {@code handler} is null
+     */
+    public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler)
+```
+
+## 2.5 常用API
+
+### 2.5.1 run方法
+
+- 通过重写run方法实现该线程的逻辑
+
+### 2.5.2 start方法
+
+- 用于启动这个线程
+- 注意这个线程一旦运行完成，不能再次使用，不能重复调用start
+
+### 2.5.3 Thread.sleep方法
+
+- 休眠该线程，让出CPU使用权，单位毫秒
+- TimeUnit.MINUTES.sleep 通过指定枚举类休眠该线程
+- 注意当休眠结束时线程不会立刻占有CPU而是进入就绪状态同其他线程一样等待被调度
+
+### 2.5.4 LockSupport.park、unpark(thread)方法
+
+- 阻塞该线程，让出CPU使用权、结束该线程的阻塞状态进入就绪队列
+
+### 2.5.5 Thread.interrupted方法
+
+- 打断当前线程或使用线程调用该方法打断线程，使打断标记置为true
+- 若线程在休眠，或在阻塞，将抛出InterruptedException异常
+- 若线程处于阻塞状态被打断恢复运行时，请讲打断标记恢复为false，调用isInterrupted方法，否则下次打断无效
+
+### 2.5.6 Thread.currentThread方法
+
+- 获取当前线程
+
+### 2.5.7 getState方法
+
+- 获取当前线程状态
+
+  ```java
+      public enum State {
+          /**
+           * Thread state for a thread which has not yet started.
+           */
+          NEW,
   
-  ## 10. Flink异步编程
+          /**
+           * Thread state for a runnable thread.  A thread in the runnable
+           * state is executing in the Java virtual machine but it may
+           * be waiting for other resources from the operating system
+           * such as processor.
+           */
+          RUNNABLE,
+  
+          /**
+           * Thread state for a thread blocked waiting for a monitor lock.
+           * A thread in the blocked state is waiting for a monitor lock
+           * to enter a synchronized block/method or
+           * reenter a synchronized block/method after calling
+           * {@link Object#wait() Object.wait}.
+           */
+          BLOCKED,
+  
+          /**
+           * Thread state for a waiting thread.
+           * A thread is in the waiting state due to calling one of the
+           * following methods:
+           * <ul>
+           *   <li>{@link Object#wait() Object.wait} with no timeout</li>
+           *   <li>{@link #join() Thread.join} with no timeout</li>
+           *   <li>{@link LockSupport#park() LockSupport.park}</li>
+           * </ul>
+           *
+           * <p>A thread in the waiting state is waiting for another thread to
+           * perform a particular action.
+           *
+           * For example, a thread that has called {@code Object.wait()}
+           * on an object is waiting for another thread to call
+           * {@code Object.notify()} or {@code Object.notifyAll()} on
+           * that object. A thread that has called {@code Thread.join()}
+           * is waiting for a specified thread to terminate.
+           */
+          WAITING,
+  
+          /**
+           * Thread state for a waiting thread with a specified waiting time.
+           * A thread is in the timed waiting state due to calling one of
+           * the following methods with a specified positive waiting time:
+           * <ul>
+           *   <li>{@link #sleep Thread.sleep}</li>
+           *   <li>{@link Object#wait(long) Object.wait} with timeout</li>
+           *   <li>{@link #join(long) Thread.join} with timeout</li>
+           *   <li>{@link LockSupport#parkNanos LockSupport.parkNanos}</li>
+           *   <li>{@link LockSupport#parkUntil LockSupport.parkUntil}</li>
+           * </ul>
+           */
+          TIMED_WAITING,
+  
+          /**
+           * Thread state for a terminated thread.
+           * The thread has completed execution.
+           */
+          TERMINATED;
+      }
+  ```
+
+### 2.5.8 join方法
+
+- 主线程必须等待子线程执行完毕后在执行，原理是调用wait方法
+
+### 2.5.9 setDaemon方法
+
+- 设置该线程为守护线程
+
+# 3. JVM级别锁，synchronized关键字及优化原理
+
+
+
+# 4. JDK级别锁，Lock接口，及ReentrantLock实现类
+
+# 5. CAS操作及原子类
+
+# 6. 线程间通信、死锁、饥饿
+
+# 7. AQS及JDK线程池
+
+# 8. Java并发工具包
+
+# 9. 新特性JDK19协程
+
+# 10. Flink异步编程
 
