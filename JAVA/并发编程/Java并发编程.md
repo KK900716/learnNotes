@@ -278,9 +278,274 @@
 
 # 3. JVM级别锁，synchronized关键字及优化原理
 
+## 3.1 当该关键字作用于非静态方法，锁为该类的实例this
 
+## 3.2 当该关键字作用于静态方法，锁为该类 xxx.class
+
+## 3.3 同步代码块
+
+- 被该关键字包裹的代码称为同步代码块，即同一时间只能由一个线程占有该代码块执行
+- 其他未能争抢到锁的线程将进入阻塞队列，让出CPU使用权，直至一个线程执行完synchronized方法或调用锁的notify()方法或notifyAll()方法唤醒其他线程
+
+## 3.4 底层原理
+
+### 3.4.1 对象锁
+
+![image-20221019224403114](Java并发编程.assets/image-20221019224403114.png)
+
+![img](Java并发编程.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDE2MTkx,size_16,color_FFFFFF,t_70-16661921559167.png)
+
+
+
+```groovy
+implementation 'org.openjdk.jol:jol-core:0.16'
+```
+
+```java
+        System.out.println(ClassLayout.parseInstance(Main.class).toPrintable());
+```
+
+![image-20221019224743073](Java并发编程.assets/image-20221019224743073.png)
+
+- markword 中一般包含三类信息，GC年龄、锁标识和对象 hashCode
+
+```java
+        System.out.println(ClassLayout.parseInstance(LOCK).toPrintable());
+        synchronized (LOCK) {
+            System.out.println(ClassLayout.parseInstance(LOCK).toPrintable());
+        }
+```
+
+![image-20221019225150144](Java并发编程.assets/image-20221019225150144.png)
+
+- 每个对象都是一个监视器锁(monitor)。当monitor被占用时就会处于锁定状态，线程执行 monitorenter指令时尝试获取monitor的所有权
+  - 原子性：确保线程互斥的访问同步代码
+  - 可见性：保证共享变量的修改能够及时可见
+  - 有序性：有效解决重排序问题
+
+![img](Java并发编程.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDE2MTkx,size_16,color_FFFFFF,t_70.png)
+
+
+
+### 3.4.2 偏向锁（java6引入，7后默认开启 -XX:-UseBiasedLocking = false可以关闭）
+
+- 锁升级
+
+![img](Java并发编程.assets/7374490cac24457e8fd2554b5da6652a.png)
+
+- 加锁和解锁不需要额外消耗，和执行非同步方法相比仅存在纳秒级的差距
+- 如果线程间存在锁竞争会带来额外的锁撤销消耗
+- jvm会默认设置为偏向锁，当发生了多次锁竞争时，与初始的jvm认为的偏向线程有误（默认20次），jvm会认为自己判断错误会给另一个线程进行偏向，当执行一段时间后jvm发现该代码块仍然是多个线程竞争（40次），jvm会取消偏向锁，升级为轻量级锁
+- 适用于只有一个线程访问同步代码块场景
+- 调用锁的hashcode方法会撤销偏向状态，原因是hashcode和偏向锁共用了一块对象头内容
+- 调用wait、notify方法会升级为重量级锁
+
+### 3.4.3 轻量级锁（6引进）
+
+- 当线程不能获得锁时线程不会立刻放弃CPU，会进入自旋状态，即乐观的期望锁马上被释放
+- 这样做可以减少重量级锁切换花费的开销
+- 适用于大量线程执行，但每个线程执行时间很短
+- 注意轻量级锁只对多核CPU情况下才能得到优化
+- 调用wait、notify方法会升级为重量级锁
+
+### 3.4.4 重量级锁（-XX:+UseHeavyMonitors，使用重量级锁会撤销偏向锁和轻量级锁）
+
+- 线程不适用自旋，不消耗CPU，线程阻塞，响应时间慢
+- 适应于追求吞吐量，同步执行速度较长
+
+### 3.4.5 锁重入
+
+- 是指在已经加锁的代码块中继续用该锁加锁
+
+- synchronized 是可冲入锁
+
+  ```java
+          System.out.println(ClassLayout.parseInstance(LOCK).toPrintable());
+          synchronized (LOCK) {
+              System.out.println(ClassLayout.parseInstance(LOCK).toPrintable());
+              synchronized (LOCK) {
+                  System.out.println(ClassLayout.parseInstance(LOCK).toPrintable());
+              }
+          }
+  ```
+
+  ![image-20221019232108894](Java并发编程.assets/image-20221019232108894.png)
+
+- 不会重新绑定一个锁，会为monitor的计数器+1
+
+### 3.4.6 锁消除
+
+- 指虚拟机即时编译器在运行时，对一些代码要求同步，但是对被检测到不可能存在共享数据竞争的锁进行消除
+
+### 3.4.7 锁粗化
+
+- 原则上我们编写代码时要保证加锁的内容尽量的小
+- 但如果对一系列连续操作反复加锁，或加锁出现在循环体内，不同的虚拟机实现可能会将加锁的范围扩大到整个操作，因为虚拟机认为，频繁加锁的代价更大
+
+### 3.4.8 锁膨胀
+
+- 不同与锁粗化，锁膨胀指的是锁升级的过程，注意，锁只会升级，不会降级
+
+## 3.5 锁
+
+![image-20221019232816046](Java并发编程.assets/image-20221019232816046.png)
+
+任何一个对象都可以作为锁
+
+### 3.6 volatile关键字
+
+- 修饰成员变量
+
+  - 保证其全局可见性
+  - 保证不会出现指令重排序
+
+- 原理，为其他变量读该值时增加读屏障，保证寄存器中的值必须会写内存后才能读
+
+- 注意，读可见仅仅能保证读该操作时变量的值为当前值，如果要修改该变量的值，必须加锁保证原子性
+
+  ```java
+      private static volatile int x = 0;
+      public static void main(String[] args) {
+          Thread thread = new Thread(() -> {
+              while (true)
+                  x++;
+          });
+          new Thread(() -> {
+              while (true)
+                  if (x > 1) {
+                      thread.stop();
+                      log.info("{}",x);
+                      break;
+                  }
+          }).start();
+          thread.start();
+      }
+  ```
+
+  ![image-20221019233822174](Java并发编程.assets/image-20221019233822174.png)
+
+## 3.7 wait notify方法
+
+- 这两个方法必须在持有锁的线程执行，否则将报错
+
+- 这两个方法可以进行线程间的通信
+
+  - 原理是在一个同步代码块中执行wait方法将阻塞该线程并立即释放锁所有权，在一个同步代码块中执行notify方法将随机唤醒一个线程进入阻塞队列，notifyAll方法将唤醒所有线程竞争锁
+  - 一般我们可以采用notifyAll方法唤醒其他线程
+  - 两阶段唤醒：使用while(!条件) lock.wait() 如果遇到条件成立则唤醒自己的线程执行下面的代码，保证线程即不会轮询空转消耗CPU，又可以及时得到相应
+
+  ```java
+      public static void main(String[] args) throws InterruptedException {
+          AtomicInteger x = new AtomicInteger(1);
+          ExecutorService executorService = Executors.newFixedThreadPool(3);
+          executorService.execute(()->{
+              synchronized (Main.class) {
+                  while (true) {
+                      while (x.get() != 1){
+                          try {
+                              Main.class.wait();
+                          } catch (InterruptedException e) {
+                              throw new RuntimeException(e);
+                          }
+                      }
+                      log.info("1");
+                      try {
+                          Thread.sleep(1000);
+                      } catch (InterruptedException e) {
+                          throw new RuntimeException(e);
+                      }
+                      x.incrementAndGet();
+                      Main.class.notifyAll();
+                  }
+              }
+          });
+          executorService.execute(()->{
+              synchronized (Main.class) {
+                  while (true) {
+                      while (x.get() != 2){
+                          try {
+                              Main.class.wait();
+                          } catch (InterruptedException e) {
+                              throw new RuntimeException(e);
+                          }
+                      }
+                      log.info("2");
+                      try {
+                          Thread.sleep(1000);
+                      } catch (InterruptedException e) {
+                          throw new RuntimeException(e);
+                      }
+                      x.incrementAndGet();
+                      Main.class.notifyAll();
+                  }
+              }
+          });
+          executorService.execute(()->{
+              synchronized (Main.class) {
+                  while (true) {
+                      while (x.get() != 3){
+                          try {
+                              Main.class.wait();
+                          } catch (InterruptedException e) {
+                              throw new RuntimeException(e);
+                          }
+                      }
+                      log.info("3");
+                      try {
+                          Thread.sleep(1000);
+                      } catch (InterruptedException e) {
+                          throw new RuntimeException(e);
+                      }
+                      x.set(1);
+                      Main.class.notifyAll();
+                  }
+              }
+          });
+      }
+  ```
+
+- 参数中可以设置超时时间
 
 # 4. JDK级别锁，Lock接口，及ReentrantLock实现类
+
+## 4.1 LOCK接口
+
+![image-20221020000244609](Java并发编程.assets/image-20221020000244609.png)
+
+## 4.2 ReentrantLock
+
+- 可重入锁，不公平锁（默认），公平会影响性能
+
+- 底层利用了park方法
+
+- 基于AQS即AbstractQueuedSynchronizer
+
+  ![img](Java并发编程.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poZW5nemhhb3lhbmcxMjI=,size_16,color_FFFFFF,t_70.png)
+
+- 同synchronized使用方法类似，但需要显式的解锁
+
+  ```java
+          ReentrantLock lock = new ReentrantLock();
+          lock.lock();
+          log.info("xxxxxxxx");
+          lock.unlock();
+  ```
+
+- 线程通信
+
+  ```java
+          ReentrantLock lock = new ReentrantLock();
+          Condition condition1 = lock.newCondition();
+          Condition condition2 = lock.newCondition();
+          lock.lock();
+          condition1.await();
+          condition1.signalAll();
+          lock.unlock();
+  ```
+
+  - 比jvm级别通信更强大，不仅可以使用多个条件阻塞线程但是注意调用的方法是await、signal
+  - 读写锁ReadWriteLock接口 ReentrantReadWriteLock实现类
+  - 
 
 # 5. CAS操作及原子类
 
