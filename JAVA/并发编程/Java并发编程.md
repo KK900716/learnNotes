@@ -544,10 +544,150 @@ implementation 'org.openjdk.jol:jol-core:0.16'
   ```
 
   - 比jvm级别通信更强大，不仅可以使用多个条件阻塞线程但是注意调用的方法是await、signal
-  - 读写锁ReadWriteLock接口 ReentrantReadWriteLock实现类
-  - 
+  - 读、写锁ReadWriteLock接口 ReentrantReadWriteLock实现类
 
 # 5. CAS操作及原子类
+
+## 5.1 CAS
+
+- compare and swap，比较交换，非阻塞原子性操作，通过原子性操作，保证两个操作在同一个动作下完成
+
+- 减小因加锁产生的上下文开销
+
+- java实现原理
+
+  - 通过java Unsafe类（不推荐程序员使用，必须通过反射获取）实现，其调用native方法，由JVM实现，它将内存位置的内容与给定值进行比较，只有在相同的情况下，才将内存位置的内容修改为新的值
+
+    ```java
+    public class UnsafeUtil {
+        static Unsafe unsafe;
+        static {
+            try {
+                Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
+                theUnsafe.setAccessible(true);
+                unsafe = (Unsafe) theUnsafe.get(null);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException("获取 Unsafe 对象异常");
+            }
+        }
+        static Unsafe getUnsafe() {
+            return unsafe;
+        }
+    }
+    ```
+
+## 5.2 线程安全
+
+- 当不同线程操作一个可变对象时，就会发生线程安全问题
+- JDK提供的不可变类，不可变类是指，一旦一个类的对象被创建出来，在其整个生命周期中，他的成员变量就不能修改
+  - String
+  - 基本类型的包装类
+  - BigInteger、BigDecimal
+- 自定义不可变类
+  - 使类的所有成员变量被final修饰，所有的方法用final修饰，代表该类的方法不可被重写
+  - 使该类的修饰符为final，代表该类不可被继承
+  - 类中没有修改成员变量的方法，但可以提供一个带参的构造函数来初始化这些成员变量
+- 享元模式（轻量级模式）
+  - 类似于线程池、连接池，构建一个对象池
+  - 这样对象是能够复用的，String类型是典型的应用了享元模式
+  - 包装类也是应用享元模式的一个案例，默认情况下：
+    - jvm会为Byte,Short,Integer,Long默认创建-128~127的类，为Character创建0~127的类，当使用这些类时，其实是使用了该对象池中的类
+    - ==判断内存地址，当使用==判断包装类一旦超出缓存范围，将返回false，所以对于包装类请使用equals方法判断是否相等
+- 常用的StringBuilder、Hashmap、HashSet、ArrayList等均是线程不安全的类，即当两个线程同时操作该类将造成问题
+  - 常见的例如有IndexOutOfBoundsException
+
+![img](Java并发编程.assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5rWq5omT55m96b6Z,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center.png)
+
+## 5.3 原子类
+
+### 5.3.1 介绍
+
+- 原子类是一种包装类
+
+- 原子类提供了一系列CAS的操作
+
+- 常应用于多线程、函数式编程
+
+  ```java
+  @Slf4j
+  public class Main {
+      public static void main(String[] args) throws InterruptedException {
+          AtomicInteger x = new AtomicInteger();
+          test(() -> {
+              x.set(5);
+              return x.get();
+          });
+      }
+      private static void test(hs hs){
+          log.info("{}", hs.fun());
+      }
+  }
+  @FunctionalInterface
+  interface hs{
+      int fun();
+  }
+  ```
+
+  
+
+### 5.3.2 基本原子类
+
+- AtomicBoolean(原子Boolean类)
+
+- AtomicInteger（原子整形类）
+
+- AtomicLong（原子长整型类）
+
+  ```java
+          AtomicInteger x = new AtomicInteger(0);
+          x.compareAndSet(0,1);
+          x.getAndUpdate(operand -> operand == 1 ? 2 : 3);
+          log.info("{}", x.get());
+  ```
+
+  
+
+### 5.3.3 引用原子类
+
+- （基础原子引用类）
+
+- AtomicMarkableReference（可以判断共享变量是否修改过的原子引用类）
+
+  - 其会维护一份标记，当引用被修改过后标记将会被修改
+
+- AtomicStampedReference（带戳的原子引用类）
+
+  - 其会维护一个版本号，当引用被修改后版本号会自增
+  - 因为仅仅维护一份标记是不够的，当前在执行方法时不能判断一个类是否由A变为B又变为A，即ABA问题
+
+  ```java
+          Integer a = 0;
+          AtomicStampedReference<Integer> x = new AtomicStampedReference<>(a, 0);
+          x.set(5, 1);
+          x.set(a, 2);
+          int[] stamp = new int[1];
+          Integer integer = x.get(stamp);
+          log.info("{}", integer);
+          log.info("{}", Arrays.toString(stamp));
+  ```
+
+  ![image-20221020235511725](Java并发编程.assets/image-20221020235511725.png)
+
+### 5.3.4 原子数组类
+
+- AtomicIntegerArray（整型原子数组类）
+- AtomicLongArray（长整型原子数组类）
+- AtomicReferenceArray（引用对象原子数组类）
+
+### 5.3.5 字段更新器原子类（必须配合volatile修饰符修饰field使用）
+
+- AtomicReferenceFieldUpdater
+- AtomicIntegerFieldUpdater
+- AtomicLongFieldUpdater
+
+### 5.3.6 原子累加器
+
+-  LongAdder
 
 # 6. 线程间通信、死锁、饥饿
 
