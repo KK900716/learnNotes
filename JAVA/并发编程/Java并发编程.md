@@ -506,7 +506,7 @@ implementation 'org.openjdk.jol:jol-core:0.16'
 
 - 参数中可以设置超时时间
 
-# 4. JDK级别锁，Lock接口，及ReentrantLock实现类
+# 4. JDK级别锁，Lock接口，及ReentrantLock实现类、StampedLock
 
 ## 4.1 LOCK接口
 
@@ -525,26 +525,87 @@ implementation 'org.openjdk.jol:jol-core:0.16'
 - 同synchronized使用方法类似，但需要显式的解锁
 
   ```java
-          ReentrantLock lock = new ReentrantLock();
-          lock.lock();
-          log.info("xxxxxxxx");
-          lock.unlock();
+      ReentrantLock lock = new ReentrantLock();
+      lock.lock();
+      try {
+        log.info("xxxxxxxx");
+      } finally {
+        lock.unlock();
+      }
   ```
 
 - 线程通信
 
   ```java
-          ReentrantLock lock = new ReentrantLock();
-          Condition condition1 = lock.newCondition();
-          Condition condition2 = lock.newCondition();
-          lock.lock();
+      ReentrantLock lock = new ReentrantLock();
+      Condition condition1 = lock.newCondition();
+      Condition condition2 = lock.newCondition();
+      ExecutorService executorService = Executors.newFixedThreadPool(3);
+      executorService.execute(()->{
+        lock.lock();
+        try {
           condition1.await();
-          condition1.signalAll();
+          log.info("等待条件1允许后执行！");
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } finally {
           lock.unlock();
+        }
+      });
+      executorService.execute(()->{
+        lock.lock();
+        try {
+          condition2.await();
+          log.info("等待条件2允许后执行！");
+          condition1.signalAll();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } finally {
+          lock.unlock();
+        }
+      });
+      executorService.execute(()->{
+        lock.lock();
+        try {
+          log.info("先执行");
+          condition2.signalAll();
+        } finally {
+          lock.unlock();
+        }
+      });
   ```
+
+  ![image-20221021101233260](C:\Users\Liangjc\Desktop\learnNotes\JAVA\并发编程\Java并发编程.assets\image-20221021101233260.png)
 
   - 比jvm级别通信更强大，不仅可以使用多个条件阻塞线程但是注意调用的方法是await、signal
   - 读、写锁ReadWriteLock接口 ReentrantReadWriteLock实现类
+    - 读读之间不会互斥
+    - 读写之间会互斥
+    - 写写之间会互斥
+    - 无法保证写优先，当读锁过多时候，写锁少，存在锁饥饿现象，使用时候需要控制读写比例，防止出现锁饥饿现象
+
+## 4.3 StampedLock（JDK8）
+
+- StampedLock是比ReentrantReadWriteLock更快的一种锁，支持乐观读、悲观读锁和写锁。和ReentrantReadWriteLock不同的是，StampedLock支持多个线程申请乐观读的同时，还允许一个线程申请写锁
+- StampedLock的底层并不是基于AQS的
+- 在读多写少的场景中性能会比ReentrantReadWriteLock要好
+
+## 4.4 常用API
+
+- getHoldCount() 当前线程持有该锁的次数，如果当前线程没有持有该锁，则为零
+- getQueueLength() 返回等待获取此锁的线程数的估计值。该值只是一个估计值，因为在此方法遍历内部数据结构时，线程数可能动态变化。此方法设计用于监视系统状态，而不是用于同步控制
+- getWaitQueueLength(Condition condition) 返回在与此锁相关的给定条件上等待的线程数的估计值。请注意，由于超时和中断可能在任何时候发生，所以这个估计值仅作为实际等待者数量的上限。此方法设计用于监视系统状态，而不是用于同步控制
+- hasQueuedThread(Thread thread) 查询给定线程是否正在等待获取此锁。注意，因为取消可能在任何时候发生，所以真正的返回并不能保证这个线程将获得这个锁。该方法主要用于监视系统状态
+- hasQueuedThreads() 查询是否有线程正在等待获取此锁。注意，由于取消可能在任何时候发生，所以真正的返回并不保证任何其他线程将获得此锁。该方法主要用于监视系统状态
+- hasWaiters(Condition condition) 查询是否有线程正在等待与此锁相关的给定条件。注意，因为超时和中断可能在任何时候发生，真正的返回并不保证将来的信号将唤醒任何线程。该方法主要用于监视系统状态
+- isFair() 是否为公平锁
+- isHeldByCurrentThread() 当前线程是否持有该锁
+- isLocked() 查询此锁是否被任何线程持有。此方法设计用于监视系统状态，而不是用于同步控制
+- lockInterruptibly() 
+  - 与lock不同，在处于锁竞争阶段失败时，可以被打断
+  - 使用lock只有竞争到锁后才可以被打断
+- tryLock() 尝试获取锁，返回是否获取成功
+- tryLock(long timeout, TimeUnit unit) 尝试在一定时间内获取锁，返回是否获取成功
 
 # 5. CAS操作及原子类
 
