@@ -184,3 +184,125 @@
   - 继承自己OrderdEventExecutor
 - 事件循环组
   - EventLoopGroup 是一组 EventLoop，Channel 一般会调用EventLoopGroup的register方法绑定其中一个EventLoop，后续这个Channel上的io时间都由此EventLoop来处理
+
+### 2.2.2 Channel
+
+- channelFuture
+
+  - sync 同步
+
+  - addListener 异步
+
+  - ```java
+    package org.example;
+    
+    import io.netty.bootstrap.Bootstrap;
+    import io.netty.channel.Channel;
+    import io.netty.channel.ChannelFutureListener;
+    import io.netty.channel.ChannelInitializer;
+    import io.netty.channel.nio.NioEventLoopGroup;
+    import io.netty.channel.socket.nio.NioSocketChannel;
+    import io.netty.handler.codec.string.StringEncoder;
+    import java.util.Scanner;
+    
+    /**
+     * @author 44380
+     */
+    public class Client {
+      public static void main(String[] args) throws InterruptedException {
+        NioEventLoopGroup eventExecutors = new NioEventLoopGroup();
+        Channel channel =
+            new Bootstrap()
+                .group(eventExecutors)
+                .channel(NioSocketChannel.class)
+                .handler(
+                    new ChannelInitializer<>() {
+                      @Override
+                      protected void initChannel(Channel ch) throws Exception {
+                        ch.pipeline().addLast(new StringEncoder());
+                      }
+                    })
+                .connect("localhost", 8888)
+                .sync()
+                .channel();
+        new Thread(
+                () -> {
+                  Scanner scanner = new Scanner(System.in);
+                  while (true) {
+                    String s = scanner.nextLine();
+                    if ("q".equals(s)) {
+                      channel.close();
+                      break;
+                    }
+                    channel.writeAndFlush(s);
+                  }
+                },
+                "input")
+            .start();
+        channel
+            .closeFuture()
+            .addListener((ChannelFutureListener) future -> eventExecutors.shutdownGracefully());
+      }
+    }
+    ```
+
+### 2.2.3 Future & Promise
+
+- jdk Future 只能同步等待任务结束才能得到结果
+- netty Future 可以同步等待任务结束或异步方式得到结果
+- netty Promise 不仅有 netty Future 的功能，而且脱离了任务独立存在，只作为两个线程间传递结果的容器
+- ```java
+  package org.example;
+  
+  import io.netty.channel.EventLoop;
+  import io.netty.channel.nio.NioEventLoopGroup;
+  import io.netty.util.concurrent.Future;
+  import java.util.concurrent.*;
+  import lombok.extern.slf4j.Slf4j;
+  
+  @Slf4j
+  public class TestFuture {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+      NioEventLoopGroup eventExecutors = new NioEventLoopGroup();
+      EventLoop next = eventExecutors.next();
+      Future<Integer> submit = next.submit(() -> 1);
+      submit.addListener(
+          future -> {
+            log.info("{}", future.getNow());
+          });
+    }
+  }
+  ```
+
+- ```java
+  package org.example;
+  
+  import io.netty.channel.EventLoopGroup;
+  import io.netty.channel.nio.NioEventLoopGroup;
+  import io.netty.util.concurrent.DefaultPromise;
+  import java.util.concurrent.*;
+  import lombok.extern.slf4j.Slf4j;
+  
+  @Slf4j
+  public class TestFuture {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+      EventLoopGroup eventExecutors = new NioEventLoopGroup();
+      DefaultPromise<Integer> promise = new DefaultPromise<>(eventExecutors.next());
+      new Thread(
+              () -> {
+                try {
+                  Thread.sleep(5000);
+                  promise.setSuccess(1);
+                } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                }
+              })
+          .start();
+      System.out.println(promise.get());
+    }
+  }
+  ```
+
+### 2.2.4 Handler & Pipeline
+
+- 
