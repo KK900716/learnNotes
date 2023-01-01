@@ -411,4 +411,22 @@
     -Dio.netty.allocator.type={unpooled|pooled}
     ```
 
-    
+
+- capacity and max capacity
+- 扩容机制
+  - 如果写入后数据大小未超过512，则选择下一个16的整数倍，例如写入后大小为12，则扩容后capacity是16
+  - 如果写入后数据大小超过512，则选择下一个2^n，例如写入后大小为51，则扩容后capacity是2^n
+  - 扩容不能超过max capacity
+
+- retain & release
+  - UnpooledHeapByteBuf 使用JVM内存，GC回收
+  - UnpooledDirectByteBuf 直接内存，建议使用特殊方法回收
+  - PooledByteBuf 池化技术，需要复杂的规则进行回收
+  - ReferenceCounted 采用引用计数规则进行回收内存
+    - 初始计数1
+    - 调用release方法计数-1，0则回收
+    - retain +1
+    - 计数清零时，尽管该对象引用仍在，但对象已被回收
+  - head and tail 会调用release
+- slice 零拷贝
+  - 
